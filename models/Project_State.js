@@ -14,7 +14,7 @@ Project_State.init(
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       }
     },
     {

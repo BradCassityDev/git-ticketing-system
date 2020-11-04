@@ -14,7 +14,7 @@ Role.init(
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       }
     },
     {
