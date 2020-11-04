@@ -11,11 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use(require('./routes'));
+app.use(require('./controllers'));
 
 // Start server on specified port after successful connection to database
-sequelize.sync({force: true}).then(() => {
+// sequelize.sync({force: true}).then(() => {
   app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
   });
-});
+// });
