@@ -1,4 +1,4 @@
-// const User = require("./User");
+const User = require("./User");
 const Issue = require("./Issue");
 const Project = require("./Project");
 const Role = require("./Role");
@@ -12,26 +12,26 @@ const Issue_User = require("./Issue_User");
 
 
 // User Associations
-// User_State.hasMany(User, {
-//     foreignKey: 'userState_id'
-// });
-// User.belongsTo(User_State, {
-//     foreignKey: 'userState_id',
-// });
+User_State.hasMany(User, {
+    foreignKey: 'userState_id'
+});
+User.belongsTo(User_State, {
+    foreignKey: 'userState_id',
+});
 
-// Role.hasMany(User, {
-//     foreignKey: 'role_id'
-// });
-// User.belongsTo(Role, {
-//     foreignKey: 'role_id',
-// });
+Role.hasMany(User, {
+    foreignKey: 'role_id'
+});
+User.belongsTo(Role, {
+    foreignKey: 'role_id',
+});
 
-// Team.hasMany(User, {
-//     foreignKey: 'team_id'
-// });
-// User.belongsTo(Team, {
-//     foreignKey: 'team_id',
-// });
+Team.hasMany(User, {
+    foreignKey: 'team_id'
+});
+User.belongsTo(Team, {
+    foreignKey: 'team_id',
+});
 
 // Issue Associations
 Issue_State.hasMany(Issue, {
@@ -49,14 +49,14 @@ Issue.belongsTo(Project, {
 });
 
 // Issue_User Associations
-// User.belongsToMany(Issue, {
-//     through: Issue_User,
-//     foreignKey: 'user_id'
-// });
-// Issue.belongsToMany(User, {
-//     through: Issue_User,
-//     foreignKey: 'issue_id'
-// });
+User.belongsToMany(Issue, {
+    through: Issue_User,
+    foreignKey: 'user_id'
+});
+Issue.belongsToMany(User, {
+    through: Issue_User,
+    foreignKey: 'issue_id'
+});
 
 // Project Associations
 Project_State.hasMany(Project, {
@@ -77,7 +77,6 @@ Project.belongsTo(Team, {
 
 
 
-module.exports = { Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User };
 
-// module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User };
+module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User };
 // module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User, Ticket, Ticket_State };
