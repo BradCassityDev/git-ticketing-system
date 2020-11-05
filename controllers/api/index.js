@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
-// /api/twilio/sendsms
-router.use('/twilio', require('./twilio'));
+// temp route - /api
+router.use('/', (req, res) => {
+    res.send('Temporary');
+});
 
 module.exports = router;
