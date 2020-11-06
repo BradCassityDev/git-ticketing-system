@@ -30,6 +30,7 @@ router.post('/', (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
+        github_username: req.body.github_username,
         projectState_id: req.body.projectState_id
     })
     .then(projectData => res.json(projectData))
@@ -45,6 +46,7 @@ router.put('/:id', (req, res) => {
         {
             name: req.body.name,
             github_repo_name: req.body.github_repo_name,
+            github_username: req.body.github_username,
             projectState_id: req.body.projectState_id
         },
         {
