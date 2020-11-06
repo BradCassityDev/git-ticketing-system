@@ -1,14 +1,14 @@
 const router = require('express').Router();
-const {Issue, Project, Team, Project_State} = require('../../models');
+const { Issue, Project, Team, Project_State } = require('../../models');
 
 // GET all projects - /api/project
 router.get('/', (req, res) => {
     Project.findAll()
-    .then(projectData => res.json(projectData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(projectData => res.json(projectData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Get single project - /api/project/:id
@@ -18,11 +18,11 @@ router.get('/:id', (req, res) => {
             id: req.params.id
         }
     })
-    .then(projectData => res.json(projectData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(projectData => res.json(projectData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Create project - /api/project
@@ -31,13 +31,13 @@ router.post('/', (req, res) => {
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
         github_username: req.body.github_username,
-        projectState_id: req.body.projectState_id
+        project_state_id: req.body.project_state_id
     })
-    .then(projectData => res.json(projectData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(projectData => res.json(projectData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Update project - /api/project/:id
@@ -47,7 +47,7 @@ router.put('/:id', (req, res) => {
             name: req.body.name,
             github_repo_name: req.body.github_repo_name,
             github_username: req.body.github_username,
-            projectState_id: req.body.projectState_id
+            project_state_id: req.body.project_state_id
         },
         {
             where: {
@@ -55,11 +55,11 @@ router.put('/:id', (req, res) => {
             }
         }
     )
-    .then(projectData => res.json(projectData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(projectData => res.json(projectData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 module.exports = router;
