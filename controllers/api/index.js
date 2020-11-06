@@ -1,8 +1,7 @@
 const router = require('express').Router();
+const issueRoutes = require('./issueRoutes');
 
-// temp route - /api
-router.use('/', (req, res) => {
-    res.send('Temporary');
-});
+// Issue Routes - /api/issues/
+router.use('/issues', issueRoutes);
 
 module.exports = router;
