@@ -1,13 +1,17 @@
 const router = require('express').Router();
-const {getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue} = require('../../utils/github');
-const {User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User} = require('../../models/index');
+const {issueDetails, createIssue, updateIssue} = require('../../utils/github');
+const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
 
 // Get all Issues - /api/issues
 router.get('/', (req, res) => {
     Issue.findAll({
         include: [
             {
-                model: Project
+                model: Project,
+                include: {
+                    model: Project_State,
+                    attributes: ['name']
+                }
             },
             {
                 model: Issue_State,
@@ -61,8 +65,22 @@ router.get('/:id', (req, res) => {
 });
 
 // Get Issues assigned to User - /api/issues/user/:id
+// May want to have in userRoutes
 router.get('/user/:id', (req, res) => {
-
+    Issue.findAll({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(issueData => {
+        if (!issueData) {
+            res.status(404).json({message: 'No issues found with that user id'});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
 // Get Issues related to Project - /api/issues/project/:id
