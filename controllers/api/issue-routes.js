@@ -67,8 +67,8 @@ router.get('/project/:id', (req, res) => {
             {
                 model: Issue,
                 include: {
-                        model: Issue_State,
-                        attributes: ['name']
+                    model: Issue_State,
+                    attributes: ['name']
                 }
             }
         ]
@@ -96,8 +96,8 @@ router.get('/user/:id', (req, res) => {
             {
                 model: Issue,
                 include: {
-                        model: Issue_State,
-                        attributes: ['name']
+                    model: Issue_State,
+                    attributes: ['name']
                 },
                 include: {
                     model: Project,
