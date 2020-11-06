@@ -20,12 +20,9 @@ Issue.init(
         type: DataTypes.STRING,
         allowNull: true,
       },
-      github_url: {
+      github_issue_number: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          isURL: true
-        }
       }
     },
     {
