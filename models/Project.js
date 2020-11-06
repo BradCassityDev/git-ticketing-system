@@ -15,6 +15,14 @@ Project.init(
       name: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      github_repo_name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      github_username: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     {
@@ -22,7 +30,8 @@ Project.init(
       freezeTableName: true,
       underscored: true,
       modelName: 'project'
-    }
+    },
+    
 );
   
 
