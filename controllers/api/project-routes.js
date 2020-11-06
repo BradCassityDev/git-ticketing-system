@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User} = require('../../models');
+const {Issue, Project, Team, Project_State} = require('../../models');
 
 // GET all projects - /api/project
 router.get('/', (req, res) => {
@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
-        github_username: req.body.github_username
+        projectState_id: req.body.projectState_id
     })
     .then(projectData => res.json(projectData))
     .catch(err => {
@@ -45,7 +45,7 @@ router.put('/:id', (req, res) => {
         {
             name: req.body.name,
             github_repo_name: req.body.github_repo_name,
-            github_username: req.body.github_username
+            projectState_id: req.body.projectState_id
         },
         {
             where: {
@@ -54,26 +54,6 @@ router.put('/:id', (req, res) => {
         }
     )
     .then(projectData => res.json(projectData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
-});
-
-// Delete project - /api/project/:id
-router.delete('/:id', (req, res) => {
-    Project.destroy({
-        where: {
-            id: req.params.id
-        }
-    })
-    .then(projectData => {
-        if (!projectData) {
-            res.status(404).json({message: 'No project found by this id'});
-            return;
-        }
-        res.json(projectData);
-    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
