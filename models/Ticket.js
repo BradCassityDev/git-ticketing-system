@@ -15,7 +15,6 @@ Ticket.init(
       primaryKey: true,
       autoIncrement: true
     },
-    // this should be the github username eventually
     title: {
       type: DataTypes.STRING,
       allowNull: false

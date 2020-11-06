@@ -15,7 +15,6 @@ Ticket_State.init(
       primaryKey: true,
       autoIncrement: true
     },
-    // this should be the github username eventually
     name: {
       type: DataTypes.STRING,
       allowNull: false
