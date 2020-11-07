@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
-const { User, Issue, Project, Issue_State, Project_State, Issue_User } = require('../../models/index');
+const {issueDetails, createIssue, updateIssue} = require('../../utils/github');
+const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
 
 const includeArray = [
     {
@@ -16,26 +16,25 @@ const includeArray = [
     },
     {
         model: User,
-        attributes: ['id', 'username', 'email', 'phone'],
-        through: Issue_User
+        attributes: ['id', 'username', 'email', 'phone']
     }
 ];
 
-// Get all Issues - /api/issues
+// Get all Issues - /api/issue
 router.get('/', (req, res) => {
     Issue.findAll(
         {
             include: includeArray
         }
     )
-        .then(issueDate => res.json(issueDate))
+        .then(issueData => res.json(issueData))
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
 
-// Get Issue by ID - /api/issues/:id
+// Get Issue by ID - /api/issue/:id
 router.get('/:id', (req, res) => {
     Issue.findOne({
         include: includeArray,
@@ -45,7 +44,7 @@ router.get('/:id', (req, res) => {
     })
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({ message: 'No issue found by that id' });
+                res.status(404).json({message: 'No issue found by that id'});
                 return;
             }
             res.json(issueData);
@@ -56,7 +55,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// Get Issues related to Project - /api/issues/project/:id
+// Get Issues related to Project - /api/issue/project/:id
 router.get('/project/:id', (req, res) => {
     Project.findOne({
         where: {
@@ -65,16 +64,22 @@ router.get('/project/:id', (req, res) => {
         include: [
             {
                 model: Issue,
-                include: {
-                    model: Issue_State,
-                    attributes: ['name']
-                }
+                include: [
+                    {
+                        model: Issue_State,
+                        attributes: ['name']
+                    },
+                    {
+                        model: User,
+                        attributes: ['id', 'username', 'email', 'phone']
+                    }
+                ] 
             }
         ]
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({ message: 'No issues found by this project id' });
+                res.status(404).json({message: 'No issues found by this project id'});
                 return;
             }
             res.json(issueData);
@@ -85,30 +90,38 @@ router.get('/project/:id', (req, res) => {
         });
 });
 
-// Get Issues assigned to User - /api/issues/user/:id
+// Get Issues assigned to User - /api/issue/user/:id
 router.get('/user/:id', (req, res) => {
-    User.findAll({
+    User.findOne({
         where: {
             id: req.params.id
         },
         include: [
             {
                 model: Issue,
-                include: {
-                    model: Issue_State,
-                    attributes: ['name']
-                },
-                include: {
-                    model: Project,
-                    attributes: ['name', 'github_username', 'github_repo_name']
-                }
+                include: [
+                    {
+                        model: Issue_State,
+                        attributes: ['name'] 
+                    },
+                    {
+                        model: Project,
+                        attributes: ['name', 'github_username', 'github_repo_name']
+                    },
+                    {
+                        model: User,
+                        attributes: ['id', 'username', 'email', 'phone']
+                    }
+                ]
             }
         ]
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({ message: 'No issues found with that user id' });
+                res.status(404).json({message: 'No issues found with that user id'});
+                return;
             }
+            res.json(issueData);
         })
         .catch(err => {
             console.log(err);
@@ -116,7 +129,7 @@ router.get('/user/:id', (req, res) => {
         });
 });
 
-// Create Issue - /api/issues
+// Create Issue - /api/issue
 router.post('/', (req, res) => {
     // Grab needed values out of request body for issue creation on GitHub
     // const {github_username, github_repo_name, data} = req.body;
@@ -139,7 +152,7 @@ router.post('/', (req, res) => {
 });
 
 
-// Update Issue - /api/issues/:id
+// Update Issue - /api/issue/:id
 router.put('/:id', (req, res) => {
     // Grab needed values out of request body for issue update on GitHub
     // const {github_username, github_repo_name, github_issue_number, data} = req.body;
@@ -153,14 +166,20 @@ router.put('/:id', (req, res) => {
             due_date: req.body.due_date,
             priority: req.body.priority,
             github_issue_number: req.body.github_issue_number
-        },
+        }, 
         {
             where: {
                 id: req.params.id
             }
         }
     )
-        .then(issueData => res.json(issueData))
+        .then(issueData => {
+            if (!issueData) {
+                res.status(404).json({message: 'No issue found with this id'});
+                return;
+            }
+            res.json(issueData);
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
