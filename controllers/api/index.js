@@ -8,7 +8,7 @@ const teamRoutes = require('./team-routes');
 router.use('/user', userRoutes);
 router.use('/ticket', ticketRoutes);
 router.use('/project', projectRoutes);
-router.use('/issues', issueRoutes);
+router.use('/issue', issueRoutes);
 router.use('/team', teamRoutes)
 
 module.exports = router;
