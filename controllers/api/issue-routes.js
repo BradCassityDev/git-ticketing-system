@@ -92,13 +92,18 @@ router.get('/project/:id', (req, res) => {
             }
 
             // return all GitHub issues for this repository
-            // Option 1
-            // issueData.dataValues.github_repo_issues = await getRepoIssues(issueData.github_username, issueData.github_repo_name);
-            
-            // Option 2
-            for (let i = 0; i < issueData.issues.length; i++) {
-                issueData.issues[i].dataValues.dagithub_issue_details = await issueDetails(issueData.github_username, issueData.github_repo_name, issueData.dataValues.issues[i].github_issue_number);
-                console.log(issueData.issues[i].dataValues);
+            const githubRepoIssues = await getRepoIssues(issueData.github_username, issueData.github_repo_name);
+
+            // Map GitHub issues with our db issues
+            for (let i = 0; i < issueData.issues.length; i++ ) {
+                // Loop through GitHub repo issues and include in DB issues
+                for (let x = 0; x < githubRepoIssues.length; x++) {
+                    // Check if issue numbers match between GitHub and our DB
+                    if (githubRepoIssues[x].number === parseInt(issueData.issues[i].dataValues.github_issue_number)) {
+                        console.log('match');
+                        issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];   
+                    }
+                }
             }
 
             res.json(issueData);
