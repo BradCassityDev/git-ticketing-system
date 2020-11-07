@@ -1,8 +1,11 @@
 const router = require('express').Router();
+const { Op } = require("sequelize");
 const { User } = require('../../models');
+const withAuth = require('../../utils/auth');
+
 
 // GET /api/users
-router.get('/', (req, res) => {
+router.get('/', withAuth, (req, res) => {
   // Access our User model and run .findAll() method)
   User.findAll({})
     .then(dbUserData => res.json(dbUserData))
@@ -12,8 +15,21 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', withAuth, (req, res) => {
+  User.findOne({
+      where: {
+          id: req.params.id
+      }
+  })
+      .then(dbUserData => res.json(dbUserData))
+      .catch(err => {
+          console.log(err);
+          res.status(500).json(err);
+      });
+});
+
 // POST /api/users
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
   // expects {username: 'Lernantino', email: 'lernantino@gmail.com', phone, '1234567890', password: 'password1234'}
   User.create({
     username: req.body.username,
@@ -33,6 +49,36 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/login', (req,res) => {
+  User.findOne({
+      where: {
+          username: req.body.username
+      }
+  })
+  .then(dbUserData => {
+      // checks for a matching email
+      if (!dbUserData) {
+          res.status(400).json({ message: 'No user with that username!' });
+          return;
+      };
+
+      // checks that given password matches the hashed password in the db
+      const validPassword = dbUserData.checkPassword(req.body.password);
+      if (!validPassword) {
+          res.status(400).json({ message: 'Incorrect password!' });
+          return;
+      };
+
+      req.session.save(() => {
+          // declare session variables
+          req.session.user_id = dbUserData.id;
+          req.session.username = dbUserData.username;
+          req.session.loggedIn = true;
+          res.json({ user: dbUserData, message: 'You are now logged in!' });
+      })
+  });
+});
+
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
@@ -46,7 +92,7 @@ router.post('/logout', (req, res) => {
 });
 
 // PUT /api/users/1
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
   User.update(req.body, {
     individualHooks: true,
     where: {

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { User, Issue, Project, Issue_State, Project_State, Issue_User } = require('../../models/index');
+const withAuth = require('../../utils/auth');
 
 const includeArray = [
     {
@@ -22,7 +23,7 @@ const includeArray = [
 ];
 
 // Get all Issues - /api/issues
-router.get('/', (req, res) => {
+router.get('/', withAuth, (req, res) => {
     Issue.findAll(
         {
             include: includeArray
@@ -36,7 +37,7 @@ router.get('/', (req, res) => {
 });
 
 // Get Issue by ID - /api/issues/:id
-router.get('/:id', (req, res) => {
+router.get('/:id', withAuth, (req, res) => {
     Issue.findOne({
         include: includeArray,
         where: {
@@ -57,7 +58,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Get Issues related to Project - /api/issues/project/:id
-router.get('/project/:id', (req, res) => {
+router.get('/project/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
@@ -86,7 +87,7 @@ router.get('/project/:id', (req, res) => {
 });
 
 // Get Issues assigned to User - /api/issues/user/:id
-router.get('/user/:id', (req, res) => {
+router.get('/user/:id', withAuth, (req, res) => {
     User.findAll({
         where: {
             id: req.params.id
@@ -117,7 +118,7 @@ router.get('/user/:id', (req, res) => {
 });
 
 // Create Issue - /api/issues
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
     // Grab needed values out of request body for issue creation on GitHub
     // const {github_username, github_repo_name, data} = req.body;
 
@@ -140,7 +141,7 @@ router.post('/', (req, res) => {
 
 
 // Update Issue - /api/issues/:id
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
     // Grab needed values out of request body for issue update on GitHub
     // const {github_username, github_repo_name, github_issue_number, data} = req.body;
 

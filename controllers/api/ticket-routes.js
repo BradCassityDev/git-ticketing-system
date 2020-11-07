@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Ticket, Issue, Issue_State, Ticket_State, Project } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // set array for GET table joins so it can be reused and stay DRY
 const includeArray = [
@@ -21,7 +22,7 @@ const includeArray = [
   }
 ];
 
-router.get('/', (req, res) => {
+router.get('/', withAuth, (req, res) => {
   Ticket.findAll({
     include: includeArray
   })
@@ -32,7 +33,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', withAuth, (req, res) => {
   Ticket.findOne({
     where: {
       id: req.params.id
@@ -62,7 +63,7 @@ router.post('/', (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
   Ticket.update({
     title: req.body.title,
     description: req.body.description,
@@ -82,7 +83,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
   Ticket.destroy({
     where: {
       id: req.params.id
