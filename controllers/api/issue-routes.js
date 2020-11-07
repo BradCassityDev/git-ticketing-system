@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const {issueDetails, createIssue, updateIssue} = require('../../utils/github');
-const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
+const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User } = require('../../models/index');
+const withAuth = require('../../utils/auth');
 
 const includeArray = [
     {
@@ -20,8 +21,8 @@ const includeArray = [
     }
 ];
 
-// Get all Issues - /api/issue
-router.get('/', (req, res) => {
+// Get all Issues - /api/issues
+router.get('/', withAuth, (req, res) => {
     Issue.findAll(
         {
             include: includeArray
@@ -34,8 +35,8 @@ router.get('/', (req, res) => {
         });
 });
 
-// Get Issue by ID - /api/issue/:id
-router.get('/:id', (req, res) => {
+// Get Issue by ID - /api/issues/:id
+router.get('/:id', withAuth, (req, res) => {
     Issue.findOne({
         include: includeArray,
         where: {
@@ -55,8 +56,8 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// Get Issues related to Project - /api/issue/project/:id
-router.get('/project/:id', (req, res) => {
+// Get Issues related to Project - /api/issues/project/:id
+router.get('/project/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
@@ -90,9 +91,9 @@ router.get('/project/:id', (req, res) => {
         });
 });
 
-// Get Issues assigned to User - /api/issue/user/:id
-router.get('/user/:id', (req, res) => {
-    User.findOne({
+// Get Issues assigned to User - /api/issues/user/:id
+router.get('/user/:id', withAuth, (req, res) => {
+    User.findAll({
         where: {
             id: req.params.id
         },
@@ -129,8 +130,8 @@ router.get('/user/:id', (req, res) => {
         });
 });
 
-// Create Issue - /api/issue
-router.post('/', (req, res) => {
+// Create Issue - /api/issues
+router.post('/', withAuth, (req, res) => {
     // Grab needed values out of request body for issue creation on GitHub
     // const {github_username, github_repo_name, data} = req.body;
 
@@ -152,8 +153,8 @@ router.post('/', (req, res) => {
 });
 
 
-// Update Issue - /api/issue/:id
-router.put('/:id', (req, res) => {
+// Update Issue - /api/issues/:id
+router.put('/:id', withAuth, (req, res) => {
     // Grab needed values out of request body for issue update on GitHub
     // const {github_username, github_repo_name, github_issue_number, data} = req.body;
 
