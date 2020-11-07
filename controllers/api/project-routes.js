@@ -31,7 +31,8 @@ router.post('/', (req, res) => {
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
         github_username: req.body.github_username,
-        project_state_id: req.body.project_state_id
+        project_state_id: req.body.project_state_id,
+        team_id: req.body.team_id
     })
         .then(projectData => res.json(projectData))
         .catch(err => {
@@ -47,7 +48,8 @@ router.put('/:id', (req, res) => {
             name: req.body.name,
             github_repo_name: req.body.github_repo_name,
             github_username: req.body.github_username,
-            project_state_id: req.body.project_state_id
+            project_state_id: req.body.project_state_id,
+            team_id: req.body.team_id
         },
         {
             where: {

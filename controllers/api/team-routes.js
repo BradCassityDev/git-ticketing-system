@@ -55,24 +55,4 @@ router.put('/:id', (req, res) => {
         });
 });
 
-// DELETE
-router.delete('/:id', (req, res) => {
-    Team.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(dbTeamData => {
-        if (!dbTeamData) {
-          res.status(404).json({ message: 'No team found with this id' });
-          return;
-        }
-        res.json(dbTeamData);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
-
   module.exports = router;
