@@ -1,19 +1,16 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, User_State, role } = require('../../models');
 
 // GET /api/users
 router.get('/', (req, res) => {
   // Access our User model and run .findAll() method)
-  User.findAll()
+  User.findAll({include: User_State})
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
-
-// GET /api/users/1
-router.get('/:id', (req, res) => {});
 
 // POST /api/users
 router.post('/', (req, res) => {
@@ -23,6 +20,8 @@ router.post('/', (req, res) => {
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password
+    //add if statement to detect null value of user_state if null set it to 2(inactive) if not null set it to what it came in as.
+    //send in role as developer
   })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -31,10 +30,37 @@ router.post('/', (req, res) => {
     });
 });
 
-// PUT /api/users/1
-router.put('/:id', (req, res) => {});
+router.post('/logout', (req, res) => {  
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  }
+  else {
+    res.status(404).end();
+  }
+  
+});
 
-// DELETE /api/users/1
-router.delete('/:id', (req, res) => {});
+// PUT /api/users/1
+router.put('/:id', (req, res) => {
+  User.update(req.body, {
+    individualHooks: true,
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(dbUserData => {
+    if (!dbUserData[0]) {
+      res.status(404).json({ message: 'No user found with this id' });
+      return;
+    }
+    res.json(dbUserData);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+});
 
 module.exports = router;
