@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.post('/logout', (req, res) => {  
+router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -42,7 +42,7 @@ router.post('/logout', (req, res) => {
   else {
     res.status(404).end();
   }
-  
+
 });
 
 // PUT /api/users/1
@@ -53,17 +53,17 @@ router.put('/:id', (req, res) => {
       id: req.params.id
     }
   })
-  .then(dbUserData => {
-    if (!dbUserData[0]) {
-      res.status(404).json({ message: 'No user found with this id' });
-      return;
-    }
-    res.json(dbUserData);
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+    .then(dbUserData => {
+      if (!dbUserData[0]) {
+        res.status(404).json({ message: 'No user found with this id' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;

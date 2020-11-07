@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
                 res.status(404).json({ message: 'No issue found by that id' });
                 return;
             }
-            res.json(issueDate);
+            res.json(issueData);
         })
         .catch(err => {
             console.log(err);
