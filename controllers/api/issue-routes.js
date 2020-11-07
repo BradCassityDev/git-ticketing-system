@@ -178,15 +178,7 @@ router.put('/:id', (req, res) => {
                 res.status(404).json({message: 'No issue found with this id'});
                 return;
             }
-
-            // Update assocatied users if any users provided as array
-            // if(req.body.users) {
-            //     req.body.users.forEach(user => {
-            //         Issue_User.create({})
-            //             .then()
-            //             .catch();
-            //     });
-            // }
+            res.json(issueData);
         })
         .catch(err => {
             console.log(err);
