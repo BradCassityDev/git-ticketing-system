@@ -10,7 +10,6 @@ const Issue_User = require("./Issue_User");
 const Ticket = require("./Ticket")
 const Ticket_State = require("./Ticket_State")
 
-
 // User Associations
 User_State.hasMany(User, {
     foreignKey: 'userState_id'
@@ -73,6 +72,7 @@ Project.belongsTo(Team, {
     foreignKey: 'team_id',
 });
 
+// Ticket Associations
 Issue.hasMany(Ticket, {
     foreignKey: 'issue_id'
 });
@@ -91,4 +91,3 @@ Ticket.belongsTo(Ticket_State, {
 });
 
 module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User, Ticket, Ticket_State };
-// module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User, Ticket, Ticket_State };

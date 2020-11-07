@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const {issueDetails, createIssue, updateIssue} = require('../../utils/github');
-const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
+const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User } = require('../../models/index');
 
 const includeArray = [
     {
@@ -17,8 +17,7 @@ const includeArray = [
     {
         model: User,
         attributes: ['id', 'username', 'email', 'phone'],
-        through: Issue_User,
-        as: 'Assigned Users'
+        through: Issue_User
     }
 ];
 
@@ -46,7 +45,7 @@ router.get('/:id', (req, res) => {
     })
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issue found by that id'});
+                res.status(404).json({ message: 'No issue found by that id' });
                 return;
             }
             res.json(issueDate);
@@ -75,7 +74,7 @@ router.get('/project/:id', (req, res) => {
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found by this project id'});
+                res.status(404).json({ message: 'No issues found by this project id' });
                 return;
             }
             res.json(issueData);
@@ -108,7 +107,7 @@ router.get('/user/:id', (req, res) => {
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found with that user id'});
+                res.status(404).json({ message: 'No issues found with that user id' });
             }
         })
         .catch(err => {
@@ -154,7 +153,7 @@ router.put('/:id', (req, res) => {
             due_date: req.body.due_date,
             priority: req.body.priority,
             github_issue_number: req.body.github_issue_number
-        }, 
+        },
         {
             where: {
                 id: req.params.id
