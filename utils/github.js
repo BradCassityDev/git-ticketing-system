@@ -29,8 +29,14 @@ function getRepoIssues(githubUser, repoName) {
 
 // Return Issue Details
 function issueDetails(githubUser, repoName, issueNum) {
+
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`)
+        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`, {
+            auth: {
+                username: process.env.GITHUB_USER,
+                password: process.env.GITHUB_PASS
+            }
+        })
             .then(function (response) {
                 resolve(response.data);
             })
