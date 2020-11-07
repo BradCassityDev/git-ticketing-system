@@ -4,16 +4,13 @@ const { User } = require('../../models');
 // GET /api/users
 router.get('/', (req, res) => {
   // Access our User model and run .findAll() method)
-  User.findAll()
+  User.findAll({})
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
-
-// GET /api/users/1
-router.get('/:id', (req, res) => {});
 
 // POST /api/users
 router.post('/', (req, res) => {
@@ -22,7 +19,12 @@ router.post('/', (req, res) => {
     username: req.body.username,
     email: req.body.email,
     phone: req.body.phone,
-    password: req.body.password
+    password: req.body.password,
+    //add if statement to detect null value of user_state if null set it to 2(inactive) if not null set it to what it came in as.
+    userState_id: (req.body.userState_id) ? req.body.userState_id : 2,
+    //send in role as developer
+    role_id: (req.body.role_id) ? req.body.role_id : 1,
+    team_id: req.body.team_id
   })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -31,10 +33,37 @@ router.post('/', (req, res) => {
     });
 });
 
-// PUT /api/users/1
-router.put('/:id', (req, res) => {});
+router.post('/logout', (req, res) => {  
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  }
+  else {
+    res.status(404).end();
+  }
+  
+});
 
-// DELETE /api/users/1
-router.delete('/:id', (req, res) => {});
+// PUT /api/users/1
+router.put('/:id', (req, res) => {
+  User.update(req.body, {
+    individualHooks: true,
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(dbUserData => {
+    if (!dbUserData[0]) {
+      res.status(404).json({ message: 'No user found with this id' });
+      return;
+    }
+    res.json(dbUserData);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+});
 
 module.exports = router;
