@@ -7,8 +7,8 @@ const User_State = require("./User_State");
 const Issue_State = require("./Issue_State");
 const Project_State = require("./Project_State");
 const Issue_User = require("./Issue_User");
-// const Ticket = require("./Ticket")
-// const Ticket_State = require("./Ticket_State")
+const Ticket = require("./Ticket")
+const Ticket_State = require("./Ticket_State")
 
 
 // User Associations
@@ -60,23 +60,35 @@ Issue.belongsToMany(User, {
 
 // Project Associations
 Project_State.hasMany(Project, {
-    foreignKey: 'projectState_id'
+    foreignKey: 'project_state_id'
 });
 Project.belongsTo(Project_State, {
-    foreignKey: 'projectState_id',
+    foreignKey: 'project_state_id',
 });
 
 Team.hasMany(Project, {
-    foreignKey: 'team_id'   
+    foreignKey: 'team_id'
 });
 Project.belongsTo(Team, {
     foreignKey: 'team_id',
 });
 
+Issue.hasMany(Ticket, {
+    foreignKey: 'issue_id'
+});
+Ticket.belongsTo(Issue, {
+    foreignKey: 'issue_id'
+});
 
+Ticket_State.hasMany(Ticket, {
+    foreignKey: {
+        name: 'ticket_state_id',
+        allowNull: false
+    }
+});
+Ticket.belongsTo(Ticket_State, {
+    foreignKey: 'ticket_state_id',
+});
 
-
-
-
-module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User };
+module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User, Ticket, Ticket_State };
 // module.exports = { User, Issue, Project, Role, Team, User_State, Issue_State, Project_State, Issue_User, Ticket, Ticket_State };

@@ -1,11 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Role extends Model { }
+// create our Ticket_State model
+class Ticket_State extends Model { }
 
-Role.init(
+
+// define table columns and configuration
+Ticket_State.init(
   {
-    // Primary key
+    // Primary Key
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,9 +25,9 @@ Role.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'role'
+    modelName: 'ticket_state'
   }
 );
 
 
-module.exports = Role;
+module.exports = Ticket_State;  

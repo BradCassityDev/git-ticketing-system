@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 const db = require('./models/index');
 
 // Start server on specified port after successful connection to database
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
   });
