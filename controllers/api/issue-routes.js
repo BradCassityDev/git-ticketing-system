@@ -96,10 +96,10 @@ router.get('/project/:id', (req, res) => {
             // issueData.dataValues.github_repo_issues = await getRepoIssues(issueData.github_username, issueData.github_repo_name);
             
             // Option 2
-            // for (let i = 0; i < issueData.issues.length; i++) {
-            //     issueData.issues[i].dataValues.dagithub_issue_details = await issueDetails(issueData.github_username, issueData.github_repo_name, issueData.dataValues.issues[i].github_issue_number);
-            //     console.log(issueData.issues[i].dataValues);
-            // }
+            for (let i = 0; i < issueData.issues.length; i++) {
+                issueData.issues[i].dataValues.dagithub_issue_details = await issueDetails(issueData.github_username, issueData.github_repo_name, issueData.dataValues.issues[i].github_issue_number);
+                console.log(issueData.issues[i].dataValues);
+            }
 
             res.json(issueData);
         })
