@@ -4,7 +4,6 @@ const projectRoutes = require('./project-routes');
 const ticketRoutes = require('./ticket-routes');
 const issueRoutes = require('./issue-routes');
 
-// User Routes - /api/user
 router.use('/user', userRoutes);
 router.use('/ticket', ticketRoutes);
 router.use('/project', projectRoutes);
