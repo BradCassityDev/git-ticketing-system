@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
     phone: req.body.phone,
     password: req.body.password,
     //add if statement to detect null value of user_state if null set it to 2(inactive) if not null set it to what it came in as.
-    userState_id: (req.body.userState_id) ? req.body.userState_id : 2,
+    user_state_id: (req.body.user_state_id) ? req.body.user_state_id : 2,
     //send in role as developer
     role_id: (req.body.role_id) ? req.body.role_id : 1,
     team_id: req.body.team_id

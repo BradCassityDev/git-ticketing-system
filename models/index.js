@@ -12,10 +12,10 @@ const Ticket_State = require("./Ticket_State")
 
 // User Associations
 User_State.hasMany(User, {
-    foreignKey: 'userState_id'
+    foreignKey: 'user_state_id'
 });
 User.belongsTo(User_State, {
-    foreignKey: 'userState_id',
+    foreignKey: 'user_state_id',
 });
 
 Role.hasMany(User, {
