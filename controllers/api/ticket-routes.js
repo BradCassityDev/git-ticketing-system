@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const { Ticket, Issue, Issue_State, Ticket_State, Project } = require('../../models');
+const { Ticket, Issue, Issue_State, Ticket_State, Project, User } = require('../../models');
+const sendNotification = require('../../utils/email-notification');
+const { sendSMS } = require('../../utils/twilio.js');
 
 // set array for GET table joins so it can be reused and stay DRY
 const includeArray = [
@@ -54,7 +56,30 @@ router.post('/', (req, res) => {
     phone: req.body.phone,
     ticket_state_id: 1
   })
-    .then(dbTicketData => res.json(dbTicketData))
+    .then(dbTicketData => {
+      // Email details of ticket to all admin users
+      User.findAll({
+        where: {
+          role_id: 2 // TODO: May not want this hard coded
+        }
+      })
+        .then(dbAdminUsers => {
+          for (let i = 0; i < dbAdminUsers.length; i++) {
+            // Send email to admin if email exists
+            if (dbAdminUsers[i].email) {
+              sendNotification(dbAdminUsers[i].email, `NEW TICKET: ${dbTicketData.title}`, dbTicketData.description, '', '')
+                .then(emailResponse => console.log(emailResponse));
+            }
+            // Send SMS text to admin if phone number exists
+            if (dbAdminUsers[i].phone) {
+              sendSMS(`NEW TICKET: ${dbTicketData.title}`, dbAdminUsers[i].phone)
+                .then(smsResponse => console.log(smsResponse));
+            }
+          }
+        });
+      // Return results of ticket creation
+      res.json(dbTicketData)
+    })
     .catch(err => {
       console.log(err);
       res.status(400).json(err);
