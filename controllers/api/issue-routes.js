@@ -209,43 +209,56 @@ router.post('/ticket', (req, res) => {
         .then(ticketData => {
             // We want to prevent the user from creating an issue if the issue_id is not null for this ticket
             if (ticketData.issue_id !== null) {
-                throw new Error("Issue already exists for this ticket");
+                res.status(400).json({ message: 'Issue already exists for this ticket' });
+                return;
             }
-            // TODO: Create Issue in GitHub from ticketData and get back issue number
-            Issue.create({
-                due_date: req.body.due_date,
-                priority: req.body.priority,
-                github_issue_number: req.body.github_issue_number, // Get this from GitHub, eventually
-                project_id: req.body.project_id
+            Project.findOne({
+                where: {
+                    id: req.body.project_id
+                }
             })
-                .then(issueData => {
-                    Ticket.update({
-                        issue_id: issueData.id
-                    },
-                        {
-                            where: {
-                                id: ticketData.id
-                            }
-                        })
-                        .then(ticketDataUpdate => res.json(issueData))
-                        .catch(err => {
-                            console.log(err);
-                            res.status(500).json(err);
+                .then(projectDetails => {
+                    // Create data to send to GitHub for issue creation based on ticket data
+                    data = {
+                        "title": ticketData.title,
+                        "body": ticketData.description,
+                        "state": "open"
+                    };
+                    // Create Issue in GitHub from ticketData and get back issue number
+                    createIssue(projectDetails.github_username, projectDetails.github_repo_name, data)
+                        .then(githubResult => {
+                            // Create Issue database
+                            Issue.create({
+                                due_date: req.body.due_date,
+                                priority: req.body.priority,
+                                github_issue_number: githubResult.number,
+                                project_id: req.body.project_id
+                            })
+                                .then(issueData => {
+                                    Ticket.update({
+                                        issue_id: issueData.id
+                                    },
+                                        {
+                                            where: {
+                                                id: ticketData.id
+                                            }
+                                        })
+                                        .then(ticketDataUpdate => res.json(issueData))
+                                        .catch(err => {
+                                            console.log(err);
+                                            res.status(500).json(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    res.status(500).json(err);
+                                });
                         });
                 })
                 .catch(err => {
                     console.log(err);
                     res.status(500).json(err);
-                });
-        })
-        .catch(err => {
-            console.log(err);
-            if (err == "Error: Issue already exists for this ticket") {
-                res.status(400).json('{message: ' + err + '}');
-            }
-            else {
-                res.status(500).json(err);
-            }
+                })
         });
 });
 
