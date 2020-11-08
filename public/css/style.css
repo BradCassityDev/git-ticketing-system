@@ -3,21 +3,21 @@
     {  
         margin: 0;  
         padding: 0;  
-        background-color:#6abadeba;  
+        background-color:lightgray;  
         font-family: 'Arial';  
     }  
-    .login{  
+    .Uname{  
             width: 382px;  
             overflow: hidden;  
             margin: auto;  
             margin: 20 0 0 450px;  
             padding: 80px;  
-            background: #23463f;  
+            background: lightskyblue;  
             border-radius: 15px ;  
               
     }  
     h2{  
-        text-align: left;  
+        text-align: center;  
         color: #277582;  
         padding: 20px;  
     }  
@@ -57,37 +57,4 @@
     a{  
         float: right;  
         background-color: grey;  
-    }  
-    #name{  
-        width: 300px;  
-        height: 30px;  
-        border: none;  
-        border-radius: 3px;  
-        padding-left: 8px;  
-    }  
-    #number{  
-        width: 300px;  
-        height: 30px;  
-        border: none;  
-        border-radius: 3px;  
-        padding-left: 8px;  
-          
-    }  
-    #num{  
-        width: 300px;  
-        height: 30px;  
-        border: none;  
-        border-radius: 17px;  
-        padding-left: 7px;  
-        color: blue;}
-
-        .submit{  
-            width: 382px;  
-            overflow: hidden;  
-            margin: auto;  
-            margin: 20 0 0 450px;  
-            padding: 80px;  
-            background: #23463f;  
-            border-radius: 15px ;  
-              
     }  
