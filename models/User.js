@@ -35,14 +35,28 @@ User.init(
       }
     },
     phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [4]
+      }
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'role',
+        key: 'id'
+      }
+    },
+    user_state_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'user_state',
+        key: 'id'
       }
     }
   },
