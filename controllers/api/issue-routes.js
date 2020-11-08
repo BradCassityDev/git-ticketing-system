@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sendNotification = require('../../utils/email-notification');
-const {getRepoIssues, issueDetails, createIssue, updateIssue} = require('../../utils/github');
-const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
+const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket} = require('../../models/index');
 
 const includeArray = [
     {
@@ -47,7 +47,7 @@ router.get('/:id', (req, res) => {
     })
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issue found by that id'});
+                res.status(404).json({ message: 'No issue found by that id' });
                 return;
             }
 
@@ -87,7 +87,7 @@ router.get('/project/:id', (req, res) => {
     })
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found by this project id'});
+                res.status(404).json({ message: 'No issues found by this project id' });
                 return;
             }
 
@@ -142,7 +142,7 @@ router.get('/user/:id', (req, res) => {
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found with that user id'});
+                res.status(404).json({ message: 'No issues found with that user id' });
                 return;
             }
             
@@ -164,7 +164,7 @@ router.post('/', async (req, res) => {
     })
         .then(projectData => {
             if (!projectData) {
-                res.status(404).json({message: 'No project found with the provided id'});
+                res.status(404).json({ message: 'No project found with the provided id' });
                 return;
             }
             return projectData;
@@ -203,7 +203,7 @@ router.put('/:id', async (req, res) => {
     })
         .then(projectData => {
             if (!projectData) {
-                res.status(404).json({message: 'No project found with the provided id'});
+                res.status(404).json({ message: 'No project found with the provided id' });
                 return;
             }
             return projectData;
@@ -230,7 +230,7 @@ router.put('/:id', async (req, res) => {
     )
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issue found with this id'});
+                res.status(404).json({ message: 'No issue found with this id' });
                 return;
             }
         
@@ -247,7 +247,7 @@ router.put('/:id', async (req, res) => {
                     })
                         .then(updatedData => {
                             if (!updatedData) {
-                                res.status(404).json({message: 'There was an issue getting the updated issue by id'});
+                                res.status(404).json({ message: 'There was an issue getting the updated issue by id' });
                                 return;
                             }
                             return updatedData;
