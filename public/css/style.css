@@ -68,6 +68,13 @@
     /*border-top: 5px solid var(--primary);*/
   }
   
+/* Login page styles */
+.login-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+}
+
   .page-title {
     color: var(--primary);
     margin-bottom: 5px;
