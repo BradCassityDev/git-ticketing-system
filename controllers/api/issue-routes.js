@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sendNotification = require('../../utils/email-notification');
 const {getRepoIssues, issueDetails, createIssue, updateIssue} = require('../../utils/github');
 const {User, Issue, Project, Issue_State, Project_State, Issue_User} = require('../../models/index');
 
@@ -55,7 +56,6 @@ router.get('/:id', (req, res) => {
             issueData.dataValues.github_issue_details = await issueDetails(github_username, github_repo_name, issueData.github_issue_number);
 
             res.json(issueData);
-
         })
         .catch(err => {
             console.log(err);
@@ -145,6 +145,7 @@ router.get('/user/:id', (req, res) => {
                 res.status(404).json({message: 'No issues found with that user id'});
                 return;
             }
+            
             res.json(issueData);
         })
         .catch(err => {
@@ -212,13 +213,14 @@ router.put('/:id', async (req, res) => {
             res.status(500).json(err);
             return;
         });
+    
 
     // Update Issue in Database
     Issue.update(
         {
             due_date: req.body.due_date,
             priority: req.body.priority,
-            github_issue_number: githubResult.number
+            github_issue_number: req.body.github_issue_number
         }, 
         {
             where: {
@@ -226,16 +228,45 @@ router.put('/:id', async (req, res) => {
             }
         }
     )
-        .then(issueData => {
+        .then(async issueData => {
             if (!issueData) {
                 res.status(404).json({message: 'No issue found with this id'});
                 return;
             }
+        
+           // If data was provided, update GitHub issue
+            if (typeof req.body.data != "undefined") {
+                let issueNumber = '';
 
-            // Update issue on GitHub
-            const githubResult = updateIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.github_issue_number, req.body.data);
-
-
+                if (!req.body.github_issue_number) {
+                    // Find issue again for needed values not provided by req.body
+                    const updatedIssueData = await Issue.findOne({
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                        .then(updatedData => {
+                            if (!updatedData) {
+                                res.status(404).json({message: 'There was an issue getting the updated issue by id'});
+                                return;
+                            }
+                            return updatedData;
+                        })
+                        .catch(err => res.status(500).json(err));
+                    
+                        // Use either provided github_issue_number or 
+                        issueNumber = updatedIssueData.dataValues.github_issue_number;
+                } else {
+                    // Use either provided github_issue_number or 
+                    issueNumber = req.body.github_issue_number;
+                }
+                
+                // Update issue on GitHub
+                if (issueNumber && projectDetails.github_username && projectDetails.github_repo_name) {
+                    const githubResult = await updateIssue(projectDetails.github_username, projectDetails.github_repo_name, parseInt(issueNumber), req.body.data);
+                }
+            }
+           
             res.json(issueData);
         })
         .catch(err => {
@@ -243,5 +274,6 @@ router.put('/:id', async (req, res) => {
             res.status(500).json(err);
         });
 });
+
 
 module.exports = router;
