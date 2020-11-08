@@ -1,11 +1,12 @@
-{{> navbar}}
+{{> styles}}
     <header>
-        <h1>Welcome To The Admin Console</h1>
+      {{> navbar}}
+      <h2>Welcome To The Admin Console</h2>
     </header>
     <main>
         <p>User Management Center</p>
-        <button><a href="/dashboard/admin/user">User</a></button>
+        <button><a href="/admin/user">User</a></button>
         <p>Ticket Management Center</p>
-        <button><a href="/dashboard/admin/ticket">Tickets</a></button>
+        <button><a href="/admin/ticket">Tickets</a></button>
     </main>
   <script src="js/scripts.js"></script>
