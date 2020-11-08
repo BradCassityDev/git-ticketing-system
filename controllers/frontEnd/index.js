@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+const loginRoutes = require('./loginRoutes');
+const dashboardRoutes = require('./dashboardRoutes');
 
-router.get('/', function(req, res, next) {
-  res.render('login');
-});
+router.use('/dashboard', dashboardRoutes);
+router.use('/', loginRoutes);
 
 module.exports = router;
