@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
-const { User, Issue, Project, Issue_State, Project_State, Issue_User } = require('../../models/index');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 
 const includeArray = [
@@ -21,7 +21,7 @@ const includeArray = [
     }
 ];
 
-// Get all Issues - /api/issues
+// Get all /api/issue - /api/issue
 router.get('/', withAuth, (req, res) => {
     Issue.findAll(
         {
@@ -35,7 +35,7 @@ router.get('/', withAuth, (req, res) => {
         });
 });
 
-// Get Issue by ID - /api/issues/:id
+// Get Issue by ID - /api/issue/:id
 router.get('/:id', withAuth, (req, res) => {
     Issue.findOne({
         include: includeArray,
@@ -45,7 +45,7 @@ router.get('/:id', withAuth, (req, res) => {
     })
         .then(async issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issue found by that id'});
+                res.status(404).json({ message: 'No issue found by that id' });
                 return;
             }
             res.json(issueData);
@@ -56,7 +56,7 @@ router.get('/:id', withAuth, (req, res) => {
         });
 });
 
-// Get Issues related to Project - /api/issues/project/:id
+// Get /api/issue related to Project - /api/issue/project/:id
 router.get('/project/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
@@ -74,13 +74,13 @@ router.get('/project/:id', withAuth, (req, res) => {
                         model: User,
                         attributes: ['id', 'username', 'email', 'phone']
                     }
-                ] 
+                ]
             }
         ]
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found by this project id'});
+                res.status(404).json({ message: 'No issues found by this project id' });
                 return;
             }
             res.json(issueData);
@@ -91,9 +91,9 @@ router.get('/project/:id', withAuth, (req, res) => {
         });
 });
 
-// Get Issues assigned to User - /api/issues/user/:id
+// Get /api/issue assigned to User - /api/issue/user/:id
 router.get('/user/:id', withAuth, (req, res) => {
-    User.findAll({
+    User.findOne({
         where: {
             id: req.params.id
         },
@@ -103,7 +103,7 @@ router.get('/user/:id', withAuth, (req, res) => {
                 include: [
                     {
                         model: Issue_State,
-                        attributes: ['name'] 
+                        attributes: ['name']
                     },
                     {
                         model: Project,
@@ -119,7 +119,7 @@ router.get('/user/:id', withAuth, (req, res) => {
     })
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issues found with that user id'});
+                res.status(404).json({ message: 'No /api/issue found with that user id' });
                 return;
             }
             res.json(issueData);
@@ -130,7 +130,7 @@ router.get('/user/:id', withAuth, (req, res) => {
         });
 });
 
-// Create Issue - /api/issues
+// Create Issue - /api/issue
 router.post('/', withAuth, (req, res) => {
     // Grab needed values out of request body for issue creation on GitHub
     // const {github_username, github_repo_name, data} = req.body;
@@ -152,8 +152,66 @@ router.post('/', withAuth, (req, res) => {
         });
 });
 
+// Create Issue from Ticket - /api/issue/ticket
+router.post('/ticket', (req, res) => {
+    // Get needed values from Ticket id
+    // Get project ticket will be assigned to from request body
 
-// Update Issue - /api/issues/:id
+    // Create issue on GitHub and return info
+    // const githubResult = createIssue(github_username, github_repo_name, data);
+
+    // Create issue in database and assign github_issue_number to associate back
+    Ticket.findOne({
+        attributes: ['id', 'title', 'description', 'issue_id'],
+        where: {
+            id: req.body.ticket_id
+        }
+    })
+        .then(ticketData => {
+            // We want to prevent the user from creating an issue if the issue_id is not null for this ticket
+            if (ticketData.issue_id !== null) {
+                throw new Error("Issue already exists for this ticket");
+            }
+            // TODO: Create Issue in GitHub from ticketData and get back issue number
+            Issue.create({
+                due_date: req.body.due_date,
+                priority: req.body.priority,
+                github_issue_number: req.body.github_issue_number, // Get this from GitHub, eventually
+                project_id: req.body.project_id
+            })
+                .then(issueData => {
+                    Ticket.update({
+                        issue_id: issueData.id
+                    },
+                        {
+                            where: {
+                                id: ticketData.id
+                            }
+                        })
+                        .then(ticketDataUpdate => res.json(issueData))
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json(err);
+                        });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json(err);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+            if (err == "Error: Issue already exists for this ticket") {
+                res.status(400).json('{message: ' + err + '}');
+            }
+            else {
+                res.status(500).json(err);
+            }
+        });
+});
+
+
+// Update Issue - /api/issue/:id
 router.put('/:id', withAuth, (req, res) => {
     // Grab needed values out of request body for issue update on GitHub
     // const {github_username, github_repo_name, github_issue_number, data} = req.body;
@@ -167,7 +225,7 @@ router.put('/:id', withAuth, (req, res) => {
             due_date: req.body.due_date,
             priority: req.body.priority,
             github_issue_number: req.body.github_issue_number
-        }, 
+        },
         {
             where: {
                 id: req.params.id
@@ -176,7 +234,7 @@ router.put('/:id', withAuth, (req, res) => {
     )
         .then(issueData => {
             if (!issueData) {
-                res.status(404).json({message: 'No issue found with this id'});
+                res.status(404).json({ message: 'No issue found with this id' });
                 return;
             }
             res.json(issueData);
