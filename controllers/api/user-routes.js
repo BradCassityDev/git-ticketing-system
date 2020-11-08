@@ -17,15 +17,15 @@ router.get('/', withAuth, (req, res) => {
 
 router.get('/:id', withAuth, (req, res) => {
   User.findOne({
-      where: {
-          id: req.params.id
-      }
+    where: {
+      id: req.params.id
+    }
   })
-      .then(dbUserData => res.json(dbUserData))
-      .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-      });
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 // POST /api/users
@@ -49,34 +49,35 @@ router.post('/', withAuth, (req, res) => {
     });
 });
 
-router.post('/login', (req,res) => {
+router.post('/login', (req, res) => {
   User.findOne({
-      where: {
-          username: req.body.username
-      }
+    where: {
+      username: req.body.username
+    }
   })
-  .then(dbUserData => {
+    .then(dbUserData => {
       // checks for a matching email
       if (!dbUserData) {
-          res.status(400).json({ message: 'No user with that username!' });
-          return;
+        res.status(400).json({ message: 'No user with that username!' });
+        return;
       };
 
       // checks that given password matches the hashed password in the db
       const validPassword = dbUserData.checkPassword(req.body.password);
       if (!validPassword) {
-          res.status(400).json({ message: 'Incorrect password!' });
-          return;
+        res.status(400).json({ message: 'Incorrect password!' });
+        return;
       };
 
       req.session.save(() => {
-          // declare session variables
-          req.session.user_id = dbUserData.id;
-          req.session.username = dbUserData.username;
-          req.session.loggedIn = true;
-          res.json({ user: dbUserData, message: 'You are now logged in!' });
+        // declare session variables
+        req.session.user_id = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.role_id = dbUserData.role_id;
+        req.session.loggedIn = true;
+        res.json({ user: dbUserData, message: 'You are now logged in!' });
       })
-  });
+    });
 });
 
 router.post('/logout', (req, res) => {
