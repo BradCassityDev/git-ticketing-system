@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 const sendNotification = require('../../utils/email-notification');
