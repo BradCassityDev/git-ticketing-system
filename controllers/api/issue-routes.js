@@ -3,8 +3,6 @@ const { issueDetails, createIssue, updateIssue } = require('../../utils/github')
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 const sendNotification = require('../../utils/email-notification');
-const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket} = require('../../models/index');
 
 const includeArray = [
     {
@@ -55,7 +53,7 @@ router.get('/:id', withAuth, (req, res) => {
             }
 
             // Retrieve associated issue details from GitHub and return
-            const {github_username, github_repo_name} = issueData.project;
+            const { github_username, github_repo_name } = issueData.project;
             issueData.dataValues.github_issue_details = await issueDetails(github_username, github_repo_name, issueData.github_issue_number);
 
             res.json(issueData);
@@ -98,13 +96,13 @@ router.get('/project/:id', withAuth, (req, res) => {
             const githubRepoIssues = await getRepoIssues(issueData.github_username, issueData.github_repo_name);
 
             // Map GitHub issues with our db issues
-            for (let i = 0; i < issueData.issues.length; i++ ) {
+            for (let i = 0; i < issueData.issues.length; i++) {
                 // Loop through GitHub repo issues and include in DB issues
                 for (let x = 0; x < githubRepoIssues.length; x++) {
                     // Check if issue numbers match between GitHub and our DB
                     if (githubRepoIssues[x].number === parseInt(issueData.issues[i].dataValues.github_issue_number)) {
                         console.log('match');
-                        issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];   
+                        issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];
                     }
                 }
             }
@@ -148,7 +146,7 @@ router.get('/user/:id', withAuth, (req, res) => {
                 res.status(404).json({ message: 'No /api/issue found with that user id' });
                 return;
             }
-            
+
             res.json(issueData);
         })
         .catch(err => {
@@ -290,8 +288,8 @@ router.put('/:id', withAuth, async (req, res) => {
                 res.status(404).json({ message: 'No issue found with this id' });
                 return;
             }
-        
-           // If data was provided, update GitHub issue
+
+            // If data was provided, update GitHub issue
             if (typeof req.body.data != "undefined") {
                 let issueNumber = '';
 
@@ -311,20 +309,20 @@ router.put('/:id', withAuth, async (req, res) => {
                             return updatedData;
                         })
                         .catch(err => res.status(500).json(err));
-                    
-                        // Use either provided github_issue_number or 
-                        issueNumber = updatedIssueData.dataValues.github_issue_number;
+
+                    // Use either provided github_issue_number or 
+                    issueNumber = updatedIssueData.dataValues.github_issue_number;
                 } else {
                     // Use either provided github_issue_number or 
                     issueNumber = req.body.github_issue_number;
                 }
-                
+
                 // Update issue on GitHub
                 if (issueNumber && projectDetails.github_username && projectDetails.github_repo_name) {
                     const githubResult = await updateIssue(projectDetails.github_username, projectDetails.github_repo_name, parseInt(issueNumber), req.body.data);
                 }
             }
-           
+
             res.json(issueData);
         })
         .catch(err => {
