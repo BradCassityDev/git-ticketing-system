@@ -238,6 +238,7 @@ router.put('/:id', async (req, res) => {
             if (typeof req.body.data != "undefined") {
                 let issueNumber = '';
 
+                // Check if issue number was provided or lookup is needed
                 if (!req.body.github_issue_number) {
                     // Find issue again for needed values not provided by req.body
                     const updatedIssueData = await Issue.findOne({
