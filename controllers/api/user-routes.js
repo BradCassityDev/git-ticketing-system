@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Op } = require("sequelize");
 const { User } = require('../../models');
 const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 
 
 // GET /api/users
@@ -29,7 +30,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // POST /api/users
-router.post('/', withAuth, (req, res) => {
+router.post('/', withAuthAdmin, (req, res) => {
   // expects {username: 'Lernantino', email: 'lernantino@gmail.com', phone, '1234567890', password: 'password1234'}
   User.create({
     username: req.body.username,
@@ -75,6 +76,7 @@ router.post('/login', (req, res) => {
         req.session.username = dbUserData.username;
         req.session.role_id = dbUserData.role_id;
         req.session.loggedIn = true;
+        console.log (req.session);
         res.json({ user: dbUserData, message: 'You are now logged in!' });
       })
     });
@@ -93,7 +95,7 @@ router.post('/logout', (req, res) => {
 });
 
 // PUT /api/users/1
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', withAuthAdmin, (req, res) => {
   User.update(req.body, {
     individualHooks: true,
     where: {
