@@ -4,7 +4,12 @@ require('dotenv').config();
 // Return Repo Details
 function getRepoDetails(githubUser, repoName) {
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`)
+        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
+            auth: {
+                username: process.env.GITHUB_USER,
+                password: process.env.GITHUB_PASS
+            }
+        })
             .then(function (response) {
                 resolve(response.data);
             })
@@ -17,7 +22,12 @@ function getRepoDetails(githubUser, repoName) {
 // Return Repo Issues 
 function getRepoIssues(githubUser, repoName) {
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues`)
+        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues`, {
+            auth: {
+                username: process.env.GITHUB_USER,
+                password: process.env.GITHUB_PASS
+            }
+        })
             .then(function (response) {
                 resolve(response.data);
             })
@@ -29,8 +39,14 @@ function getRepoIssues(githubUser, repoName) {
 
 // Return Issue Details
 function issueDetails(githubUser, repoName, issueNum) {
+
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`)
+        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`, {
+            auth: {
+                username: process.env.GITHUB_USER,
+                password: process.env.GITHUB_PASS
+            }
+        })
             .then(function (response) {
                 resolve(response.data);
             })

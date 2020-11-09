@@ -1,0 +1,49 @@
+{{> styles}}
+
+    <header>
+        {{> navbar}}
+        <h2 class="page-title">Developer Dashboard</h2>
+    </header>
+
+    {{!-- <form id="task-form">
+            <div class="form-group">
+                <input type="text" name="task-name" placeholder="Enter Task Name" />
+            </div>
+            <div class="form-group">
+                <select name="task-type" class="select-dropdown">
+                    <option value="" disabled selected></option>
+                    <option value="Developer">Developer</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn" id="save-task" type="submit">Add Task</button>
+            </div>
+     
+    </form> --}}
+    <main class="page-content" id="page-content">
+
+        <section class="task-list-wrapper">
+            <h2 class="list-title">To Do</h2>
+            <ul class="task-list bg-danger" id="tasks-to-do"></ul>
+        </section>
+        <section class="task-list-wrapper">
+            <h2 class="list-title">In Progress</h2>
+            <ul class="task-list bg-warning" id="tasks-in-progress"></ul>
+        </section>
+        <section class="task-list-wrapper">
+            <h2 class="list-title">Completed</h2>
+            <ul class="task-list bg-success" id="tasks-completed"></ul>
+        </section>
+        <section class="task-list-wrapper">
+            <h2 class="list-title">Unassigned</h2>
+            <ul class="task-list bg-dark" id="tasks-completed"></ul>
+        </section>
+    </main>
+    <footer>
+       
+    </footer>
+
+  <script src="./javascript/script.js"></script>
+
+   
