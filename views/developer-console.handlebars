@@ -4,25 +4,15 @@
         {{> navbar}}
         <h2 class="page-title">Developer Dashboard</h2>
     </header>
-
-    {{!-- <form id="task-form">
-            <div class="form-group">
-                <input type="text" name="task-name" placeholder="Enter Task Name" />
-            </div>
-            <div class="form-group">
-                <select name="task-type" class="select-dropdown">
-                    <option value="" disabled selected></option>
-                    <option value="Developer">Developer</option>
-                    <option value="Admin">Admin</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button class="btn" id="save-task" type="submit">Add Task</button>
-            </div>
      
-    </form> --}}
-    <main class="page-content" id="page-content">
+    <!-- Issues Navbar -->
+    <nav class="issue-menu-nav navbar navbar-light">
+        <h4>My Assigned Issues</h4>
+        <!-- Create Issue Modal Toggle Button -->
+        <button class="btn btn-primary" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+ Create Issue</button>
+    </nav>
 
+    <main class="page-content" id="page-content">
         <section class="task-list-wrapper">
             <h2 class="list-title">To Do</h2>
             <ul class="task-list bg-danger" id="tasks-to-do"></ul>
@@ -40,10 +30,61 @@
             <ul class="task-list bg-dark" id="tasks-completed"></ul>
         </section>
     </main>
+
+    <!-- Create Issue Modal -->
+    <div class="modal fade" id="create-issue-modal" tabindex="-1" role="dialog" aria-labelledby="create-issue-modal" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Create Issue</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="create-issue-form">
+                            <div class="form-group">
+                                <label for="project-dropdown">Related Project:</label>
+                                <div id="project-dropdown-container"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="create-issue-title">Issue Title:</label>
+                                <input type="text" name="create-issue-title" id="create-issue-title" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="create-issue-duedate">Due Date:</label>
+                                <input type="date" name="create-issue-duedate" id="create-issue-duedate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="create-issue-priority">Priority:</label>
+                                <select name="create-issue-priority" id="create-issue-priority" class="form-control">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="create-issue-labels">Labels:</label>
+                                <select name="create-issue-labels" id="create-issue-labels" class="form-control">
+                                    <option value="Bug">Bug</option>
+                                    <option value="Feature">Feature</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="create-issue-body">Description:</label>
+                                <textarea name="create-issue-body" id="create-issue-body" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" id="create-issue-btn" class="btn btn-primary">Create Issue</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
-       
     </footer>
 
-  <script src="./javascript/script.js"></script>
+  {{!-- <script src="./javascript/script.js"></script> --}}
+  <script src="/javascript/create-issue.js"></script>
 
    
