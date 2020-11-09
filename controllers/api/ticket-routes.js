@@ -3,6 +3,7 @@ const { Ticket, Issue, Issue_State, Ticket_State, Project, User } = require('../
 const sendNotification = require('../../utils/email-notification');
 const { sendSMS } = require('../../utils/twilio.js');
 const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 
 // set array for GET table joins so it can be reused and stay DRY
 const includeArray = [
@@ -88,7 +89,7 @@ router.post('/', (req, res) => {
 
 });
 
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', withAuthAdmin, (req, res) => {
   Ticket.update({
     title: req.body.title,
     description: req.body.description,
@@ -108,7 +109,7 @@ router.put('/:id', withAuth, (req, res) => {
     });
 });
 
-router.delete('/:id', withAuth, (req, res) => {
+router.delete('/:id', withAuthAdmin, (req, res) => {
   Ticket.destroy({
     where: {
       id: req.params.id
