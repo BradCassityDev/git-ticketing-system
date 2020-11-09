@@ -11,7 +11,7 @@
             
         </form>
         <!-- Create Issue Modal Toggle Button -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#create-issue-modal">+ Create Issue</button>
+        <button class="btn btn-primary" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+ Create Issue</button>
     </nav>
 
     <main class="page-content" id="page-content">
@@ -46,12 +46,7 @@
                         <form id="create-issue-form">
                             <div class="form-group">
                                 <label for="project-dropdown">Filter by project:</label>
-                                <select class="custom-select" id="project-dropdown">
-                                    <option selected>Select a project...</option>
-                                    <option value="1">Project 1</option>
-                                    <option value="2">Project 2</option>
-                                    <option value="3">Project 3</option>
-                                </select>
+                                <div id="project-dropdown-container"></div>
                             </div>
                             <div class="form-group">
                                 <label for="create-issue-title">Issue Title:</label>

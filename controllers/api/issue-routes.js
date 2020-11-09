@@ -147,17 +147,16 @@ router.get('/user/:id', (req, res) => {
                 return;
             }
 
+            // Initialize projectsArr to store unique projects
             let projectsArr = [];
 
             // Loop through returned issues and lookup associated projects
-            // Option 1
-
-            // Option 2
             for (let i = 0; i < issueData.issues.length; i++) {
                 let projectObj = {
                     github_username: issueData.issues[i].project.github_username,
                     github_repo_name: issueData.issues[i].project.github_repo_name
                 };
+                console.log(projectObj);
 
                 // Check if this repo/username already exists in projectsArr
                 // If so, don't include
@@ -179,9 +178,9 @@ router.get('/user/:id', (req, res) => {
             } 
 
             // if projects exist return all issues for each project and map to user issue before reutrning
-            projectsArr.forEach(async project => {
-                const githubResults = await getRepoIssues(project.github_username, project.github_repo_name);
-                console.log(githubResults);
+            for (let p = 0; p < projectsArr.length; p++) {
+                const githubResults = await getRepoIssues(projectsArr[p].github_username, projectsArr[p].github_repo_name);
+
                 for (let x = 0; x < issueData.issues.length; x++) {
                     const repoUser = issueData.issues[x].project.github_username;
                     const repoName = issueData.issues[x].project.github_repo_name;
@@ -189,16 +188,14 @@ router.get('/user/:id', (req, res) => {
 
                     const url = `https://api.github.com/repos/${repoUser}/${repoName}/issues/${issueNum}`;
                     
+                    // Loop and match github issues to our db issues
                     for (let i = 0; i < githubResults.length; i++) {
                         if (url == githubResults[i].url) {
-                            issueData.issues[x].github_issue_details = githubResults[i];
-                            console.log(issueData.issues[x]);
+                            issueData.issues[x].dataValues.github_issue_details = githubResults[i];
                         }
                     }
                 }
-            });
-
-            console.log(projectsArr);
+            }
 
             res.json(issueData);
         })
@@ -242,9 +239,10 @@ router.post('/', async (req, res) => {
     })
         .then(issueData => {
             // Associated user to the created issue
+            console.log(issueData.id);
             Issue_User.create({
-                user_id: 1,
-                issue_id: 1
+                user_id: req.session.user_id,  // Get user_id from session
+                issue_id: issueData.id
             });
 
             res.json(issueData)
