@@ -3,6 +3,7 @@ const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../..
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 const sendNotification = require('../../utils/email-notification');
+const { sendSMS } = require('../../utils/twilio.js');
 
 const includeArray = [
     {
@@ -228,6 +229,7 @@ router.post('/ticket', (req, res) => {
                     createIssue(projectDetails.github_username, projectDetails.github_repo_name, data)
                         .then(githubResult => {
                             // Create Issue database
+                            console.log("-=-==-=-=-CREATING ISSUE=-=-=-=-=-");
                             Issue.create({
                                 due_date: req.body.due_date,
                                 priority: req.body.priority,
@@ -283,12 +285,15 @@ router.put('/:id', withAuth, async (req, res) => {
             res.status(500).json(err);
             return;
         });
-    // Update Issue in Database
+    // Update Issue in Database - TODO: Fix hard coded issue ID
+    const closingIssue = (req.body.issueState_id && req.body.issueState_id === 4) ? true : false;
     Issue.update(
         {
             due_date: req.body.due_date,
             priority: req.body.priority,
-            github_issue_number: req.body.github_issue_number
+            github_issue_number: req.body.github_issue_number,
+            issue_state_id: req.body.issueState_id,
+            project_id: req.body.project_id
         },
         {
             where: {
@@ -301,7 +306,30 @@ router.put('/:id', withAuth, async (req, res) => {
                 res.status(404).json({ message: 'No issue found with this id' });
                 return;
             }
-
+            console.log("=-=-=-=-=--=Issue Data=-=-=-=-=-=-=-");
+            console.log(issueData);
+            // If issue is being closed, notify anyone who may have opened a ticket related to this issue
+            if (closingIssue) {
+                Ticket.findAll({
+                    where: {
+                        issue_id: req.params.id
+                    }
+                }).
+                    then(ticketData => {
+                        for (let i = 0; i < ticketData.length; i++) {
+                            // Send email to client if email exists
+                            if (ticketData[i].email) {
+                                sendNotification(ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
+                                    .then(emailResponse => console.log(emailResponse));
+                            }
+                            // Send SMS text to client if phone number exists
+                            if (ticketData[i].phone) {
+                                sendSMS(`TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].phone)
+                                    .then(smsResponse => console.log(smsResponse));
+                            }
+                        }
+                    });
+            }
             // If data was provided, update GitHub issue
             if (typeof req.body.data != "undefined") {
                 let issueNumber = '';
