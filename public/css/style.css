@@ -20,7 +20,6 @@
     flex-direction: column;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
   }
-  
 
 .page-title {
   text-align: center;
@@ -44,3 +43,15 @@
   padding: 25px;
 }
 
+.issue-menu-nav {
+  max-width: 1200px;
+  width: 100%;
+  padding: 15px 20px;
+  margin: 0 auto;
+  border-bottom: 1px solid #E1E1E1;
+}
+
+.create-issue-form {
+  max-width: 500px;
+  width: 100%;
+}

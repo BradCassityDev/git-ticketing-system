@@ -1,3 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #44e9ff;
+  --secondary: #497980;
+  --tertiary: rgb(192, 246, 253);
+  --grey: #333;
+  /*font-size: 62.5%;*/
+}
+
+body {
+  background: white;
+  color: var(--grey);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 /* header {
     background: var(--secondary);
     padding: 30px 25px;
@@ -14,7 +37,7 @@
     font-size: 1.6rem;
   }
   
-  form {
+  /* form {
     display: flex;
     align-items: flex-end;
     flex-wrap: wrap;
@@ -34,7 +57,7 @@
     margin: 10px 6px 10px 0;
     flex: 1;
   }
-  
+   */
   footer {
     width: 100%;
     background: var(--secondary);
@@ -45,12 +68,12 @@
   }
   
 
-  .page-title {
+  /* .page-title {
     color: var(--primary);
     margin-bottom: 5px;
     margin-top: 0;
     font-size: 4.5rem;
-  }
+  } */
   
   .page-content {
     flex: 1;
@@ -112,7 +135,7 @@
     flex: 1;
   }
   
- 
+ /*
   .btn {
     outline: none;
     border: none;
@@ -134,7 +157,7 @@
     box-shadow: 0 0px var(--grey);
     top: 0;
   }
- 
+ */
   
   .edit-btn,
   .delete-btn {
