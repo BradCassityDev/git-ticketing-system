@@ -208,8 +208,8 @@ router.get('/user/:id', (req, res) => {
 // Create Issue - /api/issue
 router.post('/', async (req, res) => {
     // Assign current user to the assignees going to gethub
-    req.body.data.assignees = ['BradCassityDev']; //req.session.username
-    console.log(req.body)
+    req.body.data.assignees = [req.session.username];
+  
     // Look up project details to grab github_username and github_repo_name
     const projectDetails = await Project.findOne({
         where: {
@@ -242,7 +242,7 @@ router.post('/', async (req, res) => {
         .then(issueData => {
             // Associated user to the created issue
             Issue_User.create({
-                user_id: req.session.user_id,  // Get user_id from session
+                user_id: req.session.user_id,
                 issue_id: issueData.id
             });
 

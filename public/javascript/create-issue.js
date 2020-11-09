@@ -78,6 +78,11 @@ async function openCreateIssueModal() {
               projectDDEl.id = "project-dropdown";
               projectDDEl.name = "project-dropdown";
 
+              // Include blank option
+              var optionDefault = document.createElement("option");
+              optionDefault.text = "Select a project..."
+              projectDDEl.add(optionDefault);
+
               // Loop through returned projects and create an option for each
               for (let i = 0; i < data.length; i++) {
                 var option = document.createElement("option");
