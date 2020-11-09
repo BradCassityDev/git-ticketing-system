@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { Team } = require('../../models');
-const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 
 // CREATE
-router.post('/', withAuth, (req, res) => {
+router.post('/', withAuthAdmin, (req, res) => {
     Team.create({
       name: req.body.name 
     })
@@ -15,7 +15,7 @@ router.post('/', withAuth, (req, res) => {
   });
 
 // READ
-router.get('/', withAuth, (req, res) => {
+router.get('/', withAuthAdmin, (req, res) => {
     Team.findAll()
         .then(dbTeamData => res.json(dbTeamData))
         .catch(err => {
@@ -24,7 +24,7 @@ router.get('/', withAuth, (req, res) => {
         });
 });
 
-router.get('/:id', withAuth, (req, res) => {
+router.get('/:id', withAuthAdmin, (req, res) => {
     Team.findOne({
         where: {
             id: req.params.id
@@ -38,7 +38,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // UPDATE
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', withAuthAdmin, (req, res) => {
     Team.update(
         {
             name: req.body.name,

@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { Issue, Project, Team, Project_State } = require('../../models');
-const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 
 // GET all projects - /api/project
-router.get('/', withAuth, (req, res) => {
+router.get('/', withAuthAdmin, (req, res) => {
     Project.findAll()
         .then(projectData => res.json(projectData))
         .catch(err => {
@@ -13,7 +13,7 @@ router.get('/', withAuth, (req, res) => {
 });
 
 // Get single project - /api/project/:id
-router.get('/:id', withAuth, (req, res) => {
+router.get('/:id', withAuthAdmin, (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
@@ -27,7 +27,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // Create project - /api/project
-router.post('/', withAuth, (req, res) => {
+router.post('/', withAuthAdmin, (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
@@ -43,7 +43,7 @@ router.post('/', withAuth, (req, res) => {
 });
 
 // Update project - /api/project/:id
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', withAuthAdmin, (req, res) => {
     Project.update(
         {
             name: req.body.name,

@@ -66,28 +66,25 @@ const ticketStateData = [
     name: 'Unable to Reproduce',
   }
 ]
-const userData = [
-  
-  {
-    username: 'test-user',
-    email: 'test@user.com',
-    phone: '1234567890',
-    password: adminPassword,
-    Role_id: 2,
-    User_state_id: 1
-  }
-]
-  
+const userData = {
+  username: 'test-user',
+  email: 'test@user.com',
+  phone: '1234567890',
+  password: process.env.adminPassword,
+  role_id: 2,
+  user_state_id: 1
+};
+
 
 sequelize
   .sync({ force: false })
   .then(() => {
-    return User_State.bulkCreate(userStateData), 
-    Issue_State.bulkCreate(issueStateData), 
-    Project_State.bulkCreate(projectStateData), 
-    Role.bulkCreate(roleData), 
-    Ticket_State.bulkCreate(ticketStateData), 
-    User.bulkCreate(userData);
+    return User_State.bulkCreate(userStateData),
+      Issue_State.bulkCreate(issueStateData),
+      Project_State.bulkCreate(projectStateData),
+      Role.bulkCreate(roleData),
+      Ticket_State.bulkCreate(ticketStateData),
+      User.create(userData);
   })
   .then(seedData => {
     console.log("All tables seeded successfully");
