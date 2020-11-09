@@ -84,7 +84,7 @@ function updateIssue(githubUser, repoName, issueNum, data) {
             'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`
         }
     };
-    
+
     return new Promise((resolve, reject) => {
         axios.post(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`, data, config)
             .then((result) => {
