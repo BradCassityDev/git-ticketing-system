@@ -6,15 +6,15 @@ const sendNotification = require('../../utils/email-notification');
 
 const includeArray = [
     {
+        model: Issue_State,
+        attributes: ['name']
+    },
+    {
         model: Project,
         include: {
             model: Project_State,
             attributes: ['name']
         }
-    },
-    {
-        model: Issue_State,
-        attributes: ['name']
     },
     {
         model: User,
@@ -101,7 +101,6 @@ router.get('/project/:id', (req, res) => {
                 for (let x = 0; x < githubRepoIssues.length; x++) {
                     // Check if issue numbers match between GitHub and our DB
                     if (githubRepoIssues[x].number === parseInt(issueData.issues[i].dataValues.github_issue_number)) {
-                        console.log('match');
                         issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];
                     }
                 }
@@ -142,11 +141,64 @@ router.get('/user/:id', (req, res) => {
             }
         ]
     })
-        .then(issueData => {
+        .then(async issueData => {
             if (!issueData) {
                 res.status(404).json({ message: 'No /api/issue found with that user id' });
                 return;
             }
+
+            let projectsArr = [];
+
+            // Loop through returned issues and lookup associated projects
+            // Option 1
+
+            // Option 2
+            for (let i = 0; i < issueData.issues.length; i++) {
+                let projectObj = {
+                    github_username: issueData.issues[i].project.github_username,
+                    github_repo_name: issueData.issues[i].project.github_repo_name
+                };
+
+                // Check if this repo/username already exists in projectsArr
+                // If so, don't include
+                let uniqueItem = true;
+                if (projectsArr.length > 0) {
+                    for (let x = 0; x < projectsArr.length; x++) {
+                        console.log(projectsArr[x].github_username);
+                        if (projectObj.github_username === projectsArr[x].github_username
+                            && projectObj.github_repo_name === projectsArr[x].github_repo_name) {
+                            uniqueItem = false;
+                        }
+                    }
+                }
+                
+                // Include in new array
+                if (uniqueItem) {
+                    projectsArr.push(projectObj);
+                }
+            } 
+
+            // if projects exist return all issues for each project and map to user issue before reutrning
+            projectsArr.forEach(async project => {
+                const githubResults = await getRepoIssues(project.github_username, project.github_repo_name);
+                console.log(githubResults);
+                for (let x = 0; x < issueData.issues.length; x++) {
+                    const repoUser = issueData.issues[x].project.github_username;
+                    const repoName = issueData.issues[x].project.github_repo_name;
+                    const issueNum = issueData.issues[x].github_issue_number;
+
+                    const url = `https://api.github.com/repos/${repoUser}/${repoName}/issues/${issueNum}`;
+                    
+                    for (let i = 0; i < githubResults.length; i++) {
+                        if (url == githubResults[i].url) {
+                            issueData.issues[x].github_issue_details = githubResults[i];
+                            console.log(issueData.issues[x]);
+                        }
+                    }
+                }
+            });
+
+            console.log(projectsArr);
 
             res.json(issueData);
         })
@@ -185,9 +237,18 @@ router.post('/', async (req, res) => {
         due_date: req.body.due_date,
         priority: req.body.priority,
         github_issue_number: githubResult.number,
-        project_id: req.body.project_id
+        project_id: req.body.project_id,
+        issueState_id: 1,
     })
-        .then(issueData => res.json(issueData))
+        .then(issueData => {
+            // Associated user to the created issue
+            Issue_User.create({
+                user_id: 1,
+                issue_id: 1
+            });
+
+            res.json(issueData)
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
