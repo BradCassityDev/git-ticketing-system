@@ -1,3 +1,15 @@
+// Clear form
+function clearCreateIssueForm() {
+  // Clear form
+  document.getElementById('create-issue-title').value = "";
+  document.getElementById('create-issue-duedate').value = "";
+  document.getElementById('create-issue-labels').value = "";
+  document.getElementById('create-issue-priority').value = "";
+  document.getElementById('create-issue-body').value = "";
+  document.getElementById('project-dropdown-container').value = "";
+  document.getElementById('project-dropdown-container').innerHTML = "";
+}
+
 // Create new issue handler
 async function createIssue(event) {
     event.preventDefault();
@@ -5,9 +17,8 @@ async function createIssue(event) {
     // Get form values to pass as object
     const title = document.getElementById('create-issue-title').value;
     const dueDate = document.getElementById('create-issue-duedate').value;
-    const priority = "Blah";
-    const assignees = document.getElementById('create-issue-assignees').value; 
-    const labels = document.getElementById('create-issue-assignees').value; 
+    const priority = document.getElementById('create-issue-priority').value;
+    const label = document.getElementById('create-issue-labels').value; 
     const description = document.getElementById('create-issue-body').value;
     const projectId = document.getElementById('project-dropdown').value;
 
@@ -15,7 +26,7 @@ async function createIssue(event) {
     if(projectId && title && description && dueDate && priority) {
 
         // Post data to /api/project/ route
-        const response = await fetch(`/api/project/`, {
+        const response = await fetch(`/api/issue/`, {
             method: 'POST',
             body: JSON.stringify({
               due_date: dueDate,
@@ -26,6 +37,7 @@ async function createIssue(event) {
                   title: title,
                   body: description,
                   state: 'open',
+                  labels: [label]
               }
             }),
             headers: {
@@ -35,6 +47,7 @@ async function createIssue(event) {
         
           if (response.ok) {
             console.log(response);
+            
             //document.location.replace('/dashboard/')
           } else {
             alert(response.statusText);
@@ -42,23 +55,28 @@ async function createIssue(event) {
     } else {
         alert('Missing information.');
     }
+    // Close modal
+    $('#create-issue-modal').modal('hide');
+    clearCreateIssueForm();
 }
 
 // Return list of projects for dropdown
 async function openCreateIssueModal() {
+  // Clear current form
+  clearCreateIssueForm();
+
   await fetch('/api/project')
         .then(response => {
           if (response.ok) {
             response.json().then(data => {
               let createIssueFormEl = document.getElementById('project-dropdown-container');
+              createIssueFormEl.innerHTML = "";
               
               // Create a dom select element for project dropdown
               let projectDDEl = document.createElement('select');
               projectDDEl.classList.add("form-control");
               projectDDEl.id = "project-dropdown";
               projectDDEl.name = "project-dropdown";
-
-              console.log(projectDDEl)
 
               // Loop through returned projects and create an option for each
               for (let i = 0; i < data.length; i++) {

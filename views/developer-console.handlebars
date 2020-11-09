@@ -7,9 +7,7 @@
      
     <!-- Issues Navbar -->
     <nav class="issue-menu-nav navbar navbar-light">
-        <form class="form-inline">
-            
-        </form>
+        <h4>My Assigned Issues</h4>
         <!-- Create Issue Modal Toggle Button -->
         <button class="btn btn-primary" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+ Create Issue</button>
     </nav>
@@ -57,23 +55,23 @@
                                 <input type="date" name="create-issue-duedate" id="create-issue-duedate" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="create-issue-assignees">Assignees:</label>
-                                <select name="create-issue-assignees" id="create-issue-assignees" class="form-control" multiple>
-                                    <option value="BradCassityDev">BradCassityDev</option>
-                                    <option value="RealSuperDev">RealSuperDev</option>
+                                <label for="create-issue-priority">Priority:</label>
+                                <select name="create-issue-priority" id="create-issue-priority" class="form-control">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="create-issue-labels">Labels:</label>
-                                <select name="create-issue-labels" id="create-issue-labels" class="form-control" multiple>
+                                <select name="create-issue-labels" id="create-issue-labels" class="form-control">
                                     <option value="Bug">Bug</option>
                                     <option value="Feature">Feature</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="create-issue-body">Description:</label>
-                                <textarea name="create-issue-body" id="create-issue-body" class="form-control">
-                                </textarea>
+                                <textarea name="create-issue-body" id="create-issue-body" class="form-control"></textarea>
                             </div>
                             <button type="submit" id="create-issue-btn" class="btn btn-primary">Create Issue</button>
                         </form>
