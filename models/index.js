@@ -34,10 +34,10 @@ User.belongsTo(Team, {
 
 // Issue Associations
 Issue_State.hasMany(Issue, {
-    foreignKey: 'issueState_id'
+    foreignKey: 'issue_state_id'
 });
 Issue.belongsTo(Issue_State, {
-    foreignKey: 'issueState_id',
+    foreignKey: 'issue_state_id',
 });
 
 Project.hasMany(Issue, {
