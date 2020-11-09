@@ -76,7 +76,12 @@ router.post('/login', (req, res) => {
         req.session.username = dbUserData.username;
         req.session.role_id = dbUserData.role_id;
         req.session.loggedIn = true;
-        res.json({ user: dbUserData, message: 'You are now logged in!' });
+        if (dbUserData.role_id === 2) { // admin
+          res.redirect('/admin');
+        }
+        else { // null or developer
+          res.redirect('/dashboard');
+        }
       })
     });
 });
