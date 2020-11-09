@@ -3,7 +3,7 @@ const { Issue, Project, Team, Project_State } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET all projects - /api/project
-router.get('/', withAuth, (req, res) => {
+router.get('/', (req, res) => {
     Project.findAll()
         .then(projectData => res.json(projectData))
         .catch(err => {
