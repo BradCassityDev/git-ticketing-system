@@ -8,29 +8,25 @@ async function createIssue(event) {
     const assignees = document.getElementById('create-issue-assignees').value; 
     const labels = document.getElementById('create-issue-assignees').value; 
     const description = document.getElementById('create-issue-body').value;
-    const projectId = 1; // Need to grab somewhere
-
-    // create issue object for route
-    const issueData = {
-        due_date: dueDate,
-        priority: priority,
-        issueState_id: 1,
-        project_id: projectId,
-        data: {
-            title: title,
-            body: description,
-            assignees: assignees,
-            state: 'open',
-            labels: labels
-        }
-    };
-
-    console.log(issueData);
+    const projectId = 3; // Need to grab somewhere
+    
+    console.log(assignees);
+    console.log(labels);
 
     if(title && description && dueDate && priority) {
         const response = await fetch(`/api/issue/`, {
             method: 'POST',
-            body: JSON.stringify({issueData}),
+            body: JSON.stringify({
+              due_date: dueDate,
+              priority: priority,
+              issueState_id: 1,
+              project_id: projectId,
+              data: {
+                  title: title,
+                  body: description,
+                  state: 'open',
+              }
+            }),
             headers: {
               'Content-Type': 'application/json'
             }

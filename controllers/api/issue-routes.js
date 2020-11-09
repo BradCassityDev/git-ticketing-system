@@ -23,7 +23,7 @@ const includeArray = [
 ];
 
 // Get all /api/issue - /api/issue
-router.get('/', withAuth, (req, res) => {
+router.get('/', (req, res) => {
     Issue.findAll(
         {
             include: includeArray
@@ -39,7 +39,7 @@ router.get('/', withAuth, (req, res) => {
 });
 
 // Get Issue by ID - /api/issue/:id
-router.get('/:id', withAuth, (req, res) => {
+router.get('/:id', (req, res) => {
     Issue.findOne({
         include: includeArray,
         where: {
@@ -65,7 +65,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // Get /api/issue related to Project - /api/issue/project/:id
-router.get('/project/:id', withAuth, (req, res) => {
+router.get('/project/:id', (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
@@ -116,7 +116,7 @@ router.get('/project/:id', withAuth, (req, res) => {
 });
 
 // Get /api/issue assigned to User - /api/issue/user/:id
-router.get('/user/:id', withAuth, (req, res) => {
+router.get('/user/:id', (req, res) => {
     User.findOne({
         where: {
             id: req.params.id
@@ -124,6 +124,7 @@ router.get('/user/:id', withAuth, (req, res) => {
         include: [
             {
                 model: Issue,
+                through: Issue_User,
                 include: [
                     {
                         model: Issue_State,
@@ -156,7 +157,8 @@ router.get('/user/:id', withAuth, (req, res) => {
 });
 
 // Create Issue - /api/issue
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
+    console.log(req.body);
     // Look up project details to grab github_username and github_repo_name
     const projectDetails = await Project.findOne({
         where: {
@@ -177,7 +179,7 @@ router.post('/', withAuth, async (req, res) => {
         });
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
-
+    
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
         due_date: req.body.due_date,

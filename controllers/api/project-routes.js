@@ -27,7 +27,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // Create project - /api/project
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
