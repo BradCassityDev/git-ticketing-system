@@ -312,7 +312,7 @@ var loadTasks = function () {
                 return Response.json();
             }
             else {
-                alert("Error");
+                alert("Error"); // TODO - Don't alert like a weirdo
             }
         })
         .then(userIssues => {
