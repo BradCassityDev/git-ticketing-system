@@ -1,0 +1,63 @@
+<header>
+  {{> navbar}}
+  <h2 class="page-title">Admin Console</h2>
+</header>
+
+<div class="admin-container">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      {{> admin-menu}}
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="float-left">Teams</h4>
+          <button class="btn btn-success float-right" id='create-team-modal-btn' data-toggle="modal" data-target="#create-team-modal">+ Add Team</button>
+        </div>
+      </div>
+      
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+          <!-- Teams Table -->
+          <table class="table">
+            <thead class="thead-light">
+
+            </thead>
+            <tbody>
+                {{!-- {{#each projects as |project|}}
+                <tr>
+                </tr>
+                {{/each}} --}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Team Modal -->
+<div class="modal fade" id="create-team-modal" tabindex="-1" role="dialog" aria-labelledby="create-team-modal" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Team</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-team-form">
+                        <div class="form-group">
+                            <label for="create-team-name">Team Name:</label>
+                            <input type="text" class="form-control" name="create-team-name" id="create-team-name">
+                        </div>
+                        <button type="submit" id="create-team-btn" class="btn btn-primary">Create Team</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
