@@ -5,14 +5,14 @@ const withAuthAdmin = require('../../utils/authAdmin');
 // CREATE
 router.post('/', withAuthAdmin, (req, res) => {
     Team.create({
-      name: req.body.name 
+        name: req.body.name
     })
-      .then(dbTeamData => res.json(dbTeamData))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
+        .then(dbTeamData => res.json(dbTeamData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
 
 // READ
 router.get('/', withAuthAdmin, (req, res) => {
@@ -56,4 +56,4 @@ router.put('/:id', withAuthAdmin, (req, res) => {
         });
 });
 
-  module.exports = router;
+module.exports = router;
