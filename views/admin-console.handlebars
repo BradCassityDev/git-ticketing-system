@@ -1,12 +1,103 @@
-{{> styles}}
-    <header>
-      {{> navbar}}
-      <h2>Welcome To The Admin Console</h2>
-    </header>
-    <main>
-        <p>User Management Center</p>
-        <button><a href="/admin/user">User</a></button>
-        <p>Ticket Management Center</p>
-        <button><a href="/admin/ticket">Tickets</a></button>
-    </main>
-  <script src="js/scripts.js"></script>
+<header>
+  {{> navbar}}
+  <h2 class="page-title">Admin Console</h2>
+</header>
+
+<div class="admin-container">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      {{> admin-menu}}
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="float-left">Projects</h4>
+          <button class="btn btn-success float-right" id='create-project-modal-btn' data-toggle="modal" data-target="#create-project-modal">+ Add Project</button>
+        </div>
+      </div>
+      
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+          <!-- Projects Table -->
+          <table class="table">
+            <thead class="thead-light">
+              <th>ID</th>
+              <th>GitHub Repo</th>
+              <th>GitHub Repo Owner</th>
+              <th></th>
+            </thead>
+            <tbody>
+            {{!-- {{#each projects as |project|}}
+              <tr>
+                <td>{{project.id}}</td>
+                <td>{{project.github_repo_name}}</td>
+                <td>{{project.github_username}}</td>
+                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+            {{/each}} --}}
+              <tr>
+                <td>1</td>
+                <td>customer-relationship-manager</td>
+                <td>RealSuperDev</td>
+                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>email-client</td>
+                <td>RealSuperDev</td>
+                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>professional-softphone</td>
+                <td>RealSuperDev</td>
+                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Project Modal -->
+<div class="modal fade" id="create-project-modal" tabindex="-1" role="dialog" aria-labelledby="create-issue-modal" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Project</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-project-form">
+                        <div class="form-group">
+                            <label for="create-project-name">Name:</label>
+                            <input type="text" class="form-control" name="create-project-name" id="create-project-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="create-project-repo">Related Github Repository:</label>
+                            <input type="text" class="form-control" name="create-project-repo" id="create-project-repo">
+                        </div>
+                        <div class="form-group">
+                            <label for="create-project-repo-owner">Repository Owner Username:</label>
+                            <input type="text" class="form-control" name="create-project-repo-owner" id="create-project-repo-owner">
+                        </div>
+                        <div class="form-group">
+                            <label for="create-project-repo-owner">Repository Owner Username:</label>
+                            <div class="create-project-team-container"></div>
+                        </div>
+                        <button type="submit" id="create-project-btn" class="btn btn-primary">Add Project</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/javascript/create-project.js"></script>

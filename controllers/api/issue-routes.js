@@ -7,15 +7,15 @@ const { sendSMS } = require('../../utils/twilio.js');
 
 const includeArray = [
     {
+        model: Issue_State,
+        attributes: ['name']
+    },
+    {
         model: Project,
         include: {
             model: Project_State,
             attributes: ['name']
         }
-    },
-    {
-        model: Issue_State,
-        attributes: ['name']
     },
     {
         model: User,
@@ -102,7 +102,6 @@ router.get('/project/:id', withAuth, (req, res) => {
                 for (let x = 0; x < githubRepoIssues.length; x++) {
                     // Check if issue numbers match between GitHub and our DB
                     if (githubRepoIssues[x].number === parseInt(issueData.issues[i].dataValues.github_issue_number)) {
-                        console.log('match');
                         issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];
                     }
                 }
@@ -125,6 +124,7 @@ router.get('/user/:id', withAuth, (req, res) => {
         include: [
             {
                 model: Issue,
+                through: Issue_User,
                 include: [
                     {
                         model: Issue_State,
@@ -142,10 +142,60 @@ router.get('/user/:id', withAuth, (req, res) => {
             }
         ]
     })
-        .then(issueData => {
+        .then(async issueData => {
             if (!issueData) {
                 res.status(404).json({ message: 'No /api/issue found with that user id' });
                 return;
+            }
+
+            // Initialize projectsArr to store unique projects
+            let projectsArr = [];
+
+            // Loop through returned issues and lookup associated projects
+            for (let i = 0; i < issueData.issues.length; i++) {
+                let projectObj = {
+                    github_username: issueData.issues[i].project.github_username,
+                    github_repo_name: issueData.issues[i].project.github_repo_name
+                };
+                console.log(projectObj);
+
+                // Check if this repo/username already exists in projectsArr
+                // If so, don't include
+                let uniqueItem = true;
+                if (projectsArr.length > 0) {
+                    for (let x = 0; x < projectsArr.length; x++) {
+                        console.log(projectsArr[x].github_username);
+                        if (projectObj.github_username === projectsArr[x].github_username
+                            && projectObj.github_repo_name === projectsArr[x].github_repo_name) {
+                            uniqueItem = false;
+                        }
+                    }
+                }
+                
+                // Include in new array
+                if (uniqueItem) {
+                    projectsArr.push(projectObj);
+                }
+            } 
+
+            // if projects exist return all issues for each project and map to user issue before reutrning
+            for (let p = 0; p < projectsArr.length; p++) {
+                const githubResults = await getRepoIssues(projectsArr[p].github_username, projectsArr[p].github_repo_name);
+
+                for (let x = 0; x < issueData.issues.length; x++) {
+                    const repoUser = issueData.issues[x].project.github_username;
+                    const repoName = issueData.issues[x].project.github_repo_name;
+                    const issueNum = issueData.issues[x].github_issue_number;
+
+                    const url = `https://api.github.com/repos/${repoUser}/${repoName}/issues/${issueNum}`;
+                    
+                    // Loop and match github issues to our db issues
+                    for (let i = 0; i < githubResults.length; i++) {
+                        if (url == githubResults[i].url) {
+                            issueData.issues[x].dataValues.github_issue_details = githubResults[i];
+                        }
+                    }
+                }
             }
 
             res.json(issueData);
@@ -158,6 +208,9 @@ router.get('/user/:id', withAuth, (req, res) => {
 
 // Create Issue - /api/issue
 router.post('/', withAuth, async (req, res) => {
+    // Assign current user to the assignees going to gethub
+    req.body.data.assignees = [req.session.username];
+  
     // Look up project details to grab github_username and github_repo_name
     const projectDetails = await Project.findOne({
         where: {
@@ -178,15 +231,24 @@ router.post('/', withAuth, async (req, res) => {
         });
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
-
+    
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
         due_date: req.body.due_date,
         priority: req.body.priority,
         github_issue_number: githubResult.number,
-        project_id: req.body.project_id
+        project_id: req.body.project_id,
+        issueState_id: 1,
     })
-        .then(issueData => res.json(issueData))
+        .then(issueData => {
+            // Associated user to the created issue
+            Issue_User.create({
+                user_id: req.session.user_id,
+                issue_id: issueData.id
+            });
+
+            res.json(issueData)
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -194,7 +256,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // Create Issue from Ticket - /api/issue/ticket
-router.post('/ticket', (req, res) => {
+router.post('/ticket', withAuth, (req, res) => {
     // Get needed values from Ticket id
     // Get project ticket will be assigned to from request body
 
