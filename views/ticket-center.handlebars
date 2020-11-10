@@ -22,13 +22,32 @@
           <!-- Ticket Table -->
           <table class="table">
             <thead class="thead-light">
-
+              <th>ID</th>
+              <th>Ticket Title</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Ticket Description</th>
+              <th></th>
             </thead>
             <tbody>
-                {{!-- {{#each tickets}}
+                {{!-- {{#each ticket as |ticket|}}
                 <tr>
+                  td>{{ticket.id}}</td>
+                  <td>{{ticket.title}}</td>
+                  <td>{{ticket.phone}}</td>
+                  <td>{{ticket.email}}</td>
+                  <td>{{ticket.description}}</td>
+                  <td><a href="/admin/ticket/details/" class="btn btn-light">Edit</a></td>
                 </tr>
                 {{/each}} --}}
+                <tr>
+                  <td>1</td>
+                  <td>URGENT Customer Issue</td>
+                  <td>123-456-7890</td>
+                  <td>test@testuser.com</td>
+                  <td>This is the description of the issue</td>
+                  <td><a href="/admin/ticket/details/" class="btn btn-light">Edit</a></td>
+                </tr>
             </tbody>
           </table>
         </div>
