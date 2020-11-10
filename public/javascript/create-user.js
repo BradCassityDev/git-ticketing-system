@@ -23,7 +23,8 @@ async function createUser(event) {
                 username: username,
                 email: email,
                 phone: phone,
-                password: password
+                password: password,
+                user_state_id: 1
             }),
             headers: {
                 'Content-Type': 'application/json'
