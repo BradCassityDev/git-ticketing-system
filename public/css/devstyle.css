@@ -32,12 +32,13 @@ body {
     font-size: 2rem;
   }
   
+  /*
   p,
   li {
     font-size: 1.6rem;
   }
   
-  /* form {
+  form {
     display: flex;
     align-items: flex-end;
     flex-wrap: wrap;
