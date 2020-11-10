@@ -23,12 +23,38 @@
           <!-- Teams Table -->
           <table class="table">
             <thead class="thead-light">
+              <th>ID</th>
+              <th>Username</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>User State</th>
+              <th>Team</th>
+              <th></th>            
             </thead>
             <tbody>
                 {{!-- {{#each projects as |project|}}
                 <tr>
+                  td>{{user.id}}</td>
+                  <td>{{user.username}}</td>
+                  <td>{{user.phone}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.role_id}}</td>
+                  <td>{{user.user_state_id}}</td>
+                  <td>{{user.team_id}}</td>
+                  <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
                 </tr>
                 {{/each}} --}}
+                <tr>
+                  <td>3</td>
+                  <td>heather-everton</td>
+                  <td>555-444-3210</td>
+                  <td>testuser2@test.com</td>
+                  <td>Developer</td>
+                  <td>Active</td>
+                  <td>Team1</td>
+                  <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
+                </tr>
             </tbody>
           </table>
         </div>

@@ -23,13 +23,23 @@
           <!-- Teams Table -->
           <table class="table">
             <thead class="thead-light">
-
+              <th>ID</th>
+              <th>Team Name</th>
+              <th></th>              
             </thead>
             <tbody>
-                {{!-- {{#each projects as |project|}}
+                {{!-- {{#each team as |team|}}
                 <tr>
+                  <td>{{team.id}}</td>
+                  <td>{{team.name}}</td>
+                  <td><a href="/admin/team/details/" class="btn btn-light">Edit</a></td>
                 </tr>
                 {{/each}} --}}
+                <tr>
+                  <td>1</td>
+                  <td>RealSuperDev</td>
+                  <td><a href="/admin/team/details/" class="btn btn-light">Edit</a></td>
+                </tr>
             </tbody>
           </table>
         </div>
