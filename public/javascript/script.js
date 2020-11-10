@@ -78,8 +78,6 @@ const createTaskEl = function (taskDataObj) {
 
     tasks.push(taskDataObj);
 
-    saveTasks();
-
     // increase task counter for next unique id
     taskIdCounter++;
 };
@@ -129,21 +127,21 @@ const taskStatusChangeHandler = function (event) {
     const taskId = event.target.getAttribute("data-task-id");
 
     // get the currently selected option's value and convert to lowercase
-    const statusValue = event.target.value.toLowerCase();
+    const statusValue = event.target.value;
 
     // find the parent task item element based on the id
     const taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 
-    if (statusValue === "opened") {
+    if (statusValue === "Opened") {
         tasksOpenedEl.appendChild(taskSelected);
     }
-    else if (statusValue === "in progress") {
+    else if (statusValue === "In Progress") {
         tasksInProgressEl.appendChild(taskSelected);
     }
-    else if (statusValue === "closed") {
+    else if (statusValue === "Closed") {
         tasksClosedEl.appendChild(taskSelected);
     }
-    else if (statusValue === "blocked") {
+    else if (statusValue === "Blocked") {
         tasksBlockedEl.appendChild(taskSelected);
     }
 
@@ -201,12 +199,12 @@ const dropTaskHandler = function (event) {
     // loop through tasks array to find and update the updated task's status
     for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id === parseInt(id)) {
-            tasks[i].status = statusSelectEl.value.toLowerCase();
+            tasks[i].status = statusSelectEl.value;
             break;
         }
     }
 
-    saveTasks();
+    saveTasks(id);
 };
 
 const dragLeaveHandler = function (event) {
@@ -219,6 +217,8 @@ const dragLeaveHandler = function (event) {
 const saveTasks = function (taskId) {
     // Save updated task information to server
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    updateIssueState(tasks[taskId]);
 };
 
 const loadTasks = function () {
@@ -236,20 +236,31 @@ const loadTasks = function () {
             }
         })
         .then(userIssues => {
+            clearSpinners();
             for (let i = 0; i < userIssues.issues.length; i++) {
                 let newTask = {};
 
-                newTask.id = userIssues.issues[i].id;
+                newTask.id = i;
+                newTask.issue_id = userIssues.issues[i].id;
+                newTask.project_id = userIssues.issues[i].project_id;
                 newTask.github_user_number = userIssues.issues[i].github_issue_number;
                 newTask.title = userIssues.issues[i].github_issue_details.title;
                 newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
                 newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
+                newTask.issue_state_id = userIssues.issues[i].project_id;
                 newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
 
                 createTaskEl(newTask);
             }
         });
 }
+
+const clearSpinners = function () {
+    tasksOpenedEl.innerHTML = '';
+    tasksInProgressEl.innerHTML = '';
+    tasksClosedEl.innerHTML = '';
+    tasksBlockedEl.innerHTML = '';
+};
 
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
