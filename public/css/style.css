@@ -36,7 +36,21 @@
   margin: 0 auto;
   padding: 25px;
 }
-
+#admin-menu-ul {
+  list-style-type: none;
+}
+#admin-menu-ul a {
+  text-decoration: none;
+  color: black;
+}
+.admin-container {
+  width: 100%;
+  padding: 35px 25px;
+}
+.admin-menu-container {
+  padding: 15px;
+  margin-bottom: 30px;
+}
 .client-ticket-container {
   max-width: 500px;
   width: 100%;
