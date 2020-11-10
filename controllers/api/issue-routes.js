@@ -73,6 +73,10 @@ router.get('/project/:id', withAuth, (req, res) => {
         },
         include: [
             {
+                model: Project_State,
+                attributes: ['name']
+            }, 
+            {
                 model: Issue,
                 include: [
                     {
@@ -157,7 +161,6 @@ router.get('/user/:id', withAuth, (req, res) => {
                     github_username: issueData.issues[i].project.github_username,
                     github_repo_name: issueData.issues[i].project.github_repo_name
                 };
-                console.log(projectObj);
 
                 // Check if this repo/username already exists in projectsArr
                 // If so, don't include
@@ -209,7 +212,7 @@ router.get('/user/:id', withAuth, (req, res) => {
 // Create Issue - /api/issue
 router.post('/', withAuth, async (req, res) => {
     // Assign current user to the assignees going to gethub
-    req.body.data.assignees = [req.session.username];
+    req.body.data.assignees = req.session.username;
   
     // Look up project details to grab github_username and github_repo_name
     const projectDetails = await Project.findOne({
@@ -229,6 +232,8 @@ router.post('/', withAuth, async (req, res) => {
             res.status(500).json(err);
             return;
         });
+
+    
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
     
@@ -238,12 +243,12 @@ router.post('/', withAuth, async (req, res) => {
         priority: req.body.priority,
         github_issue_number: githubResult.number,
         project_id: req.body.project_id,
-        issueState_id: 1,
+        issue_state_id: 1,
     })
         .then(issueData => {
             // Associated user to the created issue
             Issue_User.create({
-                user_id: req.session.user_id,
+                user_id: 1,
                 issue_id: issueData.id
             });
 

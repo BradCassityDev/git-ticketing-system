@@ -70,3 +70,10 @@
   max-width: 500px;
   width: 100%;
 }
+
+.light-text {
+  color: #999999;
+}
+.space-below {
+  margin-bottom: 35px;
+}
