@@ -107,6 +107,41 @@ const issueData = [
     github_issue_number: 1,
     issue_state_id: 1,
     project_id: 3
+  },
+  {
+    due_date: '11-18-2020',
+    priority: 'Low',
+    github_issue_number: 2,
+    issue_state_id: 1,
+    project_id: 1
+  },
+  {
+    due_date: '11-18-2020',
+    priority: 'Low',
+    github_issue_number: 3,
+    issue_state_id: 1,
+    project_id: 1
+  },
+  {
+    due_date: '11-18-2020',
+    priority: 'Low',
+    github_issue_number: 4,
+    issue_state_id: 1,
+    project_id: 1
+  },
+  {
+    due_date: '11-16-2020',
+    priority: 'Medium',
+    github_issue_number: 2,
+    issue_state_id: 1,
+    project_id: 2
+  },
+  {
+    due_date: '11-16-2020',
+    priority: 'Medium',
+    github_issue_number: 3,
+    issue_state_id: 1,
+    project_id: 2
   }
 ]
 
@@ -121,6 +156,26 @@ const issueUserData = [
   },
   {
     issue_id: 3,
+    user_id: 4
+  },
+  {
+    issue_id: 4,
+    user_id: 2
+  },
+  {
+    issue_id: 5,
+    user_id: 3
+  },
+  {
+    issue_id: 6,
+    user_id: 5
+  },
+  {
+    issue_id: 7,
+    user_id: 2
+  },
+  {
+    issue_id: 8,
     user_id: 4
   }
 ]
