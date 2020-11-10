@@ -19,12 +19,89 @@
     
     <a href='/admin'><< Manage Projects</a>
 
-    <div class="row">
+    <div class="admin-container">
+      <div class="row">
         <div class="col-12">
           <!-- Project Details -->
+          <div class="row">
+            <div class="col-12">
+              <h5 class="float-left">{{project.name}} - {{project.project_state.name}}</h5>
+              <button id="save-project-changes" class="btn btn-success float-right">Save Changes</butotn>
+            </div>
+          </div>
           
+          <hr>
+
+            <p class="light-text">ID: {{project.id}}</p>
+            <p class="light-text">URL: <a href="https://github.com/{{project.github_username}}/{{project.github_repo_name}}" target="_blank">https://github.com/{{project.github_username}}/{{project.github_repo_name}}</a></p>
+            <p class="light-text">Created: {{project.createdAt}}</p>
+          
+          <form class="space-below">
+            <div class="form-group">
+              <label for="project-name">Project Name:</label>
+              <input type="text" class="form-control" name="project-name" id="project-name" value="{{project.name}}">
+            </div>
+            <div class="form-group">
+              <label for="project-github-repo">GitHub Repository:</label>
+              <input type="text" class="form-control" name="project-github-repo" id="project-github-repo" value="{{project.github_repo_name}}">
+            </div>
+            <div class="form-group">
+              <label for="project-github-owner">GitHub Repository Owner:</label>
+              <input type="text" class="form-control" name="project-github-owner" id="project-github-owner" value="{{project.github_username}}">
+            </div>
+            <div class="form-group">
+              <label for="project-state">Project State:</label>
+              <select class="form-control" name="project-state" id="project-state">
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="project-team">Assigned Team:</label>
+              <div id="team-dropdown-container" data-team-id="{{project.team_id}}">
+              </div>
+            </div>
+          </form>
+
+
+          <!-- Associated Issues --> 
+          <div class="row">
+            <div class="col-12">
+              <h5 class="float-left">Associated Issues</h5>
+            </div>
+          </div>
+          
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>State</th>
+                <th>Due Date</th>
+                <th>GitHub URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each project.issues as |issue|}}
+              <tr>
+                <td>{{issue.id}}</td>
+                <td>{{issue.github_issue_details.title}}</td>
+                <td>{{issue.priority}}</td>
+                <td>{{issue.}}</td>
+                <td>{{issue.due_date}}</td>
+                <td><a href="{{issue.github_issue_details.html_url}}" target="_blank">GitHub Issue</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script src="/javascript/project-details.js"></script>

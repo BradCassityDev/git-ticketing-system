@@ -24,37 +24,21 @@
           <table class="table">
             <thead class="thead-light">
               <th>ID</th>
+              <th>Project Name</th>
               <th>GitHub Repo</th>
               <th>GitHub Repo Owner</th>
               <th></th>
             </thead>
             <tbody>
-            {{!-- {{#each projects as |project|}}
+            {{#each projects as |project|}}
               <tr>
                 <td>{{project.id}}</td>
+                <td>{{project.name}}</td>
                 <td>{{project.github_repo_name}}</td>
                 <td>{{project.github_username}}</td>
-                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
+                <td><a href="/admin/project/{{project.id}}" class="btn btn-light">Edit</a></td>
               </tr>
-            {{/each}} --}}
-              <tr>
-                <td>1</td>
-                <td>customer-relationship-manager</td>
-                <td>RealSuperDev</td>
-                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>email-client</td>
-                <td>RealSuperDev</td>
-                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>professional-softphone</td>
-                <td>RealSuperDev</td>
-                <td><a href="/admin/project/details/" class="btn btn-light">Edit</a></td>
-              </tr>
+            {{/each}}
             </tbody>
           </table>
         </div>
@@ -86,10 +70,6 @@
                         <div class="form-group">
                             <label for="create-project-repo-owner">Repository Owner Username:</label>
                             <input type="text" class="form-control" name="create-project-repo-owner" id="create-project-repo-owner">
-                        </div>
-                        <div class="form-group">
-                            <label for="create-project-repo-owner">Repository Owner Username:</label>
-                            <div class="create-project-team-container"></div>
                         </div>
                         <button type="submit" id="create-project-btn" class="btn btn-primary">Add Project</button>
                     </form>

@@ -1,13 +1,20 @@
 const router = require('express').Router();
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket } = require('../../models/index');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
+const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 
 // Admin - /admin
 router.get('/', (req, res) => {
-    Project.findAll()
-        .then(projectData => {
+    Project.findAll({
+        include: [
+            {
+                model: Project_State,
+                attributes: ['name']
+            }
+        ]
+    })
+        .then(projectData => { 
             const projects = projectData.map(project => project.get({ plain: true }));
-            console.log(projectData);
-            res.render('admin-console', { projects });
+            res.render('admin-console', {projects});
         })
         .catch(err => {
             console.log(err);
@@ -17,9 +24,53 @@ router.get('/', (req, res) => {
 
 // Admin Project Details - /admin/project/:id
 router.get('/project/:id', (req, res) => {
-    Project.findOne()
-        .then(projectData => {
-            res.render('project-details');
+
+    Project.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Project_State,
+                attributes: ['name']
+            },  
+            {
+                model: Issue,
+                include: [
+                    {
+                        model: Issue_State,
+                        attributes: ['name']
+                    },
+                    {
+                        model: User,
+                        attributes: ['id', 'username', 'email', 'phone']
+                    }
+                ]
+            }
+        ]
+    })
+        .then(async issueData => {
+            if (!issueData) {
+                res.status(404).json({ message: 'No issues found by this project id' });
+                return;
+            }
+
+            // return all GitHub issues for this repository
+            const githubRepoIssues = await getRepoIssues(issueData.github_username, issueData.github_repo_name);
+
+            // Map GitHub issues with our db issues
+            for (let i = 0; i < issueData.issues.length; i++) {
+                // Loop through GitHub repo issues and include in DB issues
+                for (let x = 0; x < githubRepoIssues.length; x++) {
+                    // Check if issue numbers match between GitHub and our DB
+                    if (githubRepoIssues[x].number === parseInt(issueData.issues[i].dataValues.github_issue_number)) {
+                        issueData.issues[i].dataValues.github_issue_details = githubRepoIssues[x];
+                    }
+                }
+            }
+            
+            const project = issueData.get({ plain: true });
+            res.render('project-details', {project});
         })
         .catch(err => {
             console.log(err);

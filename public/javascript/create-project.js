@@ -4,7 +4,6 @@ function clearCreateProjectForm() {
     document.getElementById('create-project-name').value = '';
     document.getElementById('create-project-repo').value = '';
     document.getElementById('create-project-repo-owner').value = '';
-    document.getElementById('create-project-team').value = ''; 
 }
   
 // Create new issue handler
@@ -15,10 +14,9 @@ async function createProject(event) {
     const name = document.getElementById('create-project-name').value;
     const github_repo_name = document.getElementById('create-project-repo').value;
     const github_username = document.getElementById('create-project-repo-owner').value;
-    const team_id = document.getElementById('create-project-team').value; 
 
     // check if minimum values are provided
-    if(name && github_repo_name && github_username && team_id) {
+    if(name && github_repo_name && github_username) {
 
         // Post data to /api/project/ route
         const response = await fetch(`/api/project/`, {
@@ -26,8 +24,7 @@ async function createProject(event) {
             body: JSON.stringify({
                 name: name,
                 github_repo_name: github_repo_name,
-                github_username: github_username,
-                team_id: team_id
+                github_username: github_username
             }),
             headers: {
             'Content-Type': 'application/json'
@@ -35,7 +32,7 @@ async function createProject(event) {
         });
         
         if (response.ok) {
-            console.log(response);
+            document.location.reload();
         } else {
             alert(response.statusText);
         }
