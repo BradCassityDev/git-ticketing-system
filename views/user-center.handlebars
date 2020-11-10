@@ -12,15 +12,16 @@
       <div class="row">
         <div class="col-12">
           <h4 class="float-left">Users</h4>
-          <button class="btn btn-success float-right" id='create-user-modal-btn' data-toggle="modal" data-target="#create-user-modal">+ Add User</button>
+          <button class="btn btn-success float-right" id='create-user-modal-btn' data-toggle="modal"
+            data-target="#create-user-modal">+ Add User</button>
         </div>
       </div>
-      
-    <hr>
 
-    <div class="row">
+      <hr>
+
+      <div class="row">
         <div class="col-12">
-          <!-- Teams Table -->
+          <!-- Users Table -->
           <table class="table">
             <thead class="thead-light">
               <th>ID</th>
@@ -28,27 +29,27 @@
               <th>Role</th>
               <th>User State</th>
               <th>Team</th>
-              <th></th>            
+              <th></th>
             </thead>
             <tbody>
-                {{!-- {{#each user as |user|}}
-                <tr>
-                  td>{{user.id}}</td>
-                  <td>{{user.username}}</td>
-                  <td>{{user.role_id}}</td>
-                  <td>{{user.user_state_id}}</td>
-                  <td>{{user.team_id}}</td>
-                  <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
-                </tr>
-                {{/each}} --}}
-                <tr>
-                  <td>3</td>
-                  <td>heather-everton</td>
-                  <td>Developer</td>
-                  <td>Active</td>
-                  <td>Team1</td>
-                  <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
-                </tr>
+              {{#each users as |user|}}
+              <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.role.name}}</td>
+                <td>{{user.user_state.name}}</td>
+                <td>{{user.team.name}}</td>
+                <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+              {{/each}}
+              <tr>
+                <td>3</td>
+                <td>heather-everton</td>
+                <td>Developer</td>
+                <td>Active</td>
+                <td>Team1</td>
+                <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -59,38 +60,40 @@
 
 
 <!-- Create User Modal -->
-<div class="modal fade" id="create-user-modal" tabindex="-1" role="dialog" aria-labelledby="create-user-modal" aria-hidden="true">
-    <div class="vertical-alignment-helper">
-        <div class="modal-dialog vertical-align-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Create User</h4>
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                </div>
-                <div class="modal-body">
-                    <form id="create-user-form">
-                        <div class="form-group">
-                            <label for="create-user-username">Username:</label>
-                            <input type="text" class="form-control" name="create-user-username" id="create-user-username">
-                        </div>
-                        <div class="form-group">
-                            <label for="create-user-email">Email:</label>
-                            <input type="text" class="form-control" name="create-user-email" id="create-user-email">
-                        </div>
-                        <div class="form-group">
-                            <label for="create-user-phone">Phone:</label>
-                            <input type="text" class="form-control" name="create-user-phone" id="create-user-phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="create-user-password">Password:</label>
-                            <input type="text" class="form-control" name="create-user-password" id="create-user-password">
-                        </div>
-                        <button type="submit" id="create-user-btn" class="btn btn-primary">Create User</button>
-                    </form>
-                </div>
-            </div>
+<div class="modal fade" id="create-user-modal" tabindex="-1" role="dialog" aria-labelledby="create-user-modal"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create User</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
         </div>
+        <div class="modal-body">
+          <form id="create-user-form">
+            <div class="form-group">
+              <label for="create-user-username">Username:</label>
+              <input type="text" class="form-control" name="create-user-username" id="create-user-username">
+            </div>
+            <div class="form-group">
+              <label for="create-user-email">Email:</label>
+              <input type="text" class="form-control" name="create-user-email" id="create-user-email">
+            </div>
+            <div class="form-group">
+              <label for="create-user-phone">Phone:</label>
+              <input type="text" class="form-control" name="create-user-phone" id="create-user-phone">
+            </div>
+            <div class="form-group">
+              <label for="create-user-password">Password:</label>
+              <input type="text" class="form-control" name="create-user-password" id="create-user-password">
+            </div>
+            <button type="submit" id="create-user-btn" class="btn btn-primary">Create User</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 

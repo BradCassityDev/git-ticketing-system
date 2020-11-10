@@ -11,7 +11,8 @@ const userData = [
     phone: '18015556677',
     password: adminPassword,
     role_id: 1,
-    user_state_id: 1
+    user_state_id: 1,
+    team_id: 1
   },
   {
     username: 'BradCassityDev',
@@ -19,7 +20,8 @@ const userData = [
     phone: '18012223344',
     password: adminPassword,
     role_id: 1,
-    user_state_id: 1
+    user_state_id: 1,
+    team_id: 1
   },
   {
     username: 'jesseparent',
@@ -27,7 +29,8 @@ const userData = [
     phone: '18015604507',
     password: adminPassword,
     role_id: 1,
-    user_state_id: 1
+    user_state_id: 1,
+    team_id: 1
   },
   {
     username: 'jrogerson20',
@@ -35,7 +38,8 @@ const userData = [
     phone: '18011112233',
     password: adminPassword,
     role_id: 1,
-    user_state_id: 1
+    user_state_id: 1,
+    team_id: 1
   },
   {
     username: 'LaurieGraff',
@@ -43,7 +47,8 @@ const userData = [
     phone: '18019998855',
     password: adminPassword,
     role_id: 1,
-    user_state_id: 1
+    user_state_id: 1,
+    team_id: 1
   }
 ];
 
