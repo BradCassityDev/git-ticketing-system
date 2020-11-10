@@ -12,34 +12,30 @@
       <div class="row">
         <div class="col-12">
           <h4 class="float-left">Teams</h4>
-          <button class="btn btn-success float-right" id='create-team-modal-btn' data-toggle="modal" data-target="#create-team-modal">+ Add Team</button>
+          <button class="btn btn-success float-right" id='create-team-modal-btn' data-toggle="modal"
+            data-target="#create-team-modal">+ Add Team</button>
         </div>
       </div>
-      
-    <hr>
 
-    <div class="row">
+      <hr>
+
+      <div class="row">
         <div class="col-12">
           <!-- Teams Table -->
           <table class="table">
             <thead class="thead-light">
               <th>ID</th>
               <th>Team Name</th>
-              <th></th>              
+              <th></th>
             </thead>
             <tbody>
-                {{!-- {{#each team as |team|}}
-                <tr>
-                  <td>{{team.id}}</td>
-                  <td>{{team.name}}</td>
-                  <td><a href="/admin/team/details/" class="btn btn-light">Edit</a></td>
-                </tr>
-                {{/each}} --}}
-                <tr>
-                  <td>1</td>
-                  <td>RealSuperDev</td>
-                  <td><a href="/admin/team/details/" class="btn btn-light">Edit</a></td>
-                </tr>
+              {{#each teams as |team|}}
+              <tr>
+                <td>{{team.id}}</td>
+                <td>{{team.name}}</td>
+                <td><a href="/admin/team/details/" class="btn btn-light">Edit</a></td>
+              </tr>
+              {{/each}}
             </tbody>
           </table>
         </div>
@@ -50,26 +46,28 @@
 
 
 <!-- Create Team Modal -->
-<div class="modal fade" id="create-team-modal" tabindex="-1" role="dialog" aria-labelledby="create-team-modal" aria-hidden="true">
-    <div class="vertical-alignment-helper">
-        <div class="modal-dialog vertical-align-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Create Team</h4>
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                </div>
-                <div class="modal-body">
-                    <form id="create-team-form">
-                        <div class="form-group">
-                            <label for="create-team-name">Team Name:</label>
-                            <input type="text" class="form-control" name="create-team-name" id="create-team-name">
-                        </div>
-                        <button type="submit" id="create-team-btn" class="btn btn-primary">Create Team</button>
-                    </form>
-                </div>
-            </div>
+<div class="modal fade" id="create-team-modal" tabindex="-1" role="dialog" aria-labelledby="create-team-modal"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create Team</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
         </div>
+        <div class="modal-body">
+          <form id="create-team-form">
+            <div class="form-group">
+              <label for="create-team-name">Team Name:</label>
+              <input type="text" class="form-control" name="create-team-name" id="create-team-name">
+            </div>
+            <button type="submit" id="create-team-btn" class="btn btn-primary">Create Team</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script src="/javascript/create-team.js"></script>
