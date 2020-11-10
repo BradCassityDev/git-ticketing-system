@@ -17,19 +17,19 @@
 
     <section class="task-list-wrapper">
         <h2 class="list-title">Opened</h2>
-        <ul class="task-list bg-danger" id="tasks-opened"></ul>
+        <ul class="task-list bg-danger" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">In Progress</h2>
-        <ul class="task-list bg-warning" id="tasks-in-progress"></ul>
+        <ul class="task-list bg-warning" id="tasks-in-progress"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">Closed</h2>
-        <ul class="task-list bg-success" id="tasks-closed"></ul>
+        <ul class="task-list bg-success" id="tasks-closed"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">Blocked</h2>
-        <ul class="task-list bg-dark" id="tasks-blocked"></ul>
+        <ul class="task-list bg-dark" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
 </main>
 
@@ -86,10 +86,8 @@
     </div>
 </div>
 
-
-{{!-- <script src="./javascript/script.js"></script> --}}
-<script src="/javascript/create-issue.js"></script>
-
 </footer>
+<script src="/javascript/create-issue.js"></script>
+<script src="/javascript/update-issue.js"></script>
 <script>const userID = {{ userId }}</script>
 <script src="./javascript/script.js"></script>

@@ -171,12 +171,12 @@ router.get('/user/:id', withAuth, (req, res) => {
                         }
                     }
                 }
-                
+
                 // Include in new array
                 if (uniqueItem) {
                     projectsArr.push(projectObj);
                 }
-            } 
+            }
 
             // if projects exist return all issues for each project and map to user issue before reutrning
             for (let p = 0; p < projectsArr.length; p++) {
@@ -188,7 +188,7 @@ router.get('/user/:id', withAuth, (req, res) => {
                     const issueNum = issueData.issues[x].github_issue_number;
 
                     const url = `https://api.github.com/repos/${repoUser}/${repoName}/issues/${issueNum}`;
-                    
+
                     // Loop and match github issues to our db issues
                     for (let i = 0; i < githubResults.length; i++) {
                         if (url == githubResults[i].url) {
@@ -210,7 +210,7 @@ router.get('/user/:id', withAuth, (req, res) => {
 router.post('/', withAuth, async (req, res) => {
     // Assign current user to the assignees going to gethub
     req.body.data.assignees = [req.session.username];
-  
+
     // Look up project details to grab github_username and github_repo_name
     const projectDetails = await Project.findOne({
         where: {
@@ -231,7 +231,7 @@ router.post('/', withAuth, async (req, res) => {
         });
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
-    
+
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
         due_date: req.body.due_date,
@@ -368,8 +368,7 @@ router.put('/:id', withAuth, async (req, res) => {
                 res.status(404).json({ message: 'No issue found with this id' });
                 return;
             }
-            console.log("=-=-=-=-=--=Issue Data=-=-=-=-=-=-=-");
-            console.log(issueData);
+
             // If issue is being closed, notify anyone who may have opened a ticket related to this issue
             if (closingIssue) {
                 Ticket.findAll({

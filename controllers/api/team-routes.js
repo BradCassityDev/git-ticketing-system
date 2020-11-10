@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Team } = require('../../models');
+const withAdmin = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
 
 // CREATE
@@ -15,7 +16,7 @@ router.post('/', withAuthAdmin, (req, res) => {
 });
 
 // READ
-router.get('/', withAuthAdmin, (req, res) => {
+router.get('/', withAdmin, (req, res) => {
     Team.findAll()
         .then(dbTeamData => res.json(dbTeamData))
         .catch(err => {
@@ -24,7 +25,7 @@ router.get('/', withAuthAdmin, (req, res) => {
         });
 });
 
-router.get('/:id', withAuthAdmin, (req, res) => {
+router.get('/:id', withAdmin, (req, res) => {
     Team.findOne({
         where: {
             id: req.params.id
