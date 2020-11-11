@@ -39,17 +39,9 @@
                 <td>{{user.role.name}}</td>
                 <td>{{user.user_state.name}}</td>
                 <td>{{user.team.name}}</td>
-                <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
+                <td><a href="/admin/user/{{user.id}}" class="btn btn-light">Edit</a></td>
               </tr>
               {{/each}}
-              <tr>
-                <td>3</td>
-                <td>heather-everton</td>
-                <td>Developer</td>
-                <td>Active</td>
-                <td>Team1</td>
-                <td><a href="/admin/user/details/" class="btn btn-light">Edit</a></td>
-              </tr>
             </tbody>
           </table>
         </div>

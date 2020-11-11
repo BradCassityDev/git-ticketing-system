@@ -148,7 +148,37 @@ router.get('/user', withAdminAuth, (req, res) => {
 
 // Admin User Details - /admin/user/:id
 router.get('/user/:id', withAdminAuth, (req, res) => {
-    res.render('user-details', { loggedIn: req.session.loggedIn });
+    User.findOne(
+        { 
+            where: {
+            id: req.params.id
+            },
+            include: [
+                {
+                    model: Team,
+                    attributes: ['name']
+                },
+                {
+                    model: User_State,
+                    attributes: ['name']
+                },
+                {
+                    model: Role,
+                    attributes: ['name']
+                },
+            ]
+        }
+    )
+        .then(userData => {
+            // const users = userData.map(user => user.get({ plain: true }));
+            const user = userData.get({ plain: true });
+
+            res.render('user-details', { user, loggedIn: req.session.loggedIn });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Admin Team Management - /admin/team
