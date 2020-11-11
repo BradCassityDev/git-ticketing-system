@@ -222,37 +222,42 @@ const saveTasks = function (taskId) {
 };
 
 const loadTasks = function () {
-    // Gets task items from server
-    fetch(`/api/issue/user/${userID}`, { // User ID is set by server on rendered HTML
-        method: 'get',
-        headers: { 'Content-Type': 'application/json' }
-    })
-        .then(function (Response) {
-            if (Response.ok) {
-                return Response.json();
-            }
-            else {
-                alert("Error"); // TODO - Don't alert like a weirdo
-            }
+    if (userID) {
+        // Gets task items from server
+        fetch(`/api/issue/user/${userID}`, { // User ID is set by server on rendered HTML
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
         })
-        .then(userIssues => {
-            clearSpinners();
-            for (let i = 0; i < userIssues.issues.length; i++) {
-                let newTask = {};
+            .then(function (Response) {
+                if (Response.ok) {
+                    return Response.json();
+                }
+                else {
+                    alert("Error"); // TODO - Don't alert like a weirdo
+                }
+            })
+            .then(userIssues => {
+                clearSpinners();
+                for (let i = 0; i < userIssues.issues.length; i++) {
+                    let newTask = {};
 
-                newTask.id = i;
-                newTask.issue_id = userIssues.issues[i].id;
-                newTask.project_id = userIssues.issues[i].project_id;
-                newTask.github_user_number = userIssues.issues[i].github_issue_number;
-                newTask.title = userIssues.issues[i].github_issue_details.title;
-                newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
-                newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
-                newTask.issue_state_id = userIssues.issues[i].project_id;
-                newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
+                    newTask.id = i;
+                    newTask.issue_id = userIssues.issues[i].id;
+                    newTask.project_id = userIssues.issues[i].project_id;
+                    newTask.github_user_number = userIssues.issues[i].github_issue_number;
+                    newTask.title = userIssues.issues[i].github_issue_details.title;
+                    newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
+                    newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
+                    newTask.issue_state_id = userIssues.issues[i].project_id;
+                    newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
 
-                createTaskEl(newTask);
-            }
-        });
+                    createTaskEl(newTask);
+                }
+            });
+    }
+    else {
+        clearSpinners();
+    }
 }
 
 const clearSpinners = function () {

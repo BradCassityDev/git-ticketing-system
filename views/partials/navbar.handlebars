@@ -1,35 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">  
-    <a class="navbar-brand" href="/dashboard">Git Ticketing System</a>  
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">    
-        <span class="navbar-toggler-icon"></span>  
-    </button>  
-    <div class="collapse navbar-collapse" id="navbarText">    
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Git Ticketing System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
         {{#if true}}
-        <ul class="navbar-nav mr-auto">     
-            <li class="nav-item">        
-                <a class="nav-link" href="/dashboard">Dashboard</a>      
-            </li>      
-            <li class="nav-item">        
-                <a class="nav-link" href="/admin">Admin</a>     
-                    </li>    
-        </ul>  
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+        </ul>
         {{else}}
-        <ul class="navbar-nav mr-auto">     
-            <li class="nav-item">        
-                <a class="nav-link" href="/">Home</a>      
-            </li>   
-            <li class="nav-item">        
-                <a class="nav-link" href="/ticket">Submit Ticket</a>      
-            </li> 
-        </ul>  
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/ticket">Submit Ticket</a>
+            </li>
+        </ul>
         {{/if}}
 
-        <span class="navbar-text">     
-            {{#if true}} 
-            <a href='/login'>Logout</a>  
-            {{else}}  
-            <a href='/login'>Login</a>  
+        <span class="navbar-text">
+            {{#if loggedIn}}
+            <a href='#' id="logout">Logout</a>
+            {{else}}
+            <a href='/login'>Login</a>
             {{/if}}
-        </span>  
+        </span>
     </div>
 </nav>
