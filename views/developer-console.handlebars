@@ -86,6 +86,58 @@
     </div>
 </div>
 
+<!-- Edit Issue Modal -->
+<div class="modal fade" id="edit-issue-modal" tabindex="-1" role="dialog" aria-labelledby="edit-issue-modal"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Issue</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-issue-form">
+                        <div class="form-group">
+                            <label for="project-dropdown">Related Project:</label>
+                            <div id="project-dropdown-container"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-title">Issue Title:</label>
+                            <input type="text" name="edit-issue-title" id="edit-issue-title" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-duedate">Due Date:</label>
+                            <input type="date" name="edit-issue-duedate" id="edit-issue-duedate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-priority">Priority:</label>
+                            <select name="edit-issue-priority" id="edit-issue-priority" class="form-control">
+                                <option value="Low" selected>Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-labels">Labels:</label>
+                            <select name="edit-issue-labels" id="edit-issue-labels" class="form-control">
+                                <option value="Bug" selected>Bug</option>
+                                <option value="Feature">Feature</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-body">Description:</label>
+                            <textarea name="edit-issue-body" id="edit-issue-body" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" id="edit-issue-btn" class="btn btn-primary">Edit Issue</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </footer>
 <script src="/javascript/create-issue.js"></script>
 <script src="/javascript/update-issue.js"></script>

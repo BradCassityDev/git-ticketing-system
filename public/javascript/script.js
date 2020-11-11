@@ -86,6 +86,14 @@ const createTaskActions = function (taskId) {
     let actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
 
+    // create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(editButtonEl);
+
     let statusSelectEl = document.createElement("select");
     statusSelectEl.className = "select-status";
     statusSelectEl.setAttribute("name", "status-change");
@@ -247,6 +255,9 @@ const loadTasks = function () {
                     newTask.github_user_number = userIssues.issues[i].github_issue_number;
                     newTask.title = userIssues.issues[i].github_issue_details.title;
                     newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
+                    newTask.due_date = userIssues.issues[i].due_date;
+                    newTask.priority = userIssues.issues[i].priority;
+                    //newTask.userId = userIssues.issues[i].issue_user.user_id; // TODO: need to handle null user
                     newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
                     newTask.issue_state_id = userIssues.issues[i].project_id;
                     newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
