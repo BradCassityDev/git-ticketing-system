@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket } = require('../../models/index');
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 
 // Admin - /admin
