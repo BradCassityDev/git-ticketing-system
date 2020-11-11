@@ -147,6 +147,20 @@ const issueData = [
     github_issue_number: 3,
     issue_state_id: 1,
     project_id: 2
+  },
+  {
+    due_date: '11-06-2020',
+    priority: 'Medium',
+    github_issue_number: 4,
+    issue_state_id: 1,
+    project_id: 2
+  },
+  {
+    due_date: '12-06-2020',
+    priority: 'Low',
+    github_issue_number: 2,
+    issue_state_id: 1,
+    project_id: 3
   }
 ]
 
@@ -182,6 +196,14 @@ const issueUserData = [
   {
     issue_id: 8,
     user_id: 4
+  },
+  {
+    issue_id: 9,
+    user_id: 6
+  },
+  {
+    issue_id: 10,
+    user_id: 6
   }
 ]
 
