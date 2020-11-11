@@ -95,7 +95,24 @@ router.get('/ticket', withAdminAuth, (req, res) => {
 
 // Admin Ticket Details - /admin/ticket/:id
 router.get('/ticket/:id', withAdminAuth, (req, res) => {
-    res.render('ticket-details', { loggedIn: req.session.loggedIn });
+    Ticket.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(ticketData => {
+            if (!ticketData) {
+                res.status(404).json({ message: 'unable to find a ticket by that id' });
+                return;
+            }
+
+            const ticket = ticketData.get({ plain: true });
+            res.render('ticket-details', { ticket, loggedIn: req.session.loggedIn });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Admin User Management - /admin/user

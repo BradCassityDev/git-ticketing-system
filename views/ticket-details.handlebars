@@ -11,7 +11,7 @@
     <div class="col-12 col-md-9">
       <div class="row">
         <div class="col-12">
-          <h4 class="float-left">Tickets</h4>
+          <h4 class="float-left">Ticket Details</h4>
         </div>
       </div>
       
@@ -23,8 +23,36 @@
         <div class="col-12">
           <!-- Ticket Details -->
           
+          <div class="card ticket-card">
+            <div class="card-header">
+              <h4>#{{ticket.id}} - {{ticket.title}}</h4>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <h5 class="card-title bold">Client Phone</h5>
+                  <p class="card-text">{{ticket.phone}}</p>
+                </li>
+                <li class="list-group-item">
+                  <h5 class="card-title">Client Email</h5>
+                  <p class="card-text">{{ticket.email}}</p>
+                </li>
+                <li class="list-group-item">
+                  <h5 class="card-title">Description</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </li>
+              </ul>
+              
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Convert to issue</a>
+              <a href="#" class="btn btn-secondary">Assign to prevoius issue</a>
+              <a href="#" class="btn btn-danger">Delete Ticket</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
