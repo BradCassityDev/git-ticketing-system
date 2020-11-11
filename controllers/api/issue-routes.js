@@ -167,7 +167,6 @@ router.get('/user/:id', withAuth, (req, res) => {
                 let uniqueItem = true;
                 if (projectsArr.length > 0) {
                     for (let x = 0; x < projectsArr.length; x++) {
-                        console.log(projectsArr[x].github_username);
                         if (projectObj.github_username === projectsArr[x].github_username
                             && projectObj.github_repo_name === projectsArr[x].github_repo_name) {
                             uniqueItem = false;
@@ -233,11 +232,9 @@ router.post('/', withAuth, async (req, res) => {
             return;
         });
 
-    console.log("-=-=-=-=-=- calling github =-=-=-=-=-=-=");
-    console.log(projectDetails.github_username + '--\n' + projectDetails.github_repo_name + '--\n' + req.body.data);
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
-    console.log("-=-=-=-=-=- out of github =-=-=-=-=-=-=");
+
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
         due_date: req.body.due_date,
@@ -247,9 +244,9 @@ router.post('/', withAuth, async (req, res) => {
         issue_state_id: 1,
     })
         .then(issueData => {
-            // Associated user to the created issue
+            // Logged in user to the created issue
             Issue_User.create({
-                user_id: 1,
+                user_id: req.session.user_id,
                 issue_id: issueData.id
             });
 
