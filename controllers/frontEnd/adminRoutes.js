@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket } = require('../../models/index');
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const withAdminAuth = require('../../utils/authAdmin');
 
 // Admin - /admin
-router.get('/', (req, res) => {
+router.get('/', withAdminAuth, (req, res) => {
     Project.findAll({
         include: [
             {
@@ -23,7 +24,7 @@ router.get('/', (req, res) => {
 });
 
 // Admin Project Details - /admin/project/:id
-router.get('/project/:id', (req, res) => {
+router.get('/project/:id', withAdminAuth, (req, res) => {
 
     Project.findOne({
         where: {
