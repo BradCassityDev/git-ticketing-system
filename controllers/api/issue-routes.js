@@ -75,7 +75,7 @@ router.get('/project/:id', withAuth, (req, res) => {
             {
                 model: Project_State,
                 attributes: ['name']
-            }, 
+            },
             {
                 model: Issue,
                 include: [
@@ -233,10 +233,11 @@ router.post('/', withAuth, async (req, res) => {
             return;
         });
 
-    
+    console.log("-=-=-=-=-=- calling github =-=-=-=-=-=-=");
+    console.log(projectDetails.github_username + '--\n' + projectDetails.github_repo_name + '--\n' + req.body.data);
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
-
+    console.log("-=-=-=-=-=- out of github =-=-=-=-=-=-=");
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
         due_date: req.body.due_date,
