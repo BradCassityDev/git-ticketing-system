@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { Issue, Project, Team, Project_State } = require('../../models');
-const withAdmin = require('../../utils/auth');
+const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
 
 // GET all projects - /api/project
-router.get('/', withAuthAdmin, (req, res) => {
+router.get('/', withAuth, (req, res) => {
     Project.findAll({
         include: [
             {
@@ -24,7 +24,7 @@ router.get('/', withAuthAdmin, (req, res) => {
 });
 
 // Get single project - /api/project/:id
-router.get('/:id', withAdmin, (req, res) => {
+router.get('/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
