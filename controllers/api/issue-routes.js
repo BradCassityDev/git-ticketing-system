@@ -75,7 +75,7 @@ router.get('/project/:id', withAuth, (req, res) => {
             {
                 model: Project_State,
                 attributes: ['name']
-            }, 
+            },
             {
                 model: Issue,
                 include: [
@@ -167,7 +167,6 @@ router.get('/user/:id', withAuth, (req, res) => {
                 let uniqueItem = true;
                 if (projectsArr.length > 0) {
                     for (let x = 0; x < projectsArr.length; x++) {
-                        console.log(projectsArr[x].github_username);
                         if (projectObj.github_username === projectsArr[x].github_username
                             && projectObj.github_repo_name === projectsArr[x].github_repo_name) {
                             uniqueItem = false;
@@ -233,7 +232,6 @@ router.post('/', withAuth, async (req, res) => {
             return;
         });
 
-    
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
 
@@ -246,9 +244,9 @@ router.post('/', withAuth, async (req, res) => {
         issue_state_id: 1,
     })
         .then(issueData => {
-            // Associated user to the created issue
+            // Logged in user to the created issue
             Issue_User.create({
-                user_id: 1,
+                user_id: req.session.user_id,
                 issue_id: issueData.id
             });
 
