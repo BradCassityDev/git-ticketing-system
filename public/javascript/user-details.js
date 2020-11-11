@@ -54,7 +54,6 @@ function getTeamsForDropdown() {
 
 // Update User Details Handler 
 async function updateUserDetails(event) {
-   console.log("running updateUserDetails fucntion")
     event.preventDefault();
 
     const id = window.location.toString().split('/')[
@@ -90,7 +89,6 @@ async function updateUserDetails(event) {
     })
     
     if (response.ok) {
-        console.log(response)
         document.location.reload();
     } else {
         alert('response.status');

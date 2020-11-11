@@ -100,7 +100,6 @@ router.post('/logout', (req, res) => {
 
 // PUT /api/users/1
 router.put('/:id', withAuthAdmin, (req, res) => {
-  console.log(req.body)  
   User.update(req.body, {
     individualHooks: true,
     where: {
