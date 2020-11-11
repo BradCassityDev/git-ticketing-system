@@ -24,9 +24,8 @@
             <thead class="thead-light">
               <th>ID</th>
               <th>Ticket Title</th>
-              <th>Phone</th>
-              <th>Email</th>
               <th>Ticket Description</th>
+              <th>Assign Issue ID</th>
               <th></th>
             </thead>
             <tbody>
@@ -34,9 +33,8 @@
               <tr>
                 <td>{{ticket.id}}</td>
                 <td>{{ticket.title}}</td>
-                <td>{{ticket.phone}}</td>
-                <td>{{ticket.email}}</td>
                 <td>{{ticket.description}}</td>
+                <td>{{ticket.issue_id}}</td>
                 <td><a href="/admin/ticket/{{ticket.id}}" class="btn btn-light">Edit</a></td>
               </tr>
               {{/each}}
