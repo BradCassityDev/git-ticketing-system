@@ -175,4 +175,3 @@ async function openEditIssueModal() {
 }
 
 document.getElementById('edit-issue-form').addEventListener('submit', editIssue);
-document.getElementById('edit-issue-modal-btn').addEventListener('click', openEditIssueModal);
