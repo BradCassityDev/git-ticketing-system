@@ -9,27 +9,27 @@
 <nav class="issue-menu-nav navbar navbar-light">
     <h4>My Assigned Issues - {{ userName }}</h4>
     <!-- Create Issue Modal Toggle Button -->
-    <button class="btn btn-primary" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+
+    <button class="btn btn-dark" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+
         Create Issue</button>
 </nav>
 
 <main class="page-content" id="page-content">
 
     <section class="task-list-wrapper">
-        <h2 class="list-title">Opened</h2>
-        <ul class="task-list bg-danger" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
+        <h2 class="list-title ">Opened</h2>
+        <ul class="task-list bg-secondary" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">In Progress</h2>
-        <ul class="task-list bg-warning" id="tasks-in-progress"><img src="/images/spinner.gif" width="75%"></ul>
+        <ul class="task-list bg-secondary" id="tasks-in-progress"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">Closed</h2>
-        <ul class="task-list bg-success" id="tasks-closed"><img src="/images/spinner.gif" width="75%"></ul>
+        <ul class="task-list bg-secondary" id="tasks-closed"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
         <h2 class="list-title">Blocked</h2>
-        <ul class="task-list bg-dark" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
+        <ul class="task-list bg-secondary" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
 </main>
 
