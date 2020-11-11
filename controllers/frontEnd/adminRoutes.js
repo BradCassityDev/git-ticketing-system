@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket } = require('../../models/index');
+const withAdminAuth = require('../../utils/authAdmin');
 
 // Admin - /admin
-router.get('/', (req, res) => {
+router.get('/', withAdminAuth, (req, res) => {
     Project.findAll()
         .then(projectData => {
             const projects = projectData.map(project => project.get({ plain: true }));
             console.log(projectData);
-            res.render('admin-console', { projects });
+            res.render('admin-console', { projects, loggedIn: req.session.loggedIn });
         })
         .catch(err => {
             console.log(err);
@@ -16,10 +17,10 @@ router.get('/', (req, res) => {
 });
 
 // Admin Project Details - /admin/project/:id
-router.get('/project/:id', (req, res) => {
+router.get('/project/:id', withAdminAuth, (req, res) => {
     Project.findOne()
         .then(projectData => {
-            res.render('project-details');
+            res.render('project-details', { loggedIn: req.session.loggedIn });
         })
         .catch(err => {
             console.log(err);
@@ -28,12 +29,12 @@ router.get('/project/:id', (req, res) => {
 });
 
 // Admin Ticket Management - /admin/ticket
-router.get('/ticket', (req, res) => {
+router.get('/ticket', withAdminAuth, (req, res) => {
     Ticket.findAll()
         .then(ticketData => {
             const tickets = ticketData.map(ticket => ticket.get({ plain: true }));
 
-            res.render('ticket-center', { tickets });
+            res.render('ticket-center', { tickets, loggedIn: req.session.loggedIn });
         })
         .catch(err => {
             console.log(err);
@@ -42,12 +43,12 @@ router.get('/ticket', (req, res) => {
 });
 
 // Admin Ticket Details - /admin/ticket/:id
-router.get('/ticket/:id', (req, res) => {
-    res.render('ticket-details');
+router.get('/ticket/:id', withAdminAuth, (req, res) => {
+    res.render('ticket-details', { loggedIn: req.session.loggedIn });
 });
 
 // Admin User Management - /admin/user
-router.get('/user', (req, res) => {
+router.get('/user', withAdminAuth, (req, res) => {
     User.findAll(
         {
             include: [
@@ -69,7 +70,7 @@ router.get('/user', (req, res) => {
         .then(userData => {
             const users = userData.map(user => user.get({ plain: true }));
 
-            res.render('user-center', { users });
+            res.render('user-center', { users, loggedIn: req.session.loggedIn });
         })
         .catch(err => {
             console.log(err);
@@ -78,17 +79,17 @@ router.get('/user', (req, res) => {
 });
 
 // Admin User Details - /admin/user/:id
-router.get('/user/:id', (req, res) => {
-    res.render('user-details');
+router.get('/user/:id', withAdminAuth, (req, res) => {
+    res.render('user-details', { loggedIn: req.session.loggedIn });
 });
 
 // Admin Team Management - /admin/team
-router.get('/team', (req, res) => {
+router.get('/team', withAdminAuth, (req, res) => {
     Team.findAll()
         .then(teamData => {
             const teams = teamData.map(team => team.get({ plain: true }));
 
-            res.render('team-center', { teams });
+            res.render('team-center', { teams, loggedIn: req.session.loggedIn });
         })
         .catch(err => {
             console.log(err);
@@ -97,8 +98,8 @@ router.get('/team', (req, res) => {
 });
 
 // Admin Team Details - /admin/team/:id
-router.get('/team/:id', (req, res) => {
-    res.render('team-details');
+router.get('/team/:id', withAdminAuth, (req, res) => {
+    res.render('team-details', { loggedIn: req.session.loggedIn });
 });
 
 module.exports = router;
