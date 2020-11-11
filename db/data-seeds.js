@@ -93,70 +93,70 @@ const projectData = [
 
 const issueData = [
   {
-    due_date: '11-28-2020',
+    due_date: '2020-11-28',
     priority: 'Medium',
     github_issue_number: 1,
     issue_state_id: 1,
     project_id: 1
   },
   {
-    due_date: '11-08-2020',
+    due_date: '2020-11-20',
     priority: 'High',
     github_issue_number: 1,
     issue_state_id: 1,
     project_id: 2
   },
   {
-    due_date: '11-18-2020',
+    due_date: '2020-11-18',
     priority: 'Low',
     github_issue_number: 1,
     issue_state_id: 1,
     project_id: 3
   },
   {
-    due_date: '11-18-2020',
+    due_date: '2020-11-08',
     priority: 'Low',
     github_issue_number: 2,
     issue_state_id: 1,
     project_id: 1
   },
   {
-    due_date: '11-18-2020',
+    due_date: '2020-12-28',
     priority: 'Low',
     github_issue_number: 3,
     issue_state_id: 1,
     project_id: 1
   },
   {
-    due_date: '11-18-2020',
+    due_date: '2020-12-18',
     priority: 'Low',
     github_issue_number: 4,
     issue_state_id: 1,
     project_id: 1
   },
   {
-    due_date: '11-16-2020',
+    due_date: '2020-11-30',
     priority: 'Medium',
     github_issue_number: 2,
     issue_state_id: 1,
     project_id: 2
   },
   {
-    due_date: '11-16-2020',
+    due_date: '2020-11-15',
     priority: 'Medium',
     github_issue_number: 3,
     issue_state_id: 1,
     project_id: 2
   },
   {
-    due_date: '11-06-2020',
+    due_date: '2020-11-26',
     priority: 'Medium',
     github_issue_number: 4,
     issue_state_id: 1,
     project_id: 2
   },
   {
-    due_date: '12-06-2020',
+    due_date: '2020-11-21',
     priority: 'Low',
     github_issue_number: 2,
     issue_state_id: 1,
