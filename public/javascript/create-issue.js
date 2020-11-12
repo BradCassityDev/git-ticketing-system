@@ -56,12 +56,13 @@ async function createIssue(event) {
           } else {
             alert(response.statusText);
         }
+        // Close modal
+        $('#create-issue-modal').modal('hide');
+        clearCreateIssueForm();
     } else {
         alert('Missing information.');
     }
-    // Close modal
-    $('#create-issue-modal').modal('hide');
-    clearCreateIssueForm();
+    
 }
 
 // Return list of projects for dropdown
