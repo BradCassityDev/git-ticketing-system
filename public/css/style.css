@@ -3,7 +3,7 @@
   }
 
   :root {
-    --primary: #44e9ff;
+    /*--primary: #44e9ff;*/
     --secondary: #497980;
     --tertiary: rgb(192, 246, 253);
     --grey: #333;
@@ -76,4 +76,8 @@
 }
 .space-below {
   margin-bottom: 35px;
+}
+
+.ticket-card {
+  margin: 25px 0;
 }

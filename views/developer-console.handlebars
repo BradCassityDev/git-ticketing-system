@@ -9,27 +9,28 @@
 <nav class="issue-menu-nav navbar navbar-light">
     <h4>My Assigned Issues - {{ userName }}</h4>
     <!-- Create Issue Modal Toggle Button -->
-    <button class="btn btn-primary" id='create-issue-modal-btn' data-toggle="modal" data-target="#create-issue-modal">+
+    <button class="btn btn-secondary" id='create-issue-modal-btn' data-toggle="modal"
+        data-target="#create-issue-modal">+
         Create Issue</button>
 </nav>
 
 <main class="page-content" id="page-content">
 
     <section class="task-list-wrapper">
-        <h2 class="list-title">Opened</h2>
-        <ul class="task-list bg-danger" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
+        <h3 class="list-title">Opened</h3>
+        <ul class="task-list" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
-        <h2 class="list-title">In Progress</h2>
-        <ul class="task-list bg-warning" id="tasks-in-progress"><img src="/images/spinner.gif" width="75%"></ul>
+        <h3 class="list-title">In Progress</h3>
+        <ul class="task-list" id="tasks-in-progress"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
-        <h2 class="list-title">Closed</h2>
-        <ul class="task-list bg-success" id="tasks-closed"><img src="/images/spinner.gif" width="75%"></ul>
+        <h3 class="list-title">Closed</h3>
+        <ul class="task-list" id="tasks-closed"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
     <section class="task-list-wrapper">
-        <h2 class="list-title">Blocked</h2>
-        <ul class="task-list bg-dark" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
+        <h3 class="list-title">Blocked</h3>
+        <ul class="task-list" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
 </main>
 
@@ -70,7 +71,7 @@
                         <div class="form-group">
                             <label for="create-issue-labels">Labels:</label>
                             <select name="create-issue-labels" id="create-issue-labels" class="form-control">
-                                <option value="Bug">Bug</option>
+                                <option value="Bug" selected>Bug</option>
                                 <option value="Feature">Feature</option>
                             </select>
                         </div>
@@ -78,7 +79,62 @@
                             <label for="create-issue-body">Description:</label>
                             <textarea name="create-issue-body" id="create-issue-body" class="form-control"></textarea>
                         </div>
-                        <button type="submit" id="create-issue-btn" class="btn btn-primary">Create Issue</button>
+                        <button type="submit" id="create-issue-btn" class="btn btn-secondary">Create Issue</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Issue Modal -->
+<div class="modal fade" id="edit-issue-modal" tabindex="-1" role="dialog" aria-labelledby="edit-issue-modal"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Issue</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-issue-form">
+                        <div class="form-group">
+                            <label for="project-dropdown">Related Project:</label>
+                            <div id="project-edit-dropdown-container"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-title">Issue Title:</label>
+                            <input type="text" name="edit-issue-title" id="edit-issue-title" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-duedate">Due Date:</label>
+                            <input type="date" name="edit-issue-duedate" id="edit-issue-duedate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-priority">Priority:</label>
+                            <select name="edit-issue-priority" id="edit-issue-priority" class="form-control">
+                                <option value="Low" selected>Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-labels">Labels:</label>
+                            <select name="edit-issue-labels" id="edit-issue-labels" class="form-control">
+                                <option value="Bug" selected>Bug</option>
+                                <option value="Feature">Feature</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-issue-body">Description:</label>
+                            <textarea name="edit-issue-body" id="edit-issue-body" class="form-control"></textarea>
+                        </div>
+                        <input type="hidden" id="edit-issue-id" value="" />
+                        <input type="hidden" id="edit-issue-userid" value="" />
+                        <input type="hidden" id="edit-issue-stateid" value="" />
+                        <button type="submit" id="edit-issue-btn" class="btn btn-primary">Edit Issue</button>
                     </form>
                 </div>
             </div>
@@ -90,4 +146,4 @@
 <script src="/javascript/create-issue.js"></script>
 <script src="/javascript/update-issue.js"></script>
 <script>const userID = '{{ userId }}';</script>
-<script src="./javascript/script.js"></script>
+<script src="/javascript/script.js"></script>

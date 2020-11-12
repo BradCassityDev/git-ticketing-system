@@ -86,6 +86,16 @@ const createTaskActions = function (taskId) {
     let actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
 
+    // create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+    editButtonEl.setAttribute("data-toggle", "modal");
+    editButtonEl.setAttribute("data-target", "#edit-issue-modal");
+
+    actionContainerEl.appendChild(editButtonEl);
+
     let statusSelectEl = document.createElement("select");
     statusSelectEl.className = "select-status";
     statusSelectEl.setAttribute("name", "status-change");
@@ -214,6 +224,17 @@ const dragLeaveHandler = function (event) {
     }
 }
 
+var taskButtonHandler = function (event) {
+    // get target element from event
+    var targetEl = event.target;
+
+    // edit button was clicked
+    if (targetEl.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        openEditIssueModal(tasks[taskId]);
+    }
+};
+
 const saveTasks = function (taskId) {
     // Save updated task information to server
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -247,9 +268,22 @@ const loadTasks = function () {
                     newTask.github_user_number = userIssues.issues[i].github_issue_number;
                     newTask.title = userIssues.issues[i].github_issue_details.title;
                     newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
+                    newTask.due_date = userIssues.issues[i].due_date;
+                    newTask.priority = userIssues.issues[i].priority;
                     newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
-                    newTask.issue_state_id = userIssues.issues[i].project_id;
                     newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
+                    if (userIssues.issues[i].github_issue_details.labels.length > 0) {
+                        newTask.label = userIssues.issues[i].github_issue_details.labels[0].name;
+                    }
+                    else {
+                        newTask.status.label = '';
+                    }
+                    if (userIssues.issues[i].issue_user.length > 0) {
+                        newTask.userId = userIssues.issues[i].issue_user.user_id;
+                    }
+                    else {
+                        newTask.userId = '';
+                    }
 
                     createTaskEl(newTask);
                 }
@@ -271,6 +305,7 @@ const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
 
+pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);

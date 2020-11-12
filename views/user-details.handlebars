@@ -18,13 +18,72 @@
     <hr>
     
     <a href='/admin/user'><< Manage Users</a>
-
-    <div class="row">
+    
+    <div class="admin-container"> 
+      <div class="row">
         <div class="col-12">
           <!-- User Details -->
+          <div class="row">
+            <div class="col-12">
+              <h5 class="float-left">{{user.username}} - {{user.user_state.name}}</h5>
+              <button id="save-user-changes" class="btn btn-secondary float-right">Save Changes</button>
+            </div>
+          </div>
           
+          <hr>
+
+            <p class="light-text">ID: {{user.id}}</p>
+            <p class="light-text">Username: {{user.username}}</p>            
+            {{!-- <p class="light-text">Created: {{user.createdAt}}</p> --}}
+          
+          <form class="space-below">
+            <div class="form-group">
+              <label for="username">Github Username:</label>
+              <input type="text" class="form-control" name="username" id="username" value="{{user.username}}">
+            </div>
+            <div class="form-group">
+              <label for="user-email">User Email:</label>
+              <input type="text" class="form-control" name="user-email" id="user-email" value="{{user.email}}">
+            </div>
+            <div class="form-group">
+              <label for="user-phone">User Phone:</label>
+              <input type="text" class="form-control" name="user-phone" id="user-phone" value="{{user.phone}}">
+            </div>
+            <div class="form-group">
+              <label for="user-role">User Role:</label>
+              <select class="form-control" name="user-role" id="user-role">
+                <option value="1">Developer</option>
+                <option value="2">Admin</option>
+              </select>            
+            </div>
+            <div class="form-group">
+              <label for="user-state">User State:</label>
+              <select class="form-control" name="user-state" id="user-state">
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="user-team">Assigned Team:</label>
+              <div id="team-dropdown-container" data-team-id="{{user.team_id}}">
+              </div>
+            </div>
+          </form>
+      
+          
+
         </div>
       </div>
     </div>
+
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    
   </div>
 </div>
+
+<script src="/javascript/user-details.js"></script>

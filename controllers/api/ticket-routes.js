@@ -109,6 +109,32 @@ router.put('/:id', withAuthAdmin, (req, res) => {
     });
 });
 
+// Assign ticket to issue route - /api/ticket/issue/:id
+router.put('/issue/:id', withAuthAdmin, (req, res) => {
+  Ticket.update(
+    {
+      issue_id: req.body.issue_id
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  )
+    .then(ticketData => {
+      if (!ticketData) {
+        res.status(404).json({ message: 'No ticket found by that id.' });
+        return;
+      }
+
+      res.json(ticketData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).json(err);
+    });
+});
+
 router.delete('/:id', withAuthAdmin, (req, res) => {
   Ticket.destroy({
     where: {

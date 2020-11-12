@@ -95,7 +95,24 @@ router.get('/ticket', withAdminAuth, (req, res) => {
 
 // Admin Ticket Details - /admin/ticket/:id
 router.get('/ticket/:id', withAdminAuth, (req, res) => {
-    res.render('ticket-details', { loggedIn: req.session.loggedIn });
+    Ticket.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(ticketData => {
+            if (!ticketData) {
+                res.status(404).json({ message: 'unable to find a ticket by that id' });
+                return;
+            }
+
+            const ticket = ticketData.get({ plain: true });
+            res.render('ticket-details', { ticket, loggedIn: req.session.loggedIn });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Admin User Management - /admin/user
@@ -131,7 +148,37 @@ router.get('/user', withAdminAuth, (req, res) => {
 
 // Admin User Details - /admin/user/:id
 router.get('/user/:id', withAdminAuth, (req, res) => {
-    res.render('user-details', { loggedIn: req.session.loggedIn });
+    User.findOne(
+        { 
+            where: {
+            id: req.params.id
+            },
+            include: [
+                {
+                    model: Team,
+                    attributes: ['name']
+                },
+                {
+                    model: User_State,
+                    attributes: ['name']
+                },
+                {
+                    model: Role,
+                    attributes: ['name']
+                },
+            ]
+        }
+    )
+        .then(userData => {
+            // const users = userData.map(user => user.get({ plain: true }));
+            const user = userData.get({ plain: true });
+
+            res.render('user-details', { user, loggedIn: req.session.loggedIn });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // Admin Team Management - /admin/team

@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-12">
           <h4 class="float-left">Teams</h4>
-          <button class="btn btn-success float-right" id='create-team-modal-btn' data-toggle="modal"
+          <button class="btn btn-secondary float-right" id='create-team-modal-btn' data-toggle="modal"
             data-target="#create-team-modal" onclick="prepareCreateForm()">+ Add Team</button>
         </div>
       </div>
@@ -38,7 +38,7 @@
                 {{user.username}}, 
                   {{/each}}</td>
                 <td><a href="#" onclick="prepareEditForm({{team.id}}, '{{team.name}}')" data-toggle="modal"
-                    data-target="#create-team-modal" class="btn btn-light">Edit</a></td>
+                    data-target="#create-team-modal" class="btn btn-secondary">Edit</a></td>
               </tr>
               {{/each}}
             </tbody>
@@ -67,7 +67,7 @@
               <label for="create-team-name">Team Name:</label>
               <input type="text" class="form-control" name="create-team-name" id="create-team-name">
             </div>
-            <button type="submit" id="create-team-btn" class="btn btn-primary">Create Team</button>
+            <button type="submit" id="create-team-btn" class="btn btn-secondary">Create Team</button>
           </form>
         </div>
       </div>
