@@ -7,7 +7,7 @@ function getUserForDropdown() {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    // Get current porject user_id to set as default in select field
+                    // Get current user_id to set as default in select field
                     const currentUserId = userDDContainerEl.getAttribute('data-user-id');
 
                     // Clear out previous dropdown
