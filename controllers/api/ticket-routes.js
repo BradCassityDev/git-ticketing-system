@@ -113,7 +113,8 @@ router.put('/:id', withAuthAdmin, (req, res) => {
 router.put('/issue/:id', withAuthAdmin, (req, res) => {
   Ticket.update(
     {
-      issue_id: req.body.issue_id
+      issue_id: req.body.issue_id,
+      ticket_state_id: 2
     },
     {
       where: {

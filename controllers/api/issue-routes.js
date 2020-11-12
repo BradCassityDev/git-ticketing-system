@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 const sendNotification = require('../../utils/email-notification');
 const { sendSMS } = require('../../utils/twilio.js');
 
@@ -210,6 +211,7 @@ router.get('/user/:id', withAuth, (req, res) => {
 
 // Create Issue - /api/issue
 router.post('/', withAuth, async (req, res) => {
+    console.log(process.env.GITHUB_TOKEN)
     // Assign current user to the assignees going to gethub
     req.body.data.assignees = [req.session.username];
 
@@ -259,7 +261,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // Create Issue from Ticket - /api/issue/ticket
-router.post('/ticket', withAuth, (req, res) => {
+router.post('/ticket', withAuthAdmin, (req, res) => {
     // Get needed values from Ticket id
     // Get project ticket will be assigned to from request body
 
@@ -294,16 +296,18 @@ router.post('/ticket', withAuth, (req, res) => {
                     createIssue(projectDetails.github_username, projectDetails.github_repo_name, data)
                         .then(githubResult => {
                             // Create Issue database
-                            console.log("-=-==-=-=-CREATING ISSUE=-=-=-=-=-");
                             Issue.create({
                                 due_date: req.body.due_date,
                                 priority: req.body.priority,
                                 github_issue_number: githubResult.number,
-                                project_id: req.body.project_id
+                                project_id: req.body.project_id,
+                                issue_state_id: 1
+                
                             })
                                 .then(issueData => {
                                     Ticket.update({
-                                        issue_id: issueData.id
+                                        issue_id: issueData.id,
+                                        ticket_state_id: 2
                                     },
                                         {
                                             where: {

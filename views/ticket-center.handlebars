@@ -26,6 +26,7 @@
               <th>Ticket Title</th>
               <th>Ticket Description</th>
               <th>Assign Issue ID</th>
+              <th>Ticket State</th>
               <th></th>
             </thead>
             <tbody>
@@ -35,6 +36,7 @@
                 <td>{{ticket.title}}</td>
                 <td>{{ticket.description}}</td>
                 <td>{{ticket.issue_id}}</td>
+                <td>{{ticket.ticket_state.name}}</td>
                 <td><a href="/admin/ticket/{{ticket.id}}" class="btn btn-light">Edit</a></td>
               </tr>
               {{/each}}
