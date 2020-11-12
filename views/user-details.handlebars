@@ -52,15 +52,19 @@
             <div class="form-group">
               <label for="user-role">User Role:</label>
               <select class="form-control" name="user-role" id="user-role">
+                {{#defaultSelectOption user.role_id}}
                 <option value="1">Developer</option>
                 <option value="2">Admin</option>
+                {{/defaultSelectOption}}
               </select>            
             </div>
             <div class="form-group">
               <label for="user-state">User State:</label>
               <select class="form-control" name="user-state" id="user-state">
+                {{#defaultSelectOption user.user_state_id}}
                 <option value="1">Active</option>
                 <option value="2">Inactive</option>
+                {{/defaultSelectOption}}                
               </select>
             </div>
             <div class="form-group">
