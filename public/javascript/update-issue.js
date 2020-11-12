@@ -123,11 +123,11 @@ async function editIssue(event) {
   const issueStateId = document.getElementById('edit-issue-stateid').value;
 
   // check if minimum values are provided
-  if (projectId && title && description && dueDate && priority) {
+  if (projectId && title && description && dueDate && priority && label) {
 
     const data = {
       title: title,
-      body: description,
+      body: description
     }
 
     if (label !== "no-label" && label) {
