@@ -7,7 +7,6 @@ const path = require('path');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const helpers = require('./utils/helpers');
 
-
 const sess = {
   secret: 'Super secret secret',
   cookie: { maxAge: 1000 * 60 * 60 },//1 hour
