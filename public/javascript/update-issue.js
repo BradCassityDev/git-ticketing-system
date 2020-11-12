@@ -123,19 +123,23 @@ async function editIssue(event) {
   const issueStateId = document.getElementById('edit-issue-stateid').value;
 
   // check if minimum values are provided
-  if (projectId && title && description && dueDate && priority && label) {
+  if (projectId && title && description && dueDate && priority) {
+
+    const data = {
+      title: title,
+      body: description,
+    }
+
+    if (label !== "no-label" && label) {
+      data.labels = [label];
+    }
 
     let postBody = {
       due_date: dueDate,
       priority: priority,
       issueState_id: issueStateId, // set to current state
       project_id: projectId,
-      data: {
-        title: title,
-        body: description,
-        state: 'open',
-        labels: [label]
-      }
+      data: data
     };
 
     // Post data to /api/project/ route
