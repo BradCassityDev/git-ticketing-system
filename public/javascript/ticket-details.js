@@ -77,11 +77,6 @@ function getProjectForDropdown() {
                         option.value = data[i].id;
                         option.text = data[i].name;
 
-                        // // Check if user is associated to issue already
-                        // if (data[i].id === parseInt(currentUserId)) {
-                        //     option.setAttribute('selected', 'selected');
-                        // }
-
                         // Include option in dropdown
                         projectDDSelectEl.add(option);
                     }
