@@ -41,6 +41,24 @@
                   <h5 class="card-title">Description</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                 </li>
+                <li class="list-group-item">
+                  <h5 class="card-title">Ticket State</h5>
+                  <form class="space-below">
+                    <div class="form-group">
+                      <label for="ticket-state">Ticket State:</label>
+                      <select class="form-control" name="ticket-state" id="ticket-state">
+                        {{#defaultSelectOption ticket.ticket_state_id}}
+                        <option value="1">Opened</option>
+                        <option value="2">Issue Created</option>
+                        <option value="3">Issue Resolved</option>
+                        <option value="4">Will Not Address</option>
+                        <option value="5">Cannot Reproduce</option>
+                        {{/defaultSelectOption}}
+                      </select>            
+                    </div>
+                    <button id="save-ticket-changes" class="btn btn-success float-right">Save Changes</button>
+                  </form>
+                  </li>
               </ul>
               
             </div>
@@ -116,9 +134,16 @@
       </div>
       <div class="modal-body">
         <p>Complete the form below to convert the ticket to an issue.</p>
+        <p>Issue Title: {{ticket.title}}</p>
+        <p>Issue Body: {{ticket.description}}</p>
         <form>
           <div class="form-group">
-            <label for=""></label>
+            <label for="assigned-user">Assignee</label>
+              <div id="user-dropdown-container" data-user-id="{{user_id}}">
+          </div>
+          <div class="form-group">
+            <label for="assigned-project">Project</label>
+              <div id="project-dropdown-container" data-project-id="{{project_id}}">
           </div>
         </form>
       </div>
