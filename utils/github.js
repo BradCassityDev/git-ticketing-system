@@ -19,10 +19,10 @@ function getRepoDetails(githubUser, repoName) {
     });
 }
 
-// Return Repo Issues 
+// Return Repo Issues (whether closed or not) 
 function getRepoIssues(githubUser, repoName) {
     return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues`, {
+        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues?state=all`, {
             auth: {
                 username: process.env.GITHUB_USER,
                 password: process.env.GITHUB_PASS
