@@ -76,7 +76,7 @@ const createTaskEl = function (taskDataObj) {
         tasksBlockedEl.appendChild(listItemEl);
     }
 
-    tasks.push(taskDataObj);
+    //tasks.push(taskDataObj);
 
     // increase task counter for next unique id
     taskIdCounter++;
@@ -259,6 +259,12 @@ const loadTasks = function () {
             })
             .then(userIssues => {
                 clearSpinners();
+                const priorities = {
+                    High: 1,
+                    Medium: 2,
+                    Low: 3
+                };
+
                 for (let i = 0; i < userIssues.issues.length; i++) {
                     let newTask = {};
 
@@ -270,6 +276,7 @@ const loadTasks = function () {
                     newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
                     newTask.due_date = userIssues.issues[i].due_date;
                     newTask.priority = userIssues.issues[i].priority;
+                    newTask.prioritySortOrder = (newTask.priority) ? priorities[newTask.priority] : 4;
                     newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
                     newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
                     if (userIssues.issues[i].github_issue_details.labels.length > 0) {
@@ -284,15 +291,31 @@ const loadTasks = function () {
                     else {
                         newTask.userId = '';
                     }
+                    tasks.push(newTask);
 
-                    createTaskEl(newTask);
                 }
+
+                // Sort by priority - highest to lowest
+                tasks.sort(compareTasks);
+
+                // Render tasks in priority order
+                for (let i = 0; i < tasks.length; i++) {
+                    createTaskEl(tasks[i]);
+                }
+
             });
     }
     else {
         clearSpinners();
     }
 }
+
+const compareTasks = function (a, b) {
+    if (a.prioritySortOrder > b.prioritySortOrder) return 1;
+    if (b.prioritySortOrder > a.prioritySortOrder) return -1;
+
+    return 0;
+};
 
 const clearSpinners = function () {
     tasksOpenedEl.innerHTML = '';
