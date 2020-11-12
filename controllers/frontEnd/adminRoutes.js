@@ -183,8 +183,16 @@ router.get('/user/:id', withAdminAuth, (req, res) => {
 
 // Admin Team Management - /admin/team
 router.get('/team', withAdminAuth, (req, res) => {
-    Team.findAll()
+    Team.findAll({
+        include: [
+            {
+                model: User,
+                attributes:['username']
+            }
+        ]
+    })
         .then(teamData => {
+            console.log(teamData)
             const teams = teamData.map(team => team.get({ plain: true }));
 
             res.render('team-center', { teams, loggedIn: req.session.loggedIn });
