@@ -66,8 +66,8 @@ router.post('/', (req, res) => {
       })
         .then(dbAdminUsers => {
           for (let i = 0; i < dbAdminUsers.length; i++) {
-            // Send email to admin if email exists
-            if (dbAdminUsers[i].email) {
+            // Send email to admin if email or phone exists
+            if (dbAdminUsers[i].email || dbAdminUsers[i].phone) {
               sendNotification(dbAdminUsers[i].phone, dbAdminUsers[i].email, `NEW TICKET: ${dbTicketData.title}`, dbTicketData.description, '', '')
                 .then(emailResponse => console.log(emailResponse));
             }

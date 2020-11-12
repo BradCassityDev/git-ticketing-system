@@ -381,7 +381,7 @@ router.put('/:id', withAuth, async (req, res) => {
                     then(ticketData => {
                         for (let i = 0; i < ticketData.length; i++) {
                             // Send email to client if email exists
-                            if (ticketData[i].email) {
+                            if (ticketData[i].email || ticketData[i].phone) {
                                 sendNotification(ticketData[i].phone, ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
                                     .then(emailResponse => console.log(emailResponse));
                             }
