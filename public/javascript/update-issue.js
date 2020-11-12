@@ -79,7 +79,7 @@ function clearEditIssueForm(issue) {
   const labelDropdown = document.getElementById('edit-issue-labels');
   if (issue) {
     for (let i = 0; i < labelDropdown.length; i++) {
-      if (labelDropdown.options[i].text.toLowerCase() === issue.label.toLowerCase()) {
+      if (labelDropdown.options[i].text === issue.label) {
         labelDropdown.selectedIndex = i;
         break;
       }
@@ -91,18 +91,20 @@ function clearEditIssueForm(issue) {
 
   const issue_state_id = document.getElementById('edit-issue-stateid');
 
-  switch (issue.status) {
-    case "In Progress":
-      issue_state_id.value = 2;
-      break;
-    case "Blocked":
-      issue_state_id.value = 3;
-      break;
-    case "Closed":
-      issue_state_id.value = 4;
-      break;
-    default:
-      issue_state_id.value = 1;
+  if (issue) {
+    switch (issue.status) {
+      case "In Progress":
+        issue_state_id.value = 2;
+        break;
+      case "Blocked":
+        issue_state_id.value = 3;
+        break;
+      case "Closed":
+        issue_state_id.value = 4;
+        break;
+      default:
+        issue_state_id.value = 1;
+    }
   }
 }
 
