@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { Ticket, Issue, Issue_State, Ticket_State, Project, User } = require('../../models');
 const sendNotification = require('../../utils/email-notification');
-const { sendSMS } = require('../../utils/twilio.js');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
 
@@ -67,15 +66,10 @@ router.post('/', (req, res) => {
       })
         .then(dbAdminUsers => {
           for (let i = 0; i < dbAdminUsers.length; i++) {
-            // Send email to admin if email exists
-            if (dbAdminUsers[i].email) {
-              sendNotification(dbAdminUsers[i].email, `NEW TICKET: ${dbTicketData.title}`, dbTicketData.description, '', '')
+            // Send email to admin if email or phone exists
+            if (dbAdminUsers[i].email || dbAdminUsers[i].phone) {
+              sendNotification(dbAdminUsers[i].phone, dbAdminUsers[i].email, `NEW TICKET: ${dbTicketData.title}`, dbTicketData.description, '', '')
                 .then(emailResponse => console.log(emailResponse));
-            }
-            // Send SMS text to admin if phone number exists
-            if (dbAdminUsers[i].phone) {
-              sendSMS(`NEW TICKET: ${dbTicketData.title}`, dbAdminUsers[i].phone)
-                .then(smsResponse => console.log(smsResponse));
             }
           }
         });

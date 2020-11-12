@@ -3,7 +3,7 @@ const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../..
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 const sendNotification = require('../../utils/email-notification');
-const { sendSMS } = require('../../utils/twilio.js');
+const { Op } = require("sequelize");
 
 const includeArray = [
     {
@@ -378,20 +378,32 @@ router.put('/:id', withAuth, async (req, res) => {
                     where: {
                         issue_id: req.params.id
                     }
-                }).
-                    then(ticketData => {
+                })
+                    .then(ticketData => {
+                        let ticketIds = [];
                         for (let i = 0; i < ticketData.length; i++) {
-                            // Send email to client if email exists
-                            if (ticketData[i].email) {
-                                sendNotification(ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
+                            // Send email to client if email or phone exists
+                            if (ticketData[i].email || ticketData[i].phone) {
+                                sendNotification(ticketData[i].phone, ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
                                     .then(emailResponse => console.log(emailResponse));
                             }
-                            // Send SMS text to client if phone number exists
-                            if (ticketData[i].phone) {
-                                sendSMS(`TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].phone)
-                                    .then(smsResponse => console.log(smsResponse));
-                            }
+                            ticketIds.push(ticketData[i].id);
                         }
+                        return ticketIds;
+                    })
+                    .then(ticketIds => {
+                        Ticket.update(
+                            {
+                                ticket_state_id: 3
+                            },
+                            {
+                                where: {
+                                    id: {
+                                        [Op.in]: ticketIds
+                                    }
+                                }
+                            }
+                        )
                     });
             }
             // If data was provided, update GitHub issue
