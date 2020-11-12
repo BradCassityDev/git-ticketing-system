@@ -281,6 +281,39 @@ const clearSpinners = function () {
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
+const createTask = function(taskText, taskDate, taskList) {
+    var taskLi = $("<li>").addClass("list-group-item");
+    var taskSpan = $("<span>").addClass("badge badge-secondary badge-pill").text(taskDate);
+    var taskP = $("<p>").addClass("m-1").text(taskText);
+
+    //append span and p element to parent li
+    taskLi.append(taskSpan, taskP);
+
+    //check due date
+    auditTask(taskLi);
+
+    //append to ul list on the page
+    $("#list-" + taskList).append(taskLi);
+};
+var auditTask = function(taskEl) {
+    // get date from task element
+    var date = $(taskEl).find("span").text().trim();
+    // ensure it worked
+    console.log(date); 
+  
+    // convert to moment object at 5:00pm
+    var time = moment(date, "L").set("hour", 17);
+    // this should print out an object for the value of the date variable, but at 5:00pm of that date
+    console.log(time);
+  
+  };
+
+//get current date
+const currentDate = new Date();
+//set how many days from now we want
+const daysFromNow = 2;
+//get date two days from now
+const twoDaysFromNow = new Date(currentDate.setDate(currentDate.getDate() + daysFromNow));
 
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
@@ -289,3 +322,5 @@ pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
 loadTasks();
+
+
