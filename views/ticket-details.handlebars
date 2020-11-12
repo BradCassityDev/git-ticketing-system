@@ -47,11 +47,13 @@
                     <div class="form-group">
                       <label for="ticket-state">Ticket State:</label>
                       <select class="form-control" name="ticket-state" id="ticket-state">
+                        {{#defaultSelectOption ticket.ticket_state_id}}
                         <option value="1">Opened</option>
                         <option value="2">Issue Created</option>
                         <option value="3">Issue Resolved</option>
                         <option value="4">Will Not Address</option>
                         <option value="5">Cannot Reproduce</option>
+                        {{/defaultSelectOption}}
                       </select>            
                     </div>
                     <button id="save-ticket-changes" class="btn btn-success float-right">Save Changes</button>

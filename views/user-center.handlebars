@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-12">
           <h4 class="float-left">Users</h4>
-          <button class="btn btn-success float-right" id='create-user-modal-btn' data-toggle="modal"
+          <button class="btn btn-secondary float-right" id='create-user-modal-btn' data-toggle="modal"
             data-target="#create-user-modal">+ Add User</button>
         </div>
       </div>
@@ -39,7 +39,7 @@
                 <td>{{user.role.name}}</td>
                 <td>{{user.user_state.name}}</td>
                 <td>{{user.team.name}}</td>
-                <td><a href="/admin/user/{{user.id}}" class="btn btn-light">Edit</a></td>
+                <td><a href="/admin/user/{{user.id}}" class="btn btn-secondary">Edit</a></td>
               </tr>
               {{/each}}
             </tbody>
@@ -80,7 +80,7 @@
               <label for="create-user-password">Password:</label>
               <input type="text" class="form-control" name="create-user-password" id="create-user-password">
             </div>
-            <button type="submit" id="create-user-btn" class="btn btn-primary">Create User</button>
+            <button type="submit" id="create-user-btn" class="btn btn-secondary">Create User</button>
           </form>
         </div>
       </div>

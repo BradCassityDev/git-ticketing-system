@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-12">
           <h4 class="float-left">Projects</h4>
-          <button class="btn btn-success float-right" id='create-project-modal-btn' data-toggle="modal" data-target="#create-project-modal">+ Add Project</button>
+          <button class="btn btn-secondary float-right" id='create-project-modal-btn' data-toggle="modal" data-target="#create-project-modal">+ Add Project</button>
         </div>
       </div>
       
@@ -36,7 +36,7 @@
                 <td>{{project.name}}</td>
                 <td>{{project.github_repo_name}}</td>
                 <td>{{project.github_username}}</td>
-                <td><a href="/admin/project/{{project.id}}" class="btn btn-light">Edit</a></td>
+                <td><a href="/admin/project/{{project.id}}" class="btn btn-secondary">Edit</a></td>
               </tr>
             {{/each}}
             </tbody>
@@ -71,7 +71,7 @@
                             <label for="create-project-repo-owner">Repository Owner Username:</label>
                             <input type="text" class="form-control" name="create-project-repo-owner" id="create-project-repo-owner">
                         </div>
-                        <button type="submit" id="create-project-btn" class="btn btn-primary">Add Project</button>
+                        <button type="submit" id="create-project-btn" class="btn btn-secondary">Add Project</button>
                     </form>
                 </div>
             </div>

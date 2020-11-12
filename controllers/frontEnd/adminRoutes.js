@@ -194,11 +194,12 @@ router.get('/team', withAdminAuth, (req, res) => {
         include: [
             {
                 model: User,
-                attributes:["username"]
+                attributes:['username']
             }
         ]
     })
         .then(teamData => {
+            console.log(teamData)
             const teams = teamData.map(team => team.get({ plain: true }));
 
             res.render('team-center', { teams, loggedIn: req.session.loggedIn });

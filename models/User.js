@@ -58,6 +58,13 @@ User.init(
         model: 'user_state',
         key: 'id'
       }
+    },
+    team_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'team',
+        key: 'id'
+      }
     }
   },
   {
