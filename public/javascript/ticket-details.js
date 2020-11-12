@@ -31,11 +31,6 @@ function getUserForDropdown() {
                         option.value = data[i].id;
                         option.text = data[i].username;
 
-                        // // Check if user is associated to issue already
-                        // if (data[i].id === parseInt(currentUserId)) {
-                        //     option.setAttribute('selected', 'selected');
-                        // }
-
                         // Include option in dropdown
                         userDDSelectEl.add(option);
                     }
