@@ -253,7 +253,7 @@ async function updateTicketDetails(event) {
         ticket_state_id: ticketStateId
     }
 
-    // Fetch /api/user/:id and update user details
+    // Fetch /api/ticket/:id and update user details
     const response = await fetch(`/api/ticket/${id}`, {
         method: 'PUT',
         body: JSON.stringify(updateObject),
