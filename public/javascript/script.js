@@ -316,14 +316,21 @@ var auditTask = function (taskEl) {
     //what is the due date
     var dueDate = new Date(taskEl.due_date);
 
+    //convert to milliseconds
+    dueDate = dueDate.getTime()
     var color;
 
     //if the due date before today
     if (dueDate < currentDate) {
         //set to red
         color = "bg-danger";
-
-    } else {
+        // if the due date is within two days from now
+    } else if (dueDate <= twoDaysFromNow) {
+        //set to white
+        color = "bg-warning";
+    }
+    //due date is safely in the future
+    else {
         //set to white
         color = "bg-light";
     }
@@ -332,9 +339,12 @@ var auditTask = function (taskEl) {
 };
 
 //get current date
-const currentDate = new Date();
-//adjust for timezone difference
-currentDate.setHours(currentDate.getHours() - 7);
+let currentDate = new Date();
+//convert to milliseconds and adjust for timezone difference
+currentDate = (currentDate.getTime()) - (7 * 1000 * 60 * 60);
+
+//get date 2 days from now
+let twoDaysFromNow = currentDate + (1000 * 60 * 60 * 48 * 2);   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 48 hrs * (# of days beyond one to go back)
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
