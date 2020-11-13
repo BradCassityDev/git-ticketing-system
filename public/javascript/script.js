@@ -8,30 +8,6 @@ const tasksClosedEl = document.querySelector("#tasks-closed");
 const tasksBlockedEl = document.querySelector("#tasks-blocked");
 const pageContentEl = document.querySelector("#page-content");
 
-const completeEditTask = function (taskTitle, taskDescription, taskId) {
-    // find the matching task list item
-    let taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-
-    // set new values
-    taskSelected.querySelector("h3.task-name").textContent = taskName;
-    taskSelected.querySelector("span.task-type").textContent = taskType;
-
-    // loop through tasks array and task object with new content
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === parseInt(taskId)) {
-            tasks[i].title = taskTitle;
-            tasks[i].description = taskDescription;
-            break;
-        }
-    };
-
-    saveTasks();
-
-    formEl.removeAttribute("data-task-id");
-
-    document.querySelector("#save-task").textContent = "Add Task";
-};
-
 const createTaskEl = function (taskDataObj) {
     var tileColor = auditTask(taskDataObj)
 
@@ -119,22 +95,6 @@ const createTaskActions = function (taskId) {
     return actionContainerEl;
 };
 
-// TODO: We may not need this
-const editTask = function (taskId) {
-    // get task list item element
-    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-
-    // get content from task name and type
-    var taskName = taskSelected.querySelector("h3.task-name").textContent;
-
-    var taskType = taskSelected.querySelector("span.task-type").textContent;
-
-    document.querySelector("input[name='task-name']").value = taskName;
-    document.querySelector("select[name='task-type']").value = taskType;
-    document.querySelector("#save-task").textContent = "Save Task";
-    formEl.setAttribute("data-task-id", taskId);
-};
-
 const taskStatusChangeHandler = function (event) {
     // get the task item's id
     const taskId = event.target.getAttribute("data-task-id");
@@ -165,6 +125,9 @@ const taskStatusChangeHandler = function (event) {
             break;
         }
     }
+
+    redrawLists();
+
     saveTasks(taskId);
 };
 
@@ -215,17 +178,28 @@ const dropTaskHandler = function (event) {
     dropZoneEl.appendChild(draggableElement);
     dropZoneEl.removeAttribute("style");
 
-    // Redraw this column by priority
-    // dropZoneEl.innerHTML = '';
-
-    // for (let i = 0; i < tasks.length; i++) {
-    //     if (tasks[i].status === statusSelectEl.value) {
-    //         createTaskEl(tasks[i]);
-    //         console.log(tasks[i])
-    //     }
-    // }
+    redrawLists();
 
     saveTasks(id);
+};
+
+const redrawLists = function () {
+    // Delete all the task item lis
+    var lis = document.getElementsByClassName('task-item');
+    while (lis.length > 0) {
+        lis[0].remove();
+        lis = document.getElementsByClassName('task-item');
+    }
+
+    // Reset task counter
+    taskIdCounter = 0;
+
+    // Redraw the list items
+    for (let i = 0; i < tasks.length; i++) {
+
+        createTaskEl(tasks[i]);
+        console.log(tasks[i])
+    }
 };
 
 const dragLeaveHandler = function (event) {
@@ -248,7 +222,6 @@ var taskButtonHandler = function (event) {
 
 const saveTasks = function (taskId) {
     // Save updated task information to server
-    localStorage.setItem("tasks", JSON.stringify(tasks));
 
     updateIssueState(tasks[taskId]);
 };
@@ -338,45 +311,40 @@ const clearSpinners = function () {
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
-const createTask = function (taskText, taskDate, taskList) {
-    var taskLi = $("<li>").addClass("list-group-item");
-    var taskSpan = $("<span>").addClass("badge badge-secondary badge-pill").text(taskDate);
-    var taskP = $("<p>").addClass("m-1").text(taskText);
 
-    //append span and p element to parent li
-    taskLi.append(taskSpan, taskP);
-
-    //check due date
-    auditTask(taskLi);
-
-    //append to ul list on the page
-    $("#list-" + taskList).append(taskLi);
-};
 var auditTask = function (taskEl) {
-    //what is todays date
     //what is the due date
     var dueDate = new Date(taskEl.due_date);
 
+    //convert to milliseconds
+    dueDate = dueDate.getTime()
     var color;
+
     //if the due date before today
     if (dueDate < currentDate) {
         //set to red
         color = "bg-danger";
-
-    } else {
+        // if the due date is within two days from now
+    } else if (dueDate <= twoDaysFromNow) {
+        //set to white
+        color = "bg-warning";
+    }
+    //due date is safely in the future
+    else {
         //set to white
         color = "bg-light";
     }
-    //is the due date equal to today
-    //is the due date more than 2 days
-    //return the decision
+
     return color;
 };
 
 //get current date
-const currentDate = new Date();
-//set how many days from now we want
-currentDate.setHours(currentDate.getHours() - 7);
+let currentDate = new Date();
+//convert to milliseconds and adjust for timezone difference
+currentDate = (currentDate.getTime()) - (7 * 1000 * 60 * 60);
+
+//get date 2 days from now
+let twoDaysFromNow = currentDate + (1000 * 60 * 60 * 48 * 2);   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 48 hrs * (# of days beyond one to go back)
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
