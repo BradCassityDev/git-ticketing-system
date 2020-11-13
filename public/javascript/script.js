@@ -141,7 +141,7 @@ const taskStatusChangeHandler = function (event) {
 
     // find the parent task item element based on the id
     const taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-
+    console.log(statusValue)
     if (statusValue === "Opened") {
         tasksOpenedEl.appendChild(taskSelected);
     }
@@ -160,6 +160,12 @@ const taskStatusChangeHandler = function (event) {
         if (tasks[i].id === parseInt(taskId)) {
             tasks[i].status = statusValue;
             break;
+        }
+    }
+
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].status === statusValue) {
+            createTaskEl(tasks[i]);
         }
     }
 
@@ -203,14 +209,23 @@ const dropTaskHandler = function (event) {
         statusSelectEl.selectedIndex = 3;
     }
 
-    dropZoneEl.appendChild(draggableElement);
-    dropZoneEl.removeAttribute("style");
-
     // loop through tasks array to find and update the updated task's status
     for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id === parseInt(id)) {
             tasks[i].status = statusSelectEl.value;
             break;
+        }
+    }
+    console.log(statusSelectEl.value)
+    dropZoneEl.appendChild(draggableElement);
+    dropZoneEl.removeAttribute("style");
+
+    // Redraw this column by priority
+    dropZoneEl.innerHTML = '';
+
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].status === statusSelectEl.value) {
+            createTaskEl(tasks[i]);
         }
     }
 
