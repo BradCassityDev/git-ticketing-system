@@ -33,9 +33,12 @@ const completeEditTask = function (taskTitle, taskDescription, taskId) {
 };
 
 const createTaskEl = function (taskDataObj) {
+    var tileColor = auditTask(taskDataObj)
+    
+    
     // create list item
     let listItemEl = document.createElement("li");
-    listItemEl.className = "task-item";
+    listItemEl.className = "task-item "+ tileColor;
 
     // add task id as a custom attribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
@@ -319,24 +322,30 @@ const createTask = function(taskText, taskDate, taskList) {
     $("#list-" + taskList).append(taskLi);
 };
 var auditTask = function(taskEl) {
-    // get date from task element
-    var date = $(taskEl).find("span").text().trim();
-    // ensure it worked
-    console.log(date); 
+    //what is todays date
+    //what is the due date
+    var dueDate = new Date(taskEl.due_date);
   
-    // convert to moment object at 5:00pm
-    var time = moment(date, "L").set("hour", 17);
-    // this should print out an object for the value of the date variable, but at 5:00pm of that date
-    console.log(time);
-  
+    var color;
+    //if the due date before today
+    if (dueDate < currentDate) {
+        //set to red
+        color = "bg-danger";
+    
+    } else {
+        //set to white
+        color = "bg-light";
+    }
+    //is the due date equal to today
+    //is the due date more than 2 days
+  //return the decision
+  return color;
   };
 
 //get current date
 const currentDate = new Date();
 //set how many days from now we want
-const daysFromNow = 2;
-//get date two days from now
-const twoDaysFromNow = new Date(currentDate.setDate(currentDate.getDate() + daysFromNow));
+currentDate.setHours(currentDate.getHours() - 7);
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
