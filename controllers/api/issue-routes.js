@@ -309,16 +309,22 @@ router.post('/ticket', withAuthAdmin, (req, res) => {
                                         issue_id: issueData.id,
                                         ticket_state_id: 2
                                     },
+                                    
                                         {
                                             where: {
                                                 id: ticketData.id
                                             }
+                                        })
+                                        Issue_User.create({
+                                            user_id: req.session.user_id,
+                                            issue_id: issueData.id
                                         })
                                         .then(ticketDataUpdate => res.json(issueData))
                                         .catch(err => {
                                             console.log(err);
                                             res.status(500).json(err);
                                         });
+
                                 })
                                 .catch(err => {
                                     console.log(err);
