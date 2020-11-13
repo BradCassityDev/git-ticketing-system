@@ -211,7 +211,6 @@ router.get('/user/:id', withAuth, (req, res) => {
 
 // Create Issue - /api/issue
 router.post('/', withAuth, async (req, res) => {
-    console.log(process.env.GITHUB_TOKEN)
     // Assign current user to the assignees going to gethub
     req.body.data.assignees = [req.session.username];
 

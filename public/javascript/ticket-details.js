@@ -7,7 +7,7 @@ function getUserForDropdown() {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    // Get current porject user_id to set as default in select field
+                    // Get current user_id to set as default in select field
                     const currentUserId = userDDContainerEl.getAttribute('data-user-id');
 
                     // Clear out previous dropdown
@@ -30,11 +30,6 @@ function getUserForDropdown() {
                         let option = document.createElement('option');
                         option.value = data[i].id;
                         option.text = data[i].username;
-
-                        // // Check if user is associated to issue already
-                        // if (data[i].id === parseInt(currentUserId)) {
-                        //     option.setAttribute('selected', 'selected');
-                        // }
 
                         // Include option in dropdown
                         userDDSelectEl.add(option);
@@ -81,11 +76,6 @@ function getProjectForDropdown() {
                         let option = document.createElement('option');
                         option.value = data[i].id;
                         option.text = data[i].name;
-
-                        // // Check if user is associated to issue already
-                        // if (data[i].id === parseInt(currentUserId)) {
-                        //     option.setAttribute('selected', 'selected');
-                        // }
 
                         // Include option in dropdown
                         projectDDSelectEl.add(option);
@@ -263,7 +253,7 @@ async function updateTicketDetails(event) {
         ticket_state_id: ticketStateId
     }
 
-    // Fetch /api/user/:id and update user details
+    // Fetch /api/ticket/:id and update user details
     const response = await fetch(`/api/ticket/${id}`, {
         method: 'PUT',
         body: JSON.stringify(updateObject),
