@@ -24,7 +24,7 @@
           <!-- Teams Table -->
           <table class="table">
             <thead class="thead-light">
-              <th>ID</th>
+              <th class="d-none d-sm-table-cell">ID</th>
               <th>Team Name</th>
               <th>Team Members</th>
               <th></th>
@@ -32,7 +32,7 @@
             <tbody>
               {{#each teams as |team|}}
               <tr>
-                <td>{{team.id}}</td>
+                <td class="d-none d-sm-table-cell">{{team.id}}</td>
                 <td>{{team.name}}</td>
                 <td>{{#each team.users as |user|}}
                 {{user.username}}, 

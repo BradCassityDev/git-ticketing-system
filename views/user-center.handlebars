@@ -26,9 +26,9 @@
             <thead class="thead-light">
               <th>ID</th>
               <th>Username</th>
-              <th>Role</th>
-              <th>User State</th>
-              <th>Team</th>
+              <th class="d-none d-sm-table-cell">Role</th>
+              <th class="d-none d-sm-table-cell">User State</th>
+              <th class="d-none d-sm-table-cell">Team</th>
               <th></th>
             </thead>
             <tbody>
@@ -36,9 +36,9 @@
               <tr>
                 <td>{{user.id}}</td>
                 <td>{{user.username}}</td>
-                <td>{{user.role.name}}</td>
-                <td>{{user.user_state.name}}</td>
-                <td>{{user.team.name}}</td>
+                <td class="d-none d-sm-table-cell">{{user.role.name}}</td>
+                <td class="d-none d-sm-table-cell">{{user.user_state.name}}</td>
+                <td class="d-none d-sm-table-cell">{{user.team.name}}</td>
                 <td><a href="/admin/user/{{user.id}}" class="btn btn-secondary">Edit</a></td>
               </tr>
               {{/each}}
