@@ -34,11 +34,11 @@ const completeEditTask = function (taskTitle, taskDescription, taskId) {
 
 const createTaskEl = function (taskDataObj) {
     var tileColor = auditTask(taskDataObj)
-    
-    
+
+
     // create list item
     let listItemEl = document.createElement("li");
-    listItemEl.className = "task-item "+ tileColor;
+    listItemEl.className = "task-item " + tileColor;
 
     // add task id as a custom attribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
@@ -144,7 +144,7 @@ const taskStatusChangeHandler = function (event) {
 
     // find the parent task item element based on the id
     const taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-    console.log(statusValue)
+
     if (statusValue === "Opened") {
         tasksOpenedEl.appendChild(taskSelected);
     }
@@ -165,13 +165,6 @@ const taskStatusChangeHandler = function (event) {
             break;
         }
     }
-
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].status === statusValue) {
-            createTaskEl(tasks[i]);
-        }
-    }
-
     saveTasks(taskId);
 };
 
@@ -219,18 +212,18 @@ const dropTaskHandler = function (event) {
             break;
         }
     }
-    console.log(statusSelectEl.value)
     dropZoneEl.appendChild(draggableElement);
     dropZoneEl.removeAttribute("style");
 
     // Redraw this column by priority
-    dropZoneEl.innerHTML = '';
+    // dropZoneEl.innerHTML = '';
 
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].status === statusSelectEl.value) {
-            createTaskEl(tasks[i]);
-        }
-    }
+    // for (let i = 0; i < tasks.length; i++) {
+    //     if (tasks[i].status === statusSelectEl.value) {
+    //         createTaskEl(tasks[i]);
+    //         console.log(tasks[i])
+    //     }
+    // }
 
     saveTasks(id);
 };
@@ -345,7 +338,7 @@ const clearSpinners = function () {
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
-const createTask = function(taskText, taskDate, taskList) {
+const createTask = function (taskText, taskDate, taskList) {
     var taskLi = $("<li>").addClass("list-group-item");
     var taskSpan = $("<span>").addClass("badge badge-secondary badge-pill").text(taskDate);
     var taskP = $("<p>").addClass("m-1").text(taskText);
@@ -359,26 +352,26 @@ const createTask = function(taskText, taskDate, taskList) {
     //append to ul list on the page
     $("#list-" + taskList).append(taskLi);
 };
-var auditTask = function(taskEl) {
+var auditTask = function (taskEl) {
     //what is todays date
     //what is the due date
     var dueDate = new Date(taskEl.due_date);
-  
+
     var color;
     //if the due date before today
     if (dueDate < currentDate) {
         //set to red
         color = "bg-danger";
-    
+
     } else {
         //set to white
         color = "bg-light";
     }
     //is the due date equal to today
     //is the due date more than 2 days
-  //return the decision
-  return color;
-  };
+    //return the decision
+    return color;
+};
 
 //get current date
 const currentDate = new Date();
