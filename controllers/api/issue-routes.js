@@ -233,8 +233,10 @@ router.post('/', withAuth, async (req, res) => {
             return;
         });
 
+    console.log('hello 1');
     // Create issue on GitHub and return info
     const githubResult = await createIssue(projectDetails.github_username, projectDetails.github_repo_name, req.body.data);
+    console.log('hello 2');
 
     // Create issue in database and assign github_issue_number to associate back
     Issue.create({
