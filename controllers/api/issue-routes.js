@@ -315,7 +315,7 @@ router.post('/ticket', withAuthAdmin, (req, res) => {
                                             }
                                         })
                                         Issue_User.create({
-                                            user_id: req.session.user_id,
+                                            user_id: req.body.user_id,
                                             issue_id: issueData.id
                                         })
                                         .then(ticketDataUpdate => res.json(issueData))
