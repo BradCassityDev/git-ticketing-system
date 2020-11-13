@@ -24,8 +24,8 @@
             <thead class="thead-light">
               <th>ID</th>
               <th>Ticket Title</th>
-              <th>Ticket Description</th>
-              <th>Assign Issue ID</th>
+              <th class="d-none d-sm-table-cell">Ticket Description</th>
+              <th class="d-none d-sm-table-cell">Assign Issue ID</th>
               <th>Ticket State</th>
               <th></th>
             </thead>
@@ -34,8 +34,8 @@
               <tr>
                 <td>{{ticket.id}}</td>
                 <td>{{ticket.title}}</td>
-                <td>{{ticket.description}}</td>
-                <td>{{ticket.issue_id}}</td>
+                <td class="d-none d-sm-table-cell">{{ticket.description}}</td>
+                <td class="d-none d-sm-table-cell">{{ticket.issue_id}}</td>
                 <td>{{ticket.ticket_state.name}}</td>
                 <td><a href="/admin/ticket/{{ticket.id}}" class="btn btn-light">Edit</a></td>
               </tr>
