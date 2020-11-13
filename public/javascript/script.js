@@ -33,9 +33,12 @@ const completeEditTask = function (taskTitle, taskDescription, taskId) {
 };
 
 const createTaskEl = function (taskDataObj) {
+    var tileColor = auditTask(taskDataObj)
+    
+    
     // create list item
     let listItemEl = document.createElement("li");
-    listItemEl.className = "task-item";
+    listItemEl.className = "task-item "+ tileColor;
 
     // add task id as a custom attribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
@@ -342,6 +345,45 @@ const clearSpinners = function () {
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
+const createTask = function(taskText, taskDate, taskList) {
+    var taskLi = $("<li>").addClass("list-group-item");
+    var taskSpan = $("<span>").addClass("badge badge-secondary badge-pill").text(taskDate);
+    var taskP = $("<p>").addClass("m-1").text(taskText);
+
+    //append span and p element to parent li
+    taskLi.append(taskSpan, taskP);
+
+    //check due date
+    auditTask(taskLi);
+
+    //append to ul list on the page
+    $("#list-" + taskList).append(taskLi);
+};
+var auditTask = function(taskEl) {
+    //what is todays date
+    //what is the due date
+    var dueDate = new Date(taskEl.due_date);
+  
+    var color;
+    //if the due date before today
+    if (dueDate < currentDate) {
+        //set to red
+        color = "bg-danger";
+    
+    } else {
+        //set to white
+        color = "bg-light";
+    }
+    //is the due date equal to today
+    //is the due date more than 2 days
+  //return the decision
+  return color;
+  };
+
+//get current date
+const currentDate = new Date();
+//set how many days from now we want
+currentDate.setHours(currentDate.getHours() - 7);
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
@@ -351,3 +393,5 @@ pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
 loadTasks();
+
+
