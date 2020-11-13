@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket } = require('../../models/index');
+const { User, Issue, Project, Issue_State, Project_State, Issue_User, User_State, Role, Team, Ticket, Ticket_State } = require('../../models/index');
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const withAdminAuth = require('../../utils/authAdmin');
 
@@ -81,7 +81,14 @@ router.get('/project/:id', withAdminAuth, (req, res) => {
 
 // Admin Ticket Management - /admin/ticket
 router.get('/ticket', withAdminAuth, (req, res) => {
-    Ticket.findAll()
+    Ticket.findAll({
+        include: [
+            {
+                model: Ticket_State,
+                attributes:["name"]
+            }
+        ]
+    })
         .then(ticketData => {
             const tickets = ticketData.map(ticket => ticket.get({ plain: true }));
 
@@ -183,8 +190,16 @@ router.get('/user/:id', withAdminAuth, (req, res) => {
 
 // Admin Team Management - /admin/team
 router.get('/team', withAdminAuth, (req, res) => {
-    Team.findAll()
+    Team.findAll({
+        include: [
+            {
+                model: User,
+                attributes:['username']
+            }
+        ]
+    })
         .then(teamData => {
+            console.log(teamData)
             const teams = teamData.map(team => team.get({ plain: true }));
 
             res.render('team-center', { teams, loggedIn: req.session.loggedIn });

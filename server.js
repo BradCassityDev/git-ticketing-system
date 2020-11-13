@@ -5,6 +5,7 @@ const app = express();
 const session = require('express-session');
 const path = require('path');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const helpers = require('./utils/helpers');
 
 const sess = {
   secret: 'Super secret secret',
@@ -17,7 +18,8 @@ const sess = {
 };
 
 app.use(session(sess));
-const hbs = exphbs.create({});
+
+const hbs = exphbs.create({helpers});
 
 //template engine
 app.engine('handlebars', hbs.engine);

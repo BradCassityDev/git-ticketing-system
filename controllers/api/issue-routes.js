@@ -2,8 +2,9 @@ const router = require('express').Router();
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
+const withAuthAdmin = require('../../utils/authAdmin');
 const sendNotification = require('../../utils/email-notification');
-const { sendSMS } = require('../../utils/twilio.js');
+const { Op } = require("sequelize");
 
 const includeArray = [
     {
@@ -259,7 +260,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // Create Issue from Ticket - /api/issue/ticket
-router.post('/ticket', withAuth, (req, res) => {
+router.post('/ticket', withAuthAdmin, (req, res) => {
     // Get needed values from Ticket id
     // Get project ticket will be assigned to from request body
 
@@ -294,27 +295,35 @@ router.post('/ticket', withAuth, (req, res) => {
                     createIssue(projectDetails.github_username, projectDetails.github_repo_name, data)
                         .then(githubResult => {
                             // Create Issue database
-                            console.log("-=-==-=-=-CREATING ISSUE=-=-=-=-=-");
                             Issue.create({
                                 due_date: req.body.due_date,
                                 priority: req.body.priority,
                                 github_issue_number: githubResult.number,
-                                project_id: req.body.project_id
+                                project_id: req.body.project_id,
+                                issue_state_id: 1
+                
                             })
                                 .then(issueData => {
                                     Ticket.update({
-                                        issue_id: issueData.id
+                                        issue_id: issueData.id,
+                                        ticket_state_id: 2
                                     },
+                                    
                                         {
                                             where: {
                                                 id: ticketData.id
                                             }
+                                        })
+                                        Issue_User.create({
+                                            user_id: req.session.user_id,
+                                            issue_id: issueData.id
                                         })
                                         .then(ticketDataUpdate => res.json(issueData))
                                         .catch(err => {
                                             console.log(err);
                                             res.status(500).json(err);
                                         });
+
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -378,20 +387,32 @@ router.put('/:id', withAuth, async (req, res) => {
                     where: {
                         issue_id: req.params.id
                     }
-                }).
-                    then(ticketData => {
+                })
+                    .then(ticketData => {
+                        let ticketIds = [];
                         for (let i = 0; i < ticketData.length; i++) {
-                            // Send email to client if email exists
-                            if (ticketData[i].email) {
-                                sendNotification(ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
+                            // Send email to client if email or phone exists
+                            if (ticketData[i].email || ticketData[i].phone) {
+                                sendNotification(ticketData[i].phone, ticketData[i].email, `TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].description, '', '')
                                     .then(emailResponse => console.log(emailResponse));
                             }
-                            // Send SMS text to client if phone number exists
-                            if (ticketData[i].phone) {
-                                sendSMS(`TICKET CLOSED: ${ticketData[i].title}`, ticketData[i].phone)
-                                    .then(smsResponse => console.log(smsResponse));
-                            }
+                            ticketIds.push(ticketData[i].id);
                         }
+                        return ticketIds;
+                    })
+                    .then(ticketIds => {
+                        Ticket.update(
+                            {
+                                ticket_state_id: 3
+                            },
+                            {
+                                where: {
+                                    id: {
+                                        [Op.in]: ticketIds
+                                    }
+                                }
+                            }
+                        )
                     });
             }
             // If data was provided, update GitHub issue

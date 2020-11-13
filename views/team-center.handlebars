@@ -26,6 +26,7 @@
             <thead class="thead-light">
               <th>ID</th>
               <th>Team Name</th>
+              <th>Team Members</th>
               <th></th>
             </thead>
             <tbody>
@@ -33,6 +34,9 @@
               <tr>
                 <td>{{team.id}}</td>
                 <td>{{team.name}}</td>
+                <td>{{#each team.users as |user|}}
+                {{user.username}}, 
+                  {{/each}}</td>
                 <td><a href="#" onclick="prepareEditForm({{team.id}}, '{{team.name}}')" data-toggle="modal"
                     data-target="#create-team-modal" class="btn btn-secondary">Edit</a></td>
               </tr>

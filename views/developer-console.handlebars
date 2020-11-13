@@ -15,7 +15,6 @@
 </nav>
 
 <main class="page-content" id="page-content">
-
     <section class="task-list-wrapper">
         <h3 class="list-title">Opened</h3>
         <ul class="task-list" id="tasks-opened"><img src="/images/spinner.gif" width="75%"></ul>
@@ -33,6 +32,8 @@
         <ul class="task-list" id="tasks-blocked"><img src="/images/spinner.gif" width="75%"></ul>
     </section>
 </main>
+
+
 
 <!-- Create Issue Modal -->
 <div class="modal fade" id="create-issue-modal" tabindex="-1" role="dialog" aria-labelledby="create-issue-modal"
@@ -57,21 +58,21 @@
                         </div>
                         <div class="form-group">
                             <label for="create-issue-duedate">Due Date:</label>
-                            <input type="date" name="create-issue-duedate" id="create-issue-duedate"
-                                class="form-control">
+                            <input type="date" name="create-issue-duedate" id="create-issue-duedate" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="create-issue-priority">Priority:</label>
-                            <select name="create-issue-priority" id="create-issue-priority" class="form-control">
-                                <option value="Low" selected>Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
+                            <label for="create-issue-priority">Priority:</label> 
+                            <select id="create-issue-priority" name="create-issue-priority" class="form-control">
+                                <option value="Low" selected="selected">Low</option>
+                                <option value="Medium" >Medium</option>
+                                <option value="High" >High</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="create-issue-labels">Labels:</label>
                             <select name="create-issue-labels" id="create-issue-labels" class="form-control">
-                                <option value="Bug" selected>Bug</option>
+                                <option value="no-label" selected>Select a label...</option>
+                                <option value="Bug">Bug</option>
                                 <option value="Feature">Feature</option>
                             </select>
                         </div>
@@ -123,7 +124,8 @@
                         <div class="form-group">
                             <label for="edit-issue-labels">Labels:</label>
                             <select name="edit-issue-labels" id="edit-issue-labels" class="form-control">
-                                <option value="Bug" selected>Bug</option>
+                                <option value="no-label" selected>Select a label...</option>
+                                <option value="Bug">Bug</option>
                                 <option value="Feature">Feature</option>
                             </select>
                         </div>
@@ -146,4 +148,4 @@
 <script src="/javascript/create-issue.js"></script>
 <script src="/javascript/update-issue.js"></script>
 <script>const userID = '{{ userId }}';</script>
-<script src="/javascript/script.js"></script>
+<script src="/javascript/script.js"></script> 
