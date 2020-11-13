@@ -34,11 +34,11 @@ const completeEditTask = function (taskTitle, taskDescription, taskId) {
 
 const createTaskEl = function (taskDataObj) {
     var tileColor = auditTask(taskDataObj)
-    
-    
+
+
     // create list item
     let listItemEl = document.createElement("li");
-    listItemEl.className = "task-item "+ tileColor;
+    listItemEl.className = "task-item " + tileColor;
 
     // add task id as a custom attribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
@@ -79,7 +79,7 @@ const createTaskEl = function (taskDataObj) {
         tasksBlockedEl.appendChild(listItemEl);
     }
 
-    tasks.push(taskDataObj);
+    //tasks.push(taskDataObj);
 
     // increase task counter for next unique id
     taskIdCounter++;
@@ -165,7 +165,6 @@ const taskStatusChangeHandler = function (event) {
             break;
         }
     }
-
     saveTasks(taskId);
 };
 
@@ -206,9 +205,6 @@ const dropTaskHandler = function (event) {
         statusSelectEl.selectedIndex = 3;
     }
 
-    dropZoneEl.appendChild(draggableElement);
-    dropZoneEl.removeAttribute("style");
-
     // loop through tasks array to find and update the updated task's status
     for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id === parseInt(id)) {
@@ -216,6 +212,18 @@ const dropTaskHandler = function (event) {
             break;
         }
     }
+    dropZoneEl.appendChild(draggableElement);
+    dropZoneEl.removeAttribute("style");
+
+    // Redraw this column by priority
+    // dropZoneEl.innerHTML = '';
+
+    // for (let i = 0; i < tasks.length; i++) {
+    //     if (tasks[i].status === statusSelectEl.value) {
+    //         createTaskEl(tasks[i]);
+    //         console.log(tasks[i])
+    //     }
+    // }
 
     saveTasks(id);
 };
@@ -262,6 +270,12 @@ const loadTasks = function () {
             })
             .then(userIssues => {
                 clearSpinners();
+                const priorities = {
+                    High: 1,
+                    Medium: 2,
+                    Low: 3
+                };
+
                 for (let i = 0; i < userIssues.issues.length; i++) {
                     let newTask = {};
 
@@ -273,6 +287,7 @@ const loadTasks = function () {
                     newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
                     newTask.due_date = userIssues.issues[i].due_date;
                     newTask.priority = userIssues.issues[i].priority;
+                    newTask.prioritySortOrder = (newTask.priority) ? priorities[newTask.priority] : 4;
                     newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
                     newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
                     if (userIssues.issues[i].github_issue_details.labels.length > 0) {
@@ -287,15 +302,31 @@ const loadTasks = function () {
                     else {
                         newTask.userId = '';
                     }
+                    tasks.push(newTask);
 
-                    createTaskEl(newTask);
                 }
+
+                // Sort by priority - highest to lowest
+                tasks.sort(compareTasks);
+
+                // Render tasks in priority order
+                for (let i = 0; i < tasks.length; i++) {
+                    createTaskEl(tasks[i]);
+                }
+
             });
     }
     else {
         clearSpinners();
     }
 }
+
+const compareTasks = function (a, b) {
+    if (a.prioritySortOrder > b.prioritySortOrder) return 1;
+    if (b.prioritySortOrder > a.prioritySortOrder) return -1;
+
+    return 0;
+};
 
 const clearSpinners = function () {
     tasksOpenedEl.innerHTML = '';
@@ -307,7 +338,7 @@ const clearSpinners = function () {
 const descriptionTrimmer = function (description) {
     return description.substring(0, 20) + "...";
 };
-const createTask = function(taskText, taskDate, taskList) {
+const createTask = function (taskText, taskDate, taskList) {
     var taskLi = $("<li>").addClass("list-group-item");
     var taskSpan = $("<span>").addClass("badge badge-secondary badge-pill").text(taskDate);
     var taskP = $("<p>").addClass("m-1").text(taskText);
@@ -321,26 +352,26 @@ const createTask = function(taskText, taskDate, taskList) {
     //append to ul list on the page
     $("#list-" + taskList).append(taskLi);
 };
-var auditTask = function(taskEl) {
+var auditTask = function (taskEl) {
     //what is todays date
     //what is the due date
     var dueDate = new Date(taskEl.due_date);
-  
+
     var color;
     //if the due date before today
     if (dueDate < currentDate) {
         //set to red
         color = "bg-danger";
-    
+
     } else {
         //set to white
         color = "bg-light";
     }
     //is the due date equal to today
     //is the due date more than 2 days
-  //return the decision
-  return color;
-  };
+    //return the decision
+    return color;
+};
 
 //get current date
 const currentDate = new Date();

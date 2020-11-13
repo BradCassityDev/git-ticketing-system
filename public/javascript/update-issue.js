@@ -55,11 +55,7 @@ async function updateIssueState(issue) {
     }
   });
 
-  if (response.ok) {
-    console.log(response);
-
-    //document.location.replace('/dashboard/')
-  } else {
+  if (!response.ok) {
     alert(response.statusText);
   }
 }
