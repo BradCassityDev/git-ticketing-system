@@ -1,5 +1,5 @@
-const { getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue } = require('./github');
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../models/index');
+const { getRepoDetails, getRepoIssues } = require('./github');
+const { Issue } = require('../models/index');
 
 // Sync and compare github repos
 async function syncGithubIssues(projectData) {
@@ -29,12 +29,18 @@ async function syncGithubIssues(projectData) {
 
             // Create new issue in db
             if (!isMatched) {
+                // Check if issue from repo is open or closed
+                let issueState = 1;
+                if (repoIssueResults[i].state !== 'open') {
+                    issueState = 4;
+                }
+                
                 await Issue.create({
                     due_date: ' ',
-                    priority: 'Medium',
+                    priority: 'Low',
                     github_issue_number: `${repoIssueResults[i].number}`,
                     project_id: projectData.id,
-                    issue_state_id: 1,
+                    issue_state_id: issueState,
                 })
                     .then(issueData => {
                         return issueData
