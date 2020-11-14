@@ -163,12 +163,12 @@ async function editIssue(event) {
       missingInfo.push("Project")
     }if (!title){
       missingInfo.push("Title")
-    }if (!description){
-      missingInfo.push("Description")
-    }if (!dueDate){
-      missingInfo.push("Due Date")
     }if (!priority){
       missingInfo.push("Priority")
+    }if (!dueDate){
+      missingInfo.push("Due Date")
+    }if (!description){
+      missingInfo.push("Description")
     }
     alert('Missing information: ' + missingInfo.join(', '));
   }
