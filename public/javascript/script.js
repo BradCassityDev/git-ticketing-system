@@ -224,10 +224,14 @@ const saveTasks = function (taskId) {
     updateIssueState(tasks[taskId]);
 };
 
-const loadTasks = function () {
-    if (userID) {
+const loadTasks = function (category, categoryId) {
+    if (categoryId) {
+        // Clear tasks
+        taskIdCounter = 0;
+        tasks = [];
+
         // Gets task items from server
-        fetch(`/api/issue/user/${userID}`, { // User ID is set by server on rendered HTML
+        fetch(`/api/issue/${category}/${categoryId}`, { // User ID is set by server on rendered HTML
             method: 'get',
             headers: { 'Content-Type': 'application/json' }
         })
@@ -239,7 +243,7 @@ const loadTasks = function () {
                     alert("Error"); // TODO - Don't alert like a weirdo
                 }
             })
-            .then(userIssues => {
+            .then(boardIssues => {
                 clearSpinners();
                 const priorities = {
                     High: 1,
@@ -247,28 +251,35 @@ const loadTasks = function () {
                     Low: 3
                 };
 
-                for (let i = 0; i < userIssues.issues.length; i++) {
+                if (boardIssues.projects) {
+                    boardIssues.issues = [];
+                    for (let i = 0; i < boardIssues.projects.length; i++) {
+                        boardIssues.issues = boardIssues.issues.concat(boardIssues.projects[i].issues);
+                    }
+                }
+
+                for (let i = 0; i < boardIssues.issues.length; i++) {
                     let newTask = {};
 
                     newTask.id = i;
-                    newTask.issue_id = userIssues.issues[i].id;
-                    newTask.project_id = userIssues.issues[i].project_id;
-                    newTask.github_user_number = userIssues.issues[i].github_issue_number;
-                    newTask.title = userIssues.issues[i].github_issue_details.title;
-                    newTask.description = descriptionTrimmer(userIssues.issues[i].github_issue_details.body);
-                    newTask.due_date = userIssues.issues[i].due_date;
-                    newTask.priority = userIssues.issues[i].priority;
+                    newTask.issue_id = boardIssues.issues[i].id;
+                    newTask.project_id = boardIssues.issues[i].project_id;
+                    newTask.github_user_number = boardIssues.issues[i].github_issue_number;
+                    newTask.title = boardIssues.issues[i].github_issue_details.title;
+                    newTask.description = descriptionTrimmer(boardIssues.issues[i].github_issue_details.body);
+                    newTask.due_date = boardIssues.issues[i].due_date;
+                    newTask.priority = boardIssues.issues[i].priority;
                     newTask.prioritySortOrder = (newTask.priority) ? priorities[newTask.priority] : 4;
-                    newTask.fullDescription = userIssues.issues[i].github_issue_details.body;
-                    newTask.status = (userIssues.issues[i].issue_state) ? userIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
-                    if (userIssues.issues[i].github_issue_details.labels.length > 0) {
-                        newTask.label = userIssues.issues[i].github_issue_details.labels[0].name;
+                    newTask.fullDescription = boardIssues.issues[i].github_issue_details.body;
+                    newTask.status = (boardIssues.issues[i].issue_state) ? boardIssues.issues[i].issue_state.name : 'Opened'; // get from status - null means open
+                    if (boardIssues.issues[i].github_issue_details.labels.length > 0) {
+                        newTask.label = boardIssues.issues[i].github_issue_details.labels[0].name;
                     }
                     else {
                         newTask.status.label = '';
                     }
-                    if (userIssues.issues[i].issue_user.length > 0) {
-                        newTask.userId = userIssues.issues[i].issue_user.user_id;
+                    if (boardIssues.issues[i].users.length > 0) {
+                        newTask.userId = boardIssues.issues[i].users[0].id;
                     }
                     else {
                         newTask.userId = '';
@@ -304,6 +315,13 @@ const clearSpinners = function () {
     tasksInProgressEl.innerHTML = '';
     tasksClosedEl.innerHTML = '';
     tasksBlockedEl.innerHTML = '';
+};
+
+const setSpinners = function () {
+    tasksOpenedEl.innerHTML = '<img src="/images/spinner.gif" width="75%">';
+    tasksInProgressEl.innerHTML = '<img src="/images/spinner.gif" width="75%">';
+    tasksClosedEl.innerHTML = '<img src="/images/spinner.gif" width="75%">';
+    tasksBlockedEl.innerHTML = '<img src="/images/spinner.gif" width="75%">';
 };
 
 const descriptionTrimmer = function (description) {
@@ -351,6 +369,4 @@ pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
 
-loadTasks();
-
-
+loadTasks('user', userID);
