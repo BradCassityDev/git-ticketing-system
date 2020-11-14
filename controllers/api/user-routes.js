@@ -128,7 +128,7 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       if (userRole === 1) { // User is set to developer role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
-        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":4,%"role_id":2%'`;
+        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":2%'`;
         sequelize.query(findSessionSQL, { type: QueryTypes.SELECT })
           .then(sessionData => {
             // If we find a session, that means we should change the role in the session
@@ -142,7 +142,7 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       else if (userRole === 2) { // user is set to admin role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
-        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":4,%"role_id":1%'`;
+        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":1%'`;
         sequelize.query(findSessionSQL, { type: QueryTypes.SELECT })
           .then(sessionData => {
             // If we find a session, that means we should change the role in the session
