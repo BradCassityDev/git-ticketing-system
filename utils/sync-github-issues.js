@@ -3,20 +3,17 @@ const { getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue } 
 // Sync and compare github repos
 async function syncGithubIssues(projectData) {
     // Return GitHub repository details for evaulation 
-    const repoDetailResults = await getRepoDetails("TotallyFakeRepoNameThatWouldNeverExists", projectData.github_repo_name);
-   //projectData.github_username
+    const repoDetailResults = await getRepoDetails(projectData.github_username, projectData.github_repo_name);
+
     // Verify that the repo exists
-    console.log(repoDetailResults);
-
-    if (repoDetailResults.exists == false) {
-        // Repository does not exists
-        return repoDetailResults;
-    } else {
+    if (repoDetailResults.exists) {
         // Repository verified
-
         // Get repository issues from GitHub
         //const repoIssueResults = getRepoIssues(projectData.github_username, projectData.github_username);
         return repoDetailResults;
+    } else {
+        // Repository does not exists
+        return repoDetailResults;   
     }
 }
 

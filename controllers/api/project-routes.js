@@ -40,7 +40,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // GET - Sync Project Issues - /api/project/sync/:id
-router.get('/sync/:id', (req, res) => {
+router.get('/sync/:id', async (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
@@ -51,8 +51,10 @@ router.get('/sync/:id', (req, res) => {
                 res.status(404).json({ message: 'No project found with that ID'} );
                 return;
             }
-            const result = await syncGithubIssues(projectData);
-            res.json(result);
+            await syncGithubIssues(projectData)
+                .then(data => {
+                    res.json(data);
+                });
         })
         .catch(err => {
             console.log(err);
