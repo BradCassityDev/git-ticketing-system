@@ -2,6 +2,8 @@ const router = require('express').Router();
 const { Issue, Project, Team, Project_State } = require('../../models');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
+const { getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
+const { syncGithubIssues } = require('../../utils/sync-github-issues');
 
 // GET all projects - /api/project
 router.get('/', withAuth, (req, res) => {
@@ -38,7 +40,7 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // Create project - /api/project
-router.post('/', withAuthAdmin, (req, res) => {
+router.post('/', (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
@@ -46,7 +48,10 @@ router.post('/', withAuthAdmin, (req, res) => {
         project_state_id: (req.body.project_state_id) ? req.body.project_state_id : 1,
         team_id: req.body.team_id
     })
-        .then(projectData => res.json(projectData))
+        .then(projectData => {
+            syncGithubIssues(projectData);
+            res.json(projectData);
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
