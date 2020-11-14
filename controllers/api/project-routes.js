@@ -40,11 +40,16 @@ router.get('/:id', withAuth, (req, res) => {
 });
 
 // GET - Sync Project Issues - /api/project/sync/:id
-router.get('/sync/:id', async (req, res) => {
+router.get('/sync/:id', withAuth, async (req, res) => {
     Project.findOne({
         where: {
             id: req.params.id
-        }
+        },
+        include: [
+            {
+                model: Issue
+            }
+        ]
     })
         .then(async projectData => {
             if (!projectData) {
@@ -63,7 +68,7 @@ router.get('/sync/:id', async (req, res) => {
 });
 
 // POST - Create project - /api/project
-router.post('/', (req, res) => {
+router.post('/', withAuthAdmin, (req, res) => {
     Project.create({
         name: req.body.name,
         github_repo_name: req.body.github_repo_name,
