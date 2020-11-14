@@ -5,7 +5,7 @@ const withAuthAdmin = require('../../utils/authAdmin');
 const { getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { syncGithubIssues } = require('../../utils/sync-github-issues');
 
-// GET all projects - /api/project
+// GET - Get all projects - /api/project
 router.get('/', withAuth, (req, res) => {
     Project.findAll({
         include: [
@@ -25,7 +25,7 @@ router.get('/', withAuth, (req, res) => {
         });
 });
 
-// Get single project - /api/project/:id
+// GET - Get single project - /api/project/:id
 router.get('/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
@@ -39,7 +39,28 @@ router.get('/:id', withAuth, (req, res) => {
         });
 });
 
-// Create project - /api/project
+// GET - Sync Project Issues - /api/project/sync/:id
+router.get('/sync/:id', (req, res) => {
+    Project.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(async projectData => {
+            if (!projectData) {
+                res.status(404).json({ message: 'No project found with that ID'} );
+                return;
+            }
+            const result = await syncGithubIssues(projectData);
+            res.json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+// POST - Create project - /api/project
 router.post('/', (req, res) => {
     Project.create({
         name: req.body.name,
@@ -49,7 +70,6 @@ router.post('/', (req, res) => {
         team_id: req.body.team_id
     })
         .then(projectData => {
-            syncGithubIssues(projectData);
             res.json(projectData);
         })
         .catch(err => {
@@ -58,7 +78,7 @@ router.post('/', (req, res) => {
         });
 });
 
-// Update project - /api/project/:id
+// UPDATE - update project - /api/project/:id
 router.put('/:id', withAuthAdmin, (req, res) => {
     // create object to update project
     const updateProjectObj = {

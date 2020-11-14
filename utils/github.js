@@ -1,20 +1,25 @@
 const axios = require('axios');
 require('dotenv').config();
 const auth = 'token ' + process.env.GITHUB_TOKEN;
+const basicAuth = {
+    
+}
 
 // Return Repo Details
-function getRepoDetails(githubUser, repoName) {
-    return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
-            Authorization: auth
+async function getRepoDetails(githubUser, repoName) {
+    return await axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
+        Authorization: auth
+    })
+        .then(response => {
+            return {
+                exists: true,
+                data: response.data
+            };
         })
-            .then(function (response) {
-                resolve(response.data);
-            })
-            .catch(function (error) {
-                reject(error);
-            });
-    });
+        .catch(error => {
+            console.log(error);
+            return { exists: false };
+        });
 }
 
 // Return Repo Issues (whether closed or not) 
