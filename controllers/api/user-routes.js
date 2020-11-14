@@ -104,7 +104,7 @@ router.post('/logout', (req, res) => {
 
 });
 
-// PUT /api/users/1
+// PUT /api/user/1
 router.put('/:id', withAuthAdmin, (req, res) => {
   User.update(req.body, {
     where: {
@@ -116,12 +116,16 @@ router.put('/:id', withAuthAdmin, (req, res) => {
         res.status(404).json({ message: 'No user found with this id' });
         return;
       }
-      if (req.body.user_state_id === 2) { // User was set to inactive state
+
+      const userState = parseInt(req.body.user_state_id);
+      if (userState === 2) { // User was set to inactive state
         // Delete the session which will log out the user
         const deleteUserSQL = `DELETE FROM session WHERE data LIKE '%"user_id":${req.params.id},%'`;
         sequelize.query(deleteUserSQL);
       }
-      if (req.body.role_id === 1) { // User is set to developer role
+
+      const userRole = parseInt(req.body.role_id);
+      if (userRole === 1) { // User is set to developer role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
         const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":4,%"role_id":2%'`;
@@ -135,7 +139,7 @@ router.put('/:id', withAuthAdmin, (req, res) => {
             }
           });
       }
-      else if (req.body.role_id === 2) { // user is set to admin role
+      else if (userRole === 2) { // user is set to admin role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
         const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":4,%"role_id":1%'`;
