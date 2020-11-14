@@ -186,9 +186,9 @@ const dropTaskHandler = function (event) {
 const redrawLists = function () {
     // Delete all the task item lis
     var lis = document.getElementsByClassName('task-item');
-    while (lis.length > 0) {
+
+    for (let i = lis.length - 1; i >= 0; i--) {
         lis[0].remove();
-        lis = document.getElementsByClassName('task-item');
     }
 
     // Reset task counter
@@ -196,9 +196,7 @@ const redrawLists = function () {
 
     // Redraw the list items
     for (let i = 0; i < tasks.length; i++) {
-
         createTaskEl(tasks[i]);
-        console.log(tasks[i])
     }
 };
 
