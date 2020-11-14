@@ -60,7 +60,19 @@ async function createIssue(event) {
         $('#create-issue-modal').modal('hide');
         clearCreateIssueForm();
     } else {
-        alert('Missing information.');
+      const missingInfo = []
+        if (!projectId){
+          missingInfo.push("Project")
+        }if (!title){
+          missingInfo.push("Title")
+        }if (!description){
+          missingInfo.push("Description")
+        }if (!dueDate){
+          missingInfo.push("Due Date")
+        }if (!priority){
+          missingInfo.push("Priority")
+        }
+        alert('Missing information: ' + missingInfo.join(', '));
     }
     
 }

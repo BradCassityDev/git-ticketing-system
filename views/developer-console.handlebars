@@ -49,19 +49,19 @@
                 <div class="modal-body">
                     <form id="create-issue-form">
                         <div class="form-group">
-                            <label for="project-dropdown">Related Project:</label>
+                            <label for="project-dropdown">*Related Project:</label>
                             <div id="project-dropdown-container"></div>
                         </div>
                         <div class="form-group">
-                            <label for="create-issue-title">Issue Title:</label>
+                            <label for="create-issue-title">*Issue Title:</label>
                             <input type="text" name="create-issue-title" id="create-issue-title" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="create-issue-duedate">Due Date:</label>
+                            <label for="create-issue-duedate">*Due Date:</label>
                             <input type="date" name="create-issue-duedate" id="create-issue-duedate" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="create-issue-priority">Priority:</label> 
+                            <label for="create-issue-priority">*Priority:</label> 
                             <select id="create-issue-priority" name="create-issue-priority" class="form-control">
                                 <option value="Low" selected="selected">Low</option>
                                 <option value="Medium" >Medium</option>
@@ -77,10 +77,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="create-issue-body">Description:</label>
+                            <label for="create-issue-body">*Description:</label>
                             <textarea name="create-issue-body" id="create-issue-body" class="form-control"></textarea>
                         </div>
                         <button type="submit" id="create-issue-btn" class="btn btn-secondary">Create Issue</button>
+                        <p>* Required</p>
                     </form>
                 </div>
             </div>
