@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const { User } = require('../../models');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
-
+const sequelize = require('../../config/connection');
 
 // GET /api/users
 router.get('/', withAuth, (req, res) => {
@@ -70,6 +70,12 @@ router.post('/login', (req, res) => {
         return;
       };
 
+      // Don't let inactive users log in
+      if (dbUserData.user_state_id === 2) {
+        res.status(400).json({ message: 'User is inactive!' });
+        return;
+      }
+
       req.session.save(() => {
         // declare session variables
         req.session.user_id = dbUserData.id;
@@ -109,6 +115,12 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       if (!dbUserData[0]) {
         res.status(404).json({ message: 'No user found with this id' });
         return;
+      }
+      if (req.body.user_state_id === 2) { // user was set to inactive state
+        // Delete the session which will log out the user
+        const deleteUserSQL = `DELETE FROM session WHERE data LIKE '%"user_id":${req.params.id},%'`;
+        console.log(deleteUserSQL);
+        sequelize.query(deleteUserSQL);
       }
       res.json(dbUserData);
     })
