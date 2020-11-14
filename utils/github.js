@@ -1,12 +1,16 @@
 const axios = require('axios');
 require('dotenv').config();
 const auth = 'token ' + process.env.GITHUB_TOKEN;
+const basicAuth = {
+    username: process.env.GITHUB_USER,
+    password: process.env.GITHUB_PASS,
+}
 
 // Return Repo Details
 function getRepoDetails(githubUser, repoName) {
     return new Promise((resolve, reject) => {
         axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
-            Authorization: auth
+            Authorization: basicAuth
         })
             .then(function (response) {
                 resolve(response.data);
@@ -21,7 +25,7 @@ function getRepoDetails(githubUser, repoName) {
 function getRepoIssues(githubUser, repoName) {
     return new Promise((resolve, reject) => {
         axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues?state=all`, {
-            Authorization: auth
+            Authorization: basicAuth
         })
             .then(function (response) {
                 resolve(response.data);
@@ -37,7 +41,7 @@ function issueDetails(githubUser, repoName, issueNum) {
 
     return new Promise((resolve, reject) => {
         axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`, {
-            Authorization: auth
+            Authorization: basicAuth
         })
             .then(function (response) {
                 resolve(response.data);
