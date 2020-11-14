@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { Issue, Project, Team, Project_State } = require('../../models');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
-const { getRepoDetails, getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
 const { syncGithubIssues } = require('../../utils/sync-github-issues');
 
 // GET - Get all projects - /api/project

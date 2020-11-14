@@ -24,8 +24,6 @@ async function syncGithubIssues(projectData) {
                     isMatched = true;
                 }
             }
-            console.log(isMatched);
-
 
             // Create new issue in db
             if (!isMatched) {
