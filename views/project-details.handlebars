@@ -70,10 +70,13 @@
           <div class="row">
             <div class="col-12">
               <h5 class="float-left">Associated Issues</h5>
+              <button id="sync-repo-issues-btn" data-project="{{project.id}}" class="btn btn-secondary float-right">Sync Repo Issues</butotn>
             </div>
           </div>
-          
 
+          <hr>
+          
+          <!-- Associated GitHub Issues Table -->
           <table class="table">
             <thead>
               <tr>
@@ -98,12 +101,11 @@
               {{/each}}
             </tbody>
           </table>
-          
-
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<script src="/javascript/sync-github-issues.js"></script>
 <script src="/javascript/project-details.js"></script>

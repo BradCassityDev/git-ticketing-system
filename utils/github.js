@@ -1,27 +1,33 @@
 const axios = require('axios');
 require('dotenv').config();
-const auth = 'token ' + process.env.GITHUB_TOKEN;
+const auth = 'Basic ' + process.env.GITHUB_TOKEN;
+const basicAuth = {
+    username: process.env.GITHUB_USER,
+    password: process.env.GITHUB_PASS
+}
 
 // Return Repo Details
-function getRepoDetails(githubUser, repoName) {
-    return new Promise((resolve, reject) => {
-        axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
-            Authorization: auth
+async function getRepoDetails(githubUser, repoName) {
+    return await axios.get(`https://api.github.com/repos/${githubUser}/${repoName}`, {
+        Authorization: basicAuth
+    })
+        .then(response => {
+            return {
+                exists: true,
+                data: response.data
+            };
         })
-            .then(function (response) {
-                resolve(response.data);
-            })
-            .catch(function (error) {
-                reject(error);
-            });
-    });
+        .catch(error => {
+            console.log(error);
+            return { exists: false };
+        });
 }
 
 // Return Repo Issues (whether closed or not) 
 function getRepoIssues(githubUser, repoName) {
     return new Promise((resolve, reject) => {
         axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues?state=all`, {
-            Authorization: auth
+            Authorization: basicAuth
         })
             .then(function (response) {
                 resolve(response.data);
@@ -34,10 +40,9 @@ function getRepoIssues(githubUser, repoName) {
 
 // Return Issue Details
 function issueDetails(githubUser, repoName, issueNum) {
-
     return new Promise((resolve, reject) => {
         axios.get(`https://api.github.com/repos/${githubUser}/${repoName}/issues/${issueNum}`, {
-            Authorization: auth
+            Authorization: basicAuth
         })
             .then(function (response) {
                 resolve(response.data);
