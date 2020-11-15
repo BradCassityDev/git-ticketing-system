@@ -5,20 +5,26 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-        {{#if loggedIn}} 
+
         <ul class="navbar-nav mr-auto">
+            {{#if loggedIn}}
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">Dashboard</a>
             </li>
+            {{/if}}
+            {{#if isAdmin}}
             <li class="nav-item">
                 <a class="nav-link" href="/admin">Admin</a>
             </li>
+            {{/if}}
         </ul>
-        {{/if}}
+
 
         <span class="navbar-text">
             {{#if loggedIn}}
             <a href='#' id="logout">Logout</a>
+            {{else}}
+            <a href='/login'>Login</a>
             {{/if}}
         </span>
     </div>

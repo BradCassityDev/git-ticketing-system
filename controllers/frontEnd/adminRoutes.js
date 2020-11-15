@@ -15,7 +15,8 @@ router.get('/', withAdminAuth, (req, res) => {
     })
         .then(projectData => {
             const projects = projectData.map(project => project.get({ plain: true }));
-            res.render('admin-console', { projects, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('admin-console', { projects, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -71,7 +72,8 @@ router.get('/project/:id', withAdminAuth, (req, res) => {
             }
 
             const project = issueData.get({ plain: true });
-            res.render('project-details', { project, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('project-details', { project, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -85,14 +87,14 @@ router.get('/ticket', withAdminAuth, (req, res) => {
         include: [
             {
                 model: Ticket_State,
-                attributes:["name"]
+                attributes: ["name"]
             }
         ]
     })
         .then(ticketData => {
             const tickets = ticketData.map(ticket => ticket.get({ plain: true }));
-
-            res.render('ticket-center', { tickets, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('ticket-center', { tickets, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -114,7 +116,8 @@ router.get('/ticket/:id', withAdminAuth, (req, res) => {
             }
 
             const ticket = ticketData.get({ plain: true });
-            res.render('ticket-details', { ticket, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('ticket-details', { ticket, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -144,8 +147,8 @@ router.get('/user', withAdminAuth, (req, res) => {
     )
         .then(userData => {
             const users = userData.map(user => user.get({ plain: true }));
-
-            res.render('user-center', { users, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('user-center', { users, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -156,9 +159,9 @@ router.get('/user', withAdminAuth, (req, res) => {
 // Admin User Details - /admin/user/:id
 router.get('/user/:id', withAdminAuth, (req, res) => {
     User.findOne(
-        { 
+        {
             where: {
-            id: req.params.id
+                id: req.params.id
             },
             include: [
                 {
@@ -177,10 +180,9 @@ router.get('/user/:id', withAdminAuth, (req, res) => {
         }
     )
         .then(userData => {
-            // const users = userData.map(user => user.get({ plain: true }));
             const user = userData.get({ plain: true });
-
-            res.render('user-details', { user, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('user-details', { user, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
@@ -194,15 +196,15 @@ router.get('/team', withAdminAuth, (req, res) => {
         include: [
             {
                 model: User,
-                attributes:['username']
+                attributes: ['username']
             }
         ]
     })
         .then(teamData => {
             console.log(teamData)
             const teams = teamData.map(team => team.get({ plain: true }));
-
-            res.render('team-center', { teams, loggedIn: req.session.loggedIn });
+            const isAdmin = (req.session.role_id === 2) ? true : false;
+            res.render('team-center', { teams, loggedIn: req.session.loggedIn, isAdmin });
         })
         .catch(err => {
             console.log(err);
