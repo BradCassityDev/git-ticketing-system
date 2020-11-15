@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getRepoIssues, issueDetails, createIssue, updateIssue } = require('../../utils/github');
-const { User, Issue, Project, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
+const { User, Issue, Project, Team, Issue_State, Project_State, Issue_User, Ticket } = require('../../models/index');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
 const sendNotification = require('../../utils/email-notification');
@@ -120,6 +120,68 @@ router.get('/project/:id', withAuth, (req, res) => {
         });
 });
 
+// Get /api/issue related to Team - /api/issue/team/:id
+router.get('/team/:id', withAuth, (req, res) => {
+    Team.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Project,
+                include: [
+                    {
+                        model: Project_State,
+                        attributes: ['name']
+                    },
+                    {
+                        model: Issue,
+                        include: [
+                            {
+                                model: Issue_State,
+                                attributes: ['name']
+                            },
+                            {
+                                model: User,
+                                attributes: ['id', 'username', 'email', 'phone']
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    })
+        .then(async issueData => {
+            if (!issueData) {
+                res.status(404).json({ message: 'No issues found by this project id' });
+                return;
+            }
+
+            for (let j = 0; j < issueData.projects.length; j++) {
+                // return all GitHub issues for this repository
+                const githubRepoIssues = await getRepoIssues(issueData.projects[j].github_username, issueData.projects[j].github_repo_name);
+
+                // Map GitHub issues with our db issues
+
+                for (let i = 0; i < issueData.projects[j].issues.length; i++) {
+                    // Loop through GitHub repo issues and include in DB issues
+                    for (let x = 0; x < githubRepoIssues.length; x++) {
+                        // Check if issue numbers match between GitHub and our DB
+                        if (githubRepoIssues[x].number === parseInt(issueData.projects[j].issues[i].dataValues.github_issue_number)) {
+                            issueData.projects[j].issues[i].dataValues.github_issue_details = githubRepoIssues[x];
+                        }
+                    }
+                }
+            }
+
+            res.json(issueData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
 // Get /api/issue assigned to User - /api/issue/user/:id
 router.get('/user/:id', withAuth, (req, res) => {
     User.findOne({
@@ -181,7 +243,7 @@ router.get('/user/:id', withAuth, (req, res) => {
                 }
             }
 
-            // if projects exist return all issues for each project and map to user issue before reutrning
+            // if projects exist return all issues for each project and map to user issue before returning
             for (let p = 0; p < projectsArr.length; p++) {
                 const githubResults = await getRepoIssues(projectsArr[p].github_username, projectsArr[p].github_repo_name);
 
@@ -301,23 +363,23 @@ router.post('/ticket', withAuthAdmin, (req, res) => {
                                 github_issue_number: githubResult.number,
                                 project_id: req.body.project_id,
                                 issue_state_id: 1
-                
+
                             })
                                 .then(issueData => {
                                     Ticket.update({
                                         issue_id: issueData.id,
                                         ticket_state_id: 2
                                     },
-                                    
+
                                         {
                                             where: {
                                                 id: ticketData.id
                                             }
                                         })
-                                        Issue_User.create({
-                                            user_id: req.body.user_id,
-                                            issue_id: issueData.id
-                                        })
+                                    Issue_User.create({
+                                        user_id: req.body.user_id,
+                                        issue_id: issueData.id
+                                    })
                                         .then(ticketDataUpdate => res.json(issueData))
                                         .catch(err => {
                                             console.log(err);

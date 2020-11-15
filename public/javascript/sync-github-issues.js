@@ -8,15 +8,14 @@ async function syncGithubIssues(event) {
     // Call the endpoint to sync GitHub issues
     await fetch(`/api/project/sync/${id}`, {
         method: 'GET',
-        headers: {'Content-Type': 'application-json'}
+        headers: { 'Content-Type': 'application-json' }
     })
         .then(async response => {
             if (response.ok) {
                 const newResult = await response.json();
-                
+
                 if (newResult.exists) {
                     // Sync Successful
-                    alert('Sync Successful');
                     document.location.reload();
                 } else {
                     // Sync Failed
