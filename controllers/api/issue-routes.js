@@ -325,10 +325,6 @@ router.post('/', withAuth, async (req, res) => {
 router.post('/ticket', withAuthAdmin, (req, res) => {
     // Get needed values from Ticket id
     // Get project ticket will be assigned to from request body
-
-    // Create issue on GitHub and return info
-    // const githubResult = createIssue(github_username, github_repo_name, data);
-    // Create issue in database and assign github_issue_number to associate back
     Ticket.findOne({
         attributes: ['id', 'title', 'description', 'issue_id'],
         where: {
@@ -421,7 +417,7 @@ router.put('/:id', withAuth, async (req, res) => {
             res.status(500).json(err);
             return;
         });
-    // Update Issue in Database - TODO: Fix hard coded issue ID
+    // Update Issue in Database 
     const closingIssue = (req.body.issueState_id && req.body.issueState_id === 4) ? true : false;
     Issue.update(
         {

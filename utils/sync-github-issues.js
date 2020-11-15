@@ -20,7 +20,6 @@ async function syncGithubIssues(projectData) {
                 // Check if issue numbers match
                 if (repoIssueResults[i].number === parseInt(projectData.issues[x].github_issue_number)) {
                     // Match
-                    console.log(repoIssueResults[i].number + " - " + projectData.issues[x].github_issue_number);
                     isMatched = true;
                 }
             }
@@ -32,7 +31,7 @@ async function syncGithubIssues(projectData) {
                 if (repoIssueResults[i].state !== 'open') {
                     issueState = 4;
                 }
-                
+
                 await Issue.create({
                     due_date: ' ',
                     priority: 'Low',
@@ -52,7 +51,7 @@ async function syncGithubIssues(projectData) {
         return repoDetailResults;
     } else {
         // Repository does not exists
-        return repoDetailResults;   
+        return repoDetailResults;
     }
 }
 

@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
       // Email details of ticket to all admin users
       User.findAll({
         where: {
-          role_id: 2 // TODO: May not want this hard coded
+          role_id: 2
         }
       })
         .then(dbAdminUsers => {

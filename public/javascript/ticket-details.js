@@ -98,7 +98,7 @@ function getProjectForDropdown() {
 async function createIssueHandler() {
     event.preventDefault();
     const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length -1
+        window.location.toString().split('/').length - 1
     ];
 
     const issueUserId = document.getElementById('issue-user').value;
@@ -121,15 +121,15 @@ async function createIssueHandler() {
         body: JSON.stringify(
             // updateObject
             {
-            "user_id": issueUserId,
-            "project_id": issueProjectId,
-	        "ticket_id": id
-        }
+                "user_id": issueUserId,
+                "project_id": issueProjectId,
+                "ticket_id": id
+            }
         ),
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
-      });
+    });
 
     if (response.ok) {
         // Go back to ticket center page
@@ -137,24 +137,23 @@ async function createIssueHandler() {
     } else {
         alert(response.statusText);
     }
-    // alert('create new issue');
-}   
+}
 
 // Delete Ticket Handler
 async function deleteTicketHandler(event) {
     event.preventDefault();
 
     const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length -1
+        window.location.toString().split('/').length - 1
     ];
 
     // Delete Fetch Request
     const response = await fetch(`/api/ticket/${id}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
-      });
+    });
 
     if (response.ok) {
         // Go back to ticket center page
@@ -162,14 +161,14 @@ async function deleteTicketHandler(event) {
     } else {
         alert(response.statusText);
     }
-}   
+}
 
 // Assign to Previous Handler
 async function assignToPreviousHandler() {
     // Get value of issue
     const issueId = document.getElementById('assign-issue-dropdown').value;
     const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length -1
+        window.location.toString().split('/').length - 1
     ];
 
     // check if issueId is valid
@@ -224,7 +223,7 @@ async function loadPreviousIssus() {
                         // Add to select
                         issueDDEl.add(option);
                     }
-                    
+
                     // Append to container in modal
                     previousIssueEl.appendChild(issueDDEl);
                 })
@@ -233,8 +232,8 @@ async function loadPreviousIssus() {
             }
         })
         .catch(err => {
-          console.log(err);
-          alert('No projects found');
+            console.log(err);
+            alert('No projects found');
         });
 }
 const DDContainerEl = document.getElementById('team-dropdown-container');
@@ -245,8 +244,8 @@ async function updateTicketDetails(event) {
     event.preventDefault();
 
     const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length -1
-    ]; 
+        window.location.toString().split('/').length - 1
+    ];
     const ticketStateId = document.getElementById('ticket-state').value;
 
     const updateObject = {
@@ -258,17 +257,17 @@ async function updateTicketDetails(event) {
         method: 'PUT',
         body: JSON.stringify(updateObject),
         headers: {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
     })
-    
+
     if (response.ok) {
         document.location.replace('/admin/ticket');
     } else {
         alert('response.status');
     }
 
-    
+
 }
 
 // Set event listeners

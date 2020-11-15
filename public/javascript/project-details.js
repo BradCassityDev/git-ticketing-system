@@ -6,7 +6,7 @@ function getTeamsForDropdown() {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    // Get current porject team_id to set as default in select field
+                    // Get current project team_id to set as default in select field
                     const currentTeamId = teamDDContainerEl.getAttribute('data-team-id');
 
                     // Clear out previous dropdown
@@ -57,8 +57,8 @@ async function updateProjectDetails(event) {
     event.preventDefault();
 
     const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length -1
-    ]; 
+        window.location.toString().split('/').length - 1
+    ];
     const projectName = document.getElementById('project-name').value;
     const githubRepo = document.getElementById('project-github-repo').value;
     const githubUser = document.getElementById('project-github-owner').value;
@@ -82,17 +82,17 @@ async function updateProjectDetails(event) {
         method: 'PUT',
         body: JSON.stringify(updateObject),
         headers: {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
     })
-    
+
     if (response.ok) {
         document.location.replace('/admin');
     } else {
         alert('response.status');
     }
 
-    
+
 }
 
 // Update Project Details Listener

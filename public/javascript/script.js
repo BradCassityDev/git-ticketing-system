@@ -55,8 +55,6 @@ const createTaskEl = function (taskDataObj) {
         tasksBlockedEl.appendChild(listItemEl);
     }
 
-    //tasks.push(taskDataObj);
-
     // increase task counter for next unique id
     taskIdCounter++;
 };

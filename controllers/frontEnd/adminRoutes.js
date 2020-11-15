@@ -201,7 +201,6 @@ router.get('/team', withAdminAuth, (req, res) => {
         ]
     })
         .then(teamData => {
-            console.log(teamData)
             const teams = teamData.map(team => team.get({ plain: true }));
             const isAdmin = (req.session.role_id === 2) ? true : false;
             res.render('team-center', { teams, loggedIn: req.session.loggedIn, isAdmin });
