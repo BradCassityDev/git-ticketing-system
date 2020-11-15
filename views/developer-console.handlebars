@@ -106,19 +106,19 @@
                 <div class="modal-body">
                     <form id="edit-issue-form">
                         <div class="form-group">
-                            <label for="project-dropdown">Related Project:</label>
+                            <label for="project-dropdown"*Related Project:</label>
                             <div id="project-edit-dropdown-container"></div>
                         </div>
                         <div class="form-group">
-                            <label for="edit-issue-title">Issue Title:</label>
+                            <label for="edit-issue-title">*Issue Title:</label>
                             <input type="text" name="edit-issue-title" id="edit-issue-title" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="edit-issue-duedate">Due Date:</label>
+                            <label for="edit-issue-duedate">*Due Date:</label>
                             <input type="date" name="edit-issue-duedate" id="edit-issue-duedate" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="edit-issue-priority">Priority:</label>
+                            <label for="edit-issue-priority">*Priority:</label>
                             <select name="edit-issue-priority" id="edit-issue-priority" class="form-control">
                                 <option value="Low" selected>Low</option>
                                 <option value="Medium">Medium</option>
@@ -134,13 +134,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="edit-issue-body">Description:</label>
+                            <label for="edit-issue-body">*Description:</label>
                             <textarea name="edit-issue-body" id="edit-issue-body" class="form-control"></textarea>
                         </div>
                         <input type="hidden" id="edit-issue-id" value="" />
                         <input type="hidden" id="edit-issue-userid" value="" />
                         <input type="hidden" id="edit-issue-stateid" value="" />
                         <button type="submit" id="edit-issue-btn" class="btn btn-secondary">Save Changes</button>
+                        <p>*Required</p>
                     </form>
                 </div>
             </div>
