@@ -231,7 +231,7 @@ const loadTasks = function (category, categoryId) {
         tasks = [];
 
         // Gets task items from server
-        fetch(`/api/issue/${category}/${categoryId}`, { // User ID is set by server on rendered HTML
+        fetch(`/api/issue/${category}/${categoryId}`, { // Get issues based on category
             method: 'get',
             headers: { 'Content-Type': 'application/json' }
         })
@@ -240,7 +240,7 @@ const loadTasks = function (category, categoryId) {
                     return Response.json();
                 }
                 else {
-                    alert("Error"); // TODO - Don't alert like a weirdo
+                    alert("Error");
                 }
             })
             .then(boardIssues => {
@@ -251,6 +251,7 @@ const loadTasks = function (category, categoryId) {
                     Low: 3
                 };
 
+                // Handle multiple projects returned by teams
                 if (boardIssues.projects) {
                     boardIssues.issues = [];
                     for (let i = 0; i < boardIssues.projects.length; i++) {
