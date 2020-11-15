@@ -26,7 +26,7 @@ const createTaskEl = function (taskDataObj) {
     // give it a class name
     taskInfoEl.className = "task-info";
     // add HTML content to div
-    taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.title + "</h3><span class='task-type'>" + taskDataObj.description + "</span>";
+    taskInfoEl.innerHTML = "<h3 class='card-header task-name'>" + taskDataObj.title + "</h3><span class='task-type'>" + taskDataObj.description + "</span>";
 
     listItemEl.appendChild(taskInfoEl);
 
