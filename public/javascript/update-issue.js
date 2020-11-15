@@ -2,7 +2,7 @@ let currentTaskToEdit = null;
 
 // edit new issue handler
 async function updateIssueState(issue) {
-  // TODO - get these from a server route
+  // Issue States
   const issueStates = [
     {
       id: 1,
@@ -159,15 +159,15 @@ async function editIssue(event) {
 
   } else {
     const missingInfo = []
-    if (!projectId){
+    if (!projectId) {
       missingInfo.push("Project")
-    }if (!title){
+    } if (!title) {
       missingInfo.push("Title")
-    }if (!priority){
+    } if (!priority) {
       missingInfo.push("Priority")
-    }if (!dueDate){
+    } if (!dueDate) {
       missingInfo.push("Due Date")
-    }if (!description){
+    } if (!description) {
       missingInfo.push("Description")
     }
     alert('Missing information: ' + missingInfo.join(', '));

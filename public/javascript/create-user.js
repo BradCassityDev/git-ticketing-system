@@ -6,7 +6,7 @@ function clearCreateUserForm() {
     document.getElementById('create-user-phone').value = '';
     document.getElementById('create-user-password').value = '';
 }
-  
+
 // Create new issue handler
 async function createUser(event) {
     event.preventDefault();
@@ -17,7 +17,7 @@ async function createUser(event) {
     const phone = document.getElementById('create-user-phone').value;
     const password = document.getElementById('create-user-password').value;
     // check if minimum values are provided
-    if(username) {
+    if (username) {
 
         // Post data to /api/user/ route 
         const response = await fetch(`/api/user/`, {
@@ -33,9 +33,8 @@ async function createUser(event) {
                 'Content-Type': 'application/json'
             }
         });
-        
+
         if (response.ok) {
-            console.log(response);
             document.location.reload();
         } else {
             alert(response.statusText);
@@ -50,4 +49,4 @@ async function createUser(event) {
 
 // Create Project Submit Listener
 document.getElementById('create-user-form').addEventListener('submit', createUser);
- 
+
