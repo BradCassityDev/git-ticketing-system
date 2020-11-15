@@ -54,7 +54,7 @@ As the client of a software company:
   So that my vender can improve the product I am using to better meet my needs.
 - I want to be informed when an issue I submitted has been repaired;
   So that I know it has been resolved.
-<a href="/Screenshots/ClientExperience.mp4"><strong>View Demo»</strong></a>
+<a href="https://drive.google.com/file/d/1ZsqjjI418RFCQKZ2edgInDGbDAAQ9SmB/view?usp=sharing"><strong>View Demo»</strong></a>
 
 
 ### Administrator
@@ -75,7 +75,7 @@ As an administrator:
   So that I can better connect my product development with my client's needs.
 - I want to receive a text message/email when new tickets are submitted from a client;
   So that I can be aware of any urgent issues that need to be resolved.
-<a href="/Screenshots/AdminExperience.mp4"><strong>View Demo»</strong></a>
+<a href="https://drive.google.com/file/d/1ajnWOlqbuERJcHII_iXKAnSL6rxoCCJ6/view?usp=sharing"><strong>View Demo»</strong></a>
 
 ## Screenshots
 
