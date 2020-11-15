@@ -44,6 +44,7 @@ As a developer working on a team:
   So that I can better manage my time in order to complete my tasks by their due date and help my team achieve success.
 - I want to be able to flag an issue as 'blocked' when I am stuck;
   So that I can communicate with my manager and my team where I need help and remember to discuss it in our SCRUM.
+<a href="/Screenshots/DeveloperExperience.mp4"><strong>View Demo»</strong></a>
 
 ### Client
 
@@ -53,6 +54,8 @@ As the client of a software company:
   So that my vender can improve the product I am using to better meet my needs.
 - I want to be informed when an issue I submitted has been repaired;
   So that I know it has been resolved.
+<a href="/Screenshots/ClientExperience.mp4"><strong>View Demo»</strong></a>
+
 
 ### Administrator
 
@@ -72,6 +75,7 @@ As an administrator:
   So that I can better connect my product development with my client's needs.
 - I want to receive a text message/email when new tickets are submitted from a client;
   So that I can be aware of any urgent issues that need to be resolved.
+<a href="/Screenshots/AdminExperience.mp4"><strong>View Demo»</strong></a>
 
 ## Screenshots
 
