@@ -1,26 +1,25 @@
 * {
-    box-sizing: border-box;
-  }
+  box-sizing: border-box;
+}
 
-  :root {
-    /*--primary: #44e9ff;*/
-    --secondary: #497980;
-    --tertiary: rgb(192, 246, 253);
-    --grey: #333;
-    /*font-size: 62.5%;*/
-  }
+:root {
+  /*--primary: #44e9ff;*/
+  --secondary: #497980;
+  --tertiary: rgb(192, 246, 253);
+  --grey: #333;
+  /*font-size: 62.5%;*/
+}
 
-  body {
-    background: white;
-    color: var(--grey);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
+body {
+  background: white;
+  color: var(--grey);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 
 .page-title {
   text-align: center;
@@ -63,7 +62,16 @@
   width: 100%;
   padding: 15px 20px;
   margin: 0 auto;
-  border-bottom: 1px solid #E1E1E1;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.issue-menu-selector {
+  max-width: 1200px;
+  width: 100%;
+  padding: 15px 20px;
+  margin: 0 auto;
+  border-bottom: 1px solid #e1e1e1;
+  justify-content: center;
 }
 
 .create-issue-form {
@@ -82,14 +90,14 @@
   margin: 25px 0;
 }
 
-.table td, .table th {
-  padding: .5rem !important;
+.table td,
+.table th {
+  padding: 0.5rem !important;
 }
 
 #admin-menu-ul li {
   margin: 10px 0;
 }
-
 
 @media screen and (max-width: 768px) {
   .admin-container {

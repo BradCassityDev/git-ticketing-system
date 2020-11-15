@@ -2,8 +2,9 @@ const router = require('express').Router();
 const { Issue, Project, Team, Project_State } = require('../../models');
 const withAuth = require('../../utils/auth');
 const withAuthAdmin = require('../../utils/authAdmin');
+const { syncGithubIssues } = require('../../utils/sync-github-issues');
 
-// GET all projects - /api/project
+// GET - Get all projects - /api/project
 router.get('/', withAuth, (req, res) => {
     Project.findAll({
         include: [
@@ -23,7 +24,7 @@ router.get('/', withAuth, (req, res) => {
         });
 });
 
-// Get single project - /api/project/:id
+// GET - Get single project - /api/project/:id
 router.get('/:id', withAuth, (req, res) => {
     Project.findOne({
         where: {
@@ -37,7 +38,35 @@ router.get('/:id', withAuth, (req, res) => {
         });
 });
 
-// Create project - /api/project
+// GET - Sync Project Issues - /api/project/sync/:id
+router.get('/sync/:id', withAuth, async (req, res) => {
+    Project.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Issue
+            }
+        ]
+    })
+        .then(async projectData => {
+            if (!projectData) {
+                res.status(404).json({ message: 'No project found with that ID'} );
+                return;
+            }
+            await syncGithubIssues(projectData)
+                .then(data => {
+                    res.json(data);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+// POST - Create project - /api/project
 router.post('/', withAuthAdmin, (req, res) => {
     Project.create({
         name: req.body.name,
@@ -46,14 +75,16 @@ router.post('/', withAuthAdmin, (req, res) => {
         project_state_id: (req.body.project_state_id) ? req.body.project_state_id : 1,
         team_id: req.body.team_id
     })
-        .then(projectData => res.json(projectData))
+        .then(projectData => {
+            res.json(projectData);
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
 
-// Update project - /api/project/:id
+// UPDATE - update project - /api/project/:id
 router.put('/:id', withAuthAdmin, (req, res) => {
     // create object to update project
     const updateProjectObj = {
