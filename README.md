@@ -44,7 +44,7 @@ As a developer working on a team:
   So that I can better manage my time in order to complete my tasks by their due date and help my team achieve success.
 - I want to be able to flag an issue as 'blocked' when I am stuck;
   So that I can communicate with my manager and my team where I need help and remember to discuss it in our SCRUM.
-<a href="https://drive.google.com/file/d/1ZsqjjI418RFCQKZ2edgInDGbDAAQ9SmB/view?usp=sharing" target=blank><strong>View Demo»</strong></a>
+<a href="https://drive.google.com/file/d/1ZsqjjI418RFCQKZ2edgInDGbDAAQ9SmB/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 ### Client
 
@@ -54,7 +54,7 @@ As the client of a software company:
   So that my vender can improve the product I am using to better meet my needs.
 - I want to be informed when an issue I submitted has been repaired;
   So that I know it has been resolved.
-<a href="https://drive.google.com/file/d/1PkVNodR-_SFYzshy930jE3EjcrVASQzi/view?usp=sharing" target=blank><strong>View Demo»</strong></a>
+<a href="https://drive.google.com/file/d/1PkVNodR-_SFYzshy930jE3EjcrVASQzi/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 
 ### Administrator
@@ -75,11 +75,14 @@ As an administrator:
   So that I can better connect my product development with my client's needs.
 - I want to receive a text message/email when new tickets are submitted from a client;
   So that I can be aware of any urgent issues that need to be resolved.
-<a href="https://drive.google.com/file/d/1ajnWOlqbuERJcHII_iXKAnSL6rxoCCJ6/view?usp=sharing" target=blank><strong>View Demo»</strong></a>
+<a href="https://drive.google.com/file/d/1ajnWOlqbuERJcHII_iXKAnSL6rxoCCJ6/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 ## Screenshots
 
-![Example screenshot](./img/screenshot.png)
+![Welcome Page Screenshot](./screenshots/welcome.png)
+![Dashboard Screenshot](./screenshots/dashboard.png)
+![Admin Console Screenshot](./screenshots/admin.png)
+![Ticket Form Screenshot](./screenshots/ticket.png)
 
 ## Technologies
 
