@@ -120,7 +120,7 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       const userState = parseInt(req.body.user_state_id);
       if (userState === 2) { // User was set to inactive state
         // Delete the session which will log out the user
-        const deleteUserSQL = `DELETE FROM session WHERE data LIKE '%"user_id":${req.params.id},%'`;
+        const deleteUserSQL = `DELETE FROM Session WHERE data LIKE '%"user_id":${req.params.id},%'`;
         sequelize.query(deleteUserSQL);
       }
 
@@ -128,13 +128,13 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       if (userRole === 1) { // User is set to developer role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
-        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":2%'`;
+        const findSessionSQL = `SELECT * FROM Session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":2%'`;
         sequelize.query(findSessionSQL, { type: QueryTypes.SELECT })
           .then(sessionData => {
             // If we find a session, that means we should change the role in the session
             if (sessionData.length) {
               sessionData[0].data = sessionData[0].data.replace('"role_id":2,', '"role_id":1,');
-              const replaceRoleSQL = `UPDATE session SET data = '${sessionData[0].data}' WHERE sid='${sessionData[0].sid}'`;
+              const replaceRoleSQL = `UPDATE Session SET data = '${sessionData[0].data}' WHERE sid='${sessionData[0].sid}'`;
               sequelize.query(replaceRoleSQL);
             }
           });
@@ -142,13 +142,13 @@ router.put('/:id', withAuthAdmin, (req, res) => {
       else if (userRole === 2) { // user is set to admin role
         // Find a session object for this user with the opposite role
         const { QueryTypes } = require('sequelize');
-        const findSessionSQL = `SELECT * FROM session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":1%'`;
+        const findSessionSQL = `SELECT * FROM Session WHERE data LIKE '%"user_id":${req.params.id},%"role_id":1%'`;
         sequelize.query(findSessionSQL, { type: QueryTypes.SELECT })
           .then(sessionData => {
             // If we find a session, that means we should change the role in the session
             if (sessionData.length) {
               sessionData[0].data = sessionData[0].data.replace('"role_id":1,', '"role_id":2,');
-              const replaceRoleSQL = `UPDATE session SET data = '${sessionData[0].data}' WHERE sid='${sessionData[0].sid}'`;
+              const replaceRoleSQL = `UPDATE Session SET data = '${sessionData[0].data}' WHERE sid='${sessionData[0].sid}'`;
               sequelize.query(replaceRoleSQL);
             }
           });
