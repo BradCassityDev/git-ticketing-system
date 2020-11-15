@@ -87,7 +87,7 @@ async function updateProjectDetails(event) {
     })
     
     if (response.ok) {
-        document.location.reload();
+        document.location.replace('/admin');
     } else {
         alert('response.status');
     }

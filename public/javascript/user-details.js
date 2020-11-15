@@ -89,7 +89,7 @@ async function updateUserDetails(event) {
     })
     
     if (response.ok) {
-        document.location.reload();
+        document.location.replace('/admin/user');
     } else {
         alert('response.status');
     }
