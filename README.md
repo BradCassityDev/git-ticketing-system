@@ -14,7 +14,7 @@
 - [Setup](#setup)
 - [Features](#features)
 - [Inspiration](#inspiration)
-- [Deployed Applicaiton](#deployed-application)
+- [Deployed Application](#deployed-application)
 - [Contact](#contact)
 
 ## User Stories
