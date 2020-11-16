@@ -14,6 +14,7 @@
 - [Setup](#setup)
 - [Features](#features)
 - [Inspiration](#inspiration)
+- [Deployed Applicaiton](#deployed-application)
 - [Contact](#contact)
 
 ## User Stories
@@ -108,7 +109,11 @@ To-do list:
 
 ## Inspiration
 
-Project inspired by issues encountered in real world and class projects when using GitHub issues. Based on project work in teh University of Utah Web Coding Bootcamp such as Taskinator and Just Tech News.
+Project inspired by issues encountered in real world and class projects when using GitHub issues. Based on project work in the University of Utah Web Coding Bootcamp such as Taskinator and Just Tech News.
+
+## Deployed Application
+
+Deployed Application: [Git Ticketing System](https://git-ticketing-system.herokuapp.com/)
 
 ## Contact
 
