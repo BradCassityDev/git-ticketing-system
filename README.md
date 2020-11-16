@@ -12,6 +12,9 @@
 - [Screenshots](#screenshots)
 - [Technologies](#technologies)
 - [Setup](#setup)
+  - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
+  - [Initial Login](#initial-login)
 - [Features](#features)
 - [Inspiration](#inspiration)
 - [Deployed Application](#deployed-application)
@@ -45,7 +48,7 @@ As a developer working on a team:
   So that I can better manage my time in order to complete my tasks by their due date and help my team achieve success.
 - I want to be able to flag an issue as 'blocked' when I am stuck;
   So that I can communicate with my manager and my team where I need help and remember to discuss it in our SCRUM.
-<a href="https://drive.google.com/file/d/1ZsqjjI418RFCQKZ2edgInDGbDAAQ9SmB/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
+  <a href="https://drive.google.com/file/d/1ZsqjjI418RFCQKZ2edgInDGbDAAQ9SmB/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 ### Client
 
@@ -55,8 +58,7 @@ As the client of a software company:
   So that my vender can improve the product I am using to better meet my needs.
 - I want to be informed when an issue I submitted has been repaired;
   So that I know it has been resolved.
-<a href="https://drive.google.com/file/d/1PkVNodR-_SFYzshy930jE3EjcrVASQzi/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
-
+  <a href="https://drive.google.com/file/d/1PkVNodR-_SFYzshy930jE3EjcrVASQzi/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 ### Administrator
 
@@ -76,7 +78,7 @@ As an administrator:
   So that I can better connect my product development with my client's needs.
 - I want to receive a text message/email when new tickets are submitted from a client;
   So that I can be aware of any urgent issues that need to be resolved.
-<a href="https://drive.google.com/file/d/1ajnWOlqbuERJcHII_iXKAnSL6rxoCCJ6/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
+  <a href="https://drive.google.com/file/d/1ajnWOlqbuERJcHII_iXKAnSL6rxoCCJ6/view?usp=sharing" target="_blank"><strong>View Demo»</strong></a>
 
 ## Screenshots
 
@@ -101,7 +103,40 @@ As an administrator:
 
 ## Setup
 
-Describe how to install / setup your local environment / add link to demo version.
+### Installation
+
+- Run 'npm install' from the command line to install required packages
+- Open mySQL prompt and run 'source db/schema.sql' to create the database, then quit the mySQL prompt
+- Run 'npm start' from the command line to create the tables in the database
+- Exit the application and run 'npm run seed' to seed the database with state and role values, as well as the admin user
+
+### Environment Variables
+
+**Database Credentials**
+DB*NAME='git_ticketing_db'
+DB_USER='root'
+DB_PW='*[Your Local Database Password]*'
+
+**Email Notification**
+NOTIFY_EMAIL_ADDR='*[Email Address]*'
+NOTIFY_EMAIL_PW='*[Email Password]*'
+NOTIFY_EMAIL_SERVICE='*[Email Service (e.g. 'gmail')]*'
+
+**Twilio Authentication**
+TWILIO_ACCT_SID='*[Twilio Account SID]*'
+TWILIO_AUTH_TOKEN='*[Twilio Authentication token]*'
+
+**GitHub API**
+GITHUB_TOKEN='*[GitHub Token]*'
+GITHUB_USER='*[GitHub Username]*'
+GITHUB_PASS='*[GitHub Password]*'
+
+**Admin Password**
+adminPassword = 'testpw'
+
+### Initial Login
+
+Log in for the first time with the username set up in the db/seed.sql file and the password used in the adminPassword environment variable
 
 ## Features
 
