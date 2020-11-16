@@ -87,10 +87,17 @@ As an administrator:
 
 ## Technologies
 
-- Node.js
-- Express.js
-- Handlebars.js
-- Nodemailer
+- mySQL
+- Sequelize
+- nodeJS
+- express
+- nodemailer
+- gmail SMTP Server
+- bcrypt
+- axios
+- GitHub API
+- Handlebars
+- Bootstrap
 
 ## Setup
 
