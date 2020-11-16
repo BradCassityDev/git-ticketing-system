@@ -111,7 +111,7 @@ As an administrator:
 - Exit the application and run 'npm run seed' to seed the database with state and role values, as well as the admin user
 
 ### Environment Variables
-
+```
 **Database Credentials**
 DB*NAME='git_ticketing_db'
 DB_USER='root'
@@ -133,6 +133,7 @@ GITHUB_PASS='*[GitHub Password]*'
 
 **Admin Password**
 adminPassword = 'testpw'
+```
 
 ### Initial Login
 
