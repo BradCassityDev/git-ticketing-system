@@ -113,7 +113,7 @@ As an administrator:
 ### Environment Variables
 ```
 **Database Credentials**
-DB*NAME='git_ticketing_db'
+DB_NAME='git_ticketing_db'
 DB_USER='root'
 DB_PW='*[Your Local Database Password]*'
 
