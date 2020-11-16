@@ -115,21 +115,21 @@ As an administrator:
 **Database Credentials**
 DB_NAME='git_ticketing_db'
 DB_USER='root'
-DB_PW='*[Your Local Database Password]*'
+DB_PW='[Your Local Database Password]'
 
 **Email Notification**
-NOTIFY_EMAIL_ADDR='*[Email Address]*'
-NOTIFY_EMAIL_PW='*[Email Password]*'
-NOTIFY_EMAIL_SERVICE='*[Email Service (e.g. 'gmail')]*'
+NOTIFY_EMAIL_ADDR='[Email Address]'
+NOTIFY_EMAIL_PW='[Email Password]'
+NOTIFY_EMAIL_SERVICE='[Email Service (e.g. 'gmail')]'
 
 **Twilio Authentication**
-TWILIO_ACCT_SID='*[Twilio Account SID]*'
-TWILIO_AUTH_TOKEN='*[Twilio Authentication token]*'
+TWILIO_ACCT_SID='[Twilio Account SID]'
+TWILIO_AUTH_TOKEN='[Twilio Authentication token]'
 
 **GitHub API**
-GITHUB_TOKEN='*[GitHub Token]*'
-GITHUB_USER='*[GitHub Username]*'
-GITHUB_PASS='*[GitHub Password]*'
+GITHUB_TOKEN='[GitHub Token]'
+GITHUB_USER='[GitHub Username]'
+GITHUB_PASS='[GitHub Password]'
 
 **Admin Password**
 adminPassword = 'testpw'
